@@ -14,13 +14,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
   --red-bg:#FCEBEB;--amber-bg:#FAEEDA;--green-bg:#EAF3DE;--blue-bg:#E6F1FB;
   --red-txt:#A32D2D;--amber-txt:#854F0B;--green-txt:#3B6D11;--blue-txt:#185FA5;
 }
-  /* LOGO */
-.logo-blk{display:flex;flex-direction:column;align-items:center;padding:2.5rem 2.5rem 1.75rem;border-bottom:1px solid var(--grey-m);}
-.logo-img{width:54px;height:54px;object-fit:contain;margin-bottom:10px;}
-.logo-nm{font-size:14px;font-weight:600;color:var(--navy);text-align:center;}
-.logo-sb{font-size:12px;color:var(--muted);text-align:center;margin-top:3px;letter-spacing:.03em;}
-.logo-sm .logo-img{width:36px;height:36px;margin-bottom:6px;}
-.logo-sm .logo-nm{font-size:12px;}
 .hdr{background:var(--navy);padding:15px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--teal);position:sticky;top:0;z-index:50;}
 .hdr h1{font-size:17px;color:#fff;font-weight:600;}
 .hdr .sub{font-size:10px;color:var(--teal);letter-spacing:1.4px;text-transform:uppercase;margin-top:2px;}
@@ -124,9 +117,12 @@ tr.dr:hover td{background:#fafbff;}
 </head>
 <body>
 <div class="hdr">
-  <div>
-    <h1>Board Skills Matrix</h1>
-    <div class="sub">Competency Gap Analyser &nbsp;·&nbsp; CCC Consultancy Group Ltd</div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <img src="logo.png" class="logo-img" style="width:32px;height:32px;margin:0;">
+    <div>
+      <h1>Board Skills Matrix</h1>
+      <div class="sub">Competency Gap Analyser · CCC Consultancy Group Ltd</div>
+    </div>
   </div>
   <a href="mailto:info@cccgrp.com?subject=Board Skills Matrix – Feedback" class="fb-lnk">
     <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M14 2H2a1 1 0 00-1 1v8a1 1 0 001 1h3v2l3-2h6a1 1 0 001-1V3a1 1 0 00-1-1zM8 9a1 1 0 110-2 1 1 0 010 2zm2.5-3h-5a.5.5 0 010-1h5a.5.5 0 010 1z"/></svg>
@@ -138,6 +134,9 @@ tr.dr:hover td{background:#fafbff;}
 <div class="card">
 
 <!-- ONBOARD -->
+  <div style="text-align:center; margin-bottom:20px;">
+  <img src="logo.png" style="width:60px;height:auto;">
+</div>
 <div id="scr-ob" class="ob">
   <div class="ob-accent"></div>
   <h2>Board Skills &amp; Capability Assessment</h2>
