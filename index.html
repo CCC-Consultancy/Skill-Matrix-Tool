@@ -254,7 +254,7 @@ tr.dr:hover td{background:#fafbff;}
       <span class="chip cc" style="cursor:default;">Competent</span>
       <span class="chip ce" style="cursor:default;">Expert</span>
     </div>
-    <div class="mwrap"><table id="mt"></table></div>
+    <div class="mwrap"><table id="mt"><table></div>
   </div>
 
   <!-- GAPS -->
@@ -325,129 +325,86 @@ tr.dr:hover td{background:#fafbff;}
 
 <script>
 // ══════════════════════════════════════════════════════════════════════════════
-// PRE-CONFIGURED INSIGHT LIBRARY
-// 100+ outcome blocks covering all meaningful combinations of gaps, SPOFs,
-// sectors, regulatory environments, and board profiles.
+// PRE-CONFIGURED INSIGHT LIBRARY (FIXED: now using functions instead of template strings)
 // ══════════════════════════════════════════════════════════════════════════════
 
 const IL = {
-
-  // ── EXECUTIVE SUMMARIES (selected by severity profile) ──────────────────
   exec: {
-    all_clear: `${CTX_ORG} has a well-covered board across all assessed skill domains. Every area has at least two directors rated Competent or Expert, giving the board the depth and resilience needed for effective governance. This is a strong position. The task now is to maintain it as the organisation grows, as the regulatory environment evolves, and as individual directors move on. Board skill reviews should be conducted annually, and the nominations committee should monitor competency requirements proactively rather than reactively.`,
+    all_clear: (org) => `${org} has a well-covered board across all assessed skill domains. Every area has at least two directors rated Competent or Expert, giving the board the depth and resilience needed for effective governance. This is a strong position. The task now is to maintain it as the organisation grows, as the regulatory environment evolves, and as individual directors move on. Board skill reviews should be conducted annually, and the nominations committee should monitor competency requirements proactively rather than reactively.`,
 
-    mostly_covered: `${CTX_ORG} has solid governance capability across most assessed skill domains, with one or two areas of concern. The majority of the board's key oversight responsibilities are adequately covered, which reflects well on past recruitment decisions. However, the gaps and single points of failure identified in this analysis deserve structured attention. A nominations committee action plan, developed within the next 30 days, would close these remaining exposures before they become material governance risks.`,
+    mostly_covered: (org) => `${org} has solid governance capability across most assessed skill domains, with one or two areas of concern. The majority of the board's key oversight responsibilities are adequately covered, which reflects well on past recruitment decisions. However, the gaps and single points of failure identified in this analysis deserve structured attention. A nominations committee action plan, developed within the next 30 days, would close these remaining exposures before they become material governance risks.`,
 
-    spof_heavy: `${CTX_ORG} has no critical capability gaps, which is a positive finding. However, a significant number of skill domains are covered by only one director each. This creates a board that is competent in the short term but fragile in structure. Any departure, conflict of interest, or period of absence involving one of these directors would immediately create a governance oversight gap. The organisation should treat succession planning as an urgent priority and begin building redundancy across the affected domains.`,
+    spof_heavy: (org) => `${org} has no critical capability gaps, which is a positive finding. However, a significant number of skill domains are covered by only one director each. This creates a board that is competent in the short term but fragile in structure. Any departure, conflict of interest, or period of absence involving one of these directors would immediately create a governance oversight gap. The organisation should treat succession planning as an urgent priority and begin building redundancy across the affected domains.`,
 
-    moderate: `${CTX_ORG} has a mixed governance capability picture. Some skill domains are well covered, but others have no qualified director at all, and several rely on a single individual for all oversight. The board is functioning, but it is doing so with gaps that create real regulatory and governance risk. A structured response, combining targeted recruitment for critical gaps and development activity for directors currently rated Aware, would bring the board to a defensible position within six to twelve months.`,
+    moderate: (org) => `${org} has a mixed governance capability picture. Some skill domains are well covered, but others have no qualified director at all, and several rely on a single individual for all oversight. The board is functioning, but it is doing so with gaps that create real regulatory and governance risk. A structured response, combining targeted recruitment for critical gaps and development activity for directors currently rated Aware, would bring the board to a defensible position within six to twelve months.`,
 
-    high_risk: `${CTX_ORG}'s board faces significant capability challenges across multiple domains. Several critical skill areas have no qualified director, meaning the board cannot provide meaningful challenge to management on some of its most important governance responsibilities. This is not a reflection on individual directors but a structural issue that requires urgent collective action. The nominations committee should treat this assessment as a governance emergency and initiate immediate steps to address the most critical gaps.`,
+    high_risk: (org) => `${org}'s board faces significant capability challenges across multiple domains. Several critical skill areas have no qualified director, meaning the board cannot provide meaningful challenge to management on some of its most important governance responsibilities. This is not a reflection on individual directors but a structural issue that requires urgent collective action. The nominations committee should treat this assessment as a governance emergency and initiate immediate steps to address the most critical gaps.`,
 
-    critical: `${CTX_ORG}'s board has critical capability gaps across a substantial number of governance domains. In its current composition, the board cannot independently scrutinise management on several of its most material risk areas. This creates significant regulatory exposure, weakens the board's ability to protect the organisation from strategic and operational failures, and is likely to be identified as a material concern in any external governance review or regulatory examination. Urgent and coordinated action is required.`,
+    critical: (org) => `${org}'s board has critical capability gaps across a substantial number of governance domains. In its current composition, the board cannot independently scrutinise management on several of its most material risk areas. This creates significant regulatory exposure, weakens the board's ability to protect the organisation from strategic and operational failures, and is likely to be identified as a material concern in any external governance review or regulatory examination. Urgent and coordinated action is required.`,
 
-    startup_gaps: `For an organisation at ${CTX_ORG}'s stage of development, building a governance-capable board early is one of the most important investments available. The gaps identified in this assessment reflect a board that has grown from a founding team structure and has not yet added the specialist oversight capability that the organisation now needs. This is common and correctable. Addressing these gaps proactively, before regulatory authorisation or external investment processes begin, will significantly strengthen the organisation's governance credibility.`,
+    startup_gaps: (org) => `For an organisation at ${org}'s stage of development, building a governance-capable board early is one of the most important investments available. The gaps identified in this assessment reflect a board that has grown from a founding team structure and has not yet added the specialist oversight capability that the organisation now needs. This is common and correctable. Addressing these gaps proactively, before regulatory authorisation or external investment processes begin, will significantly strengthen the organisation's governance credibility.`,
 
-    regulated_gaps: `${CTX_ORG} operates in a regulated environment where board capability is a direct factor in the regulator's assessment of the organisation's governance effectiveness. The gaps identified in this matrix would be considered material by the relevant regulator. Regulated institutions are expected to demonstrate not just that they have a board, but that the board has the collective knowledge to govern the business competently. The analysis below sets out specific actions to address each gap identified.`,
+    regulated_gaps: (org) => `${org} operates in a regulated environment where board capability is a direct factor in the regulator's assessment of the organisation's governance effectiveness. The gaps identified in this matrix would be considered material by the relevant regulator. Regulated institutions are expected to demonstrate not just that they have a board, but that the board has the collective knowledge to govern the business competently. The analysis below sets out specific actions to address each gap identified.`,
 
-    post_merger: `In a post-merger or restructuring context, the board of ${CTX_ORG} is navigating a period of significant complexity. The capability gaps identified in this matrix represent areas where the combined entity's board requires strengthening to meet its enlarged governance responsibilities. Integrating two organisations creates new risk exposures, strategic complexities, and regulatory expectations that must be reflected in board composition. This analysis provides a structured basis for the nominations committee's work in the months ahead.`,
+    post_merger: (org) => `In a post-merger or restructuring context, the board of ${org} is navigating a period of significant complexity. The capability gaps identified in this matrix represent areas where the combined entity's board requires strengthening to meet its enlarged governance responsibilities. Integrating two organisations creates new risk exposures, strategic complexities, and regulatory expectations that must be reflected in board composition. This analysis provides a structured basis for the nominations committee's work in the months ahead.`,
 
-    tech_dominant: `${CTX_ORG}'s most significant board capability gaps are concentrated in technology and digital domains. As the organisation operates in or is increasingly dependent on digital infrastructure, the absence of technology, cybersecurity, and AI oversight capability at board level creates a governance blind spot that is growing more significant each year. Regulators in both the UK and Africa are increasingly focused on board-level technology governance, and this gap represents a priority that should not be deferred.`,
+    tech_dominant: (org) => `${org}'s most significant board capability gaps are concentrated in technology and digital domains. As the organisation operates in or is increasingly dependent on digital infrastructure, the absence of technology, cybersecurity, and AI oversight capability at board level creates a governance blind spot that is growing more significant each year. Regulators in both the UK and Africa are increasingly focused on board-level technology governance, and this gap represents a priority that should not be deferred.`,
 
-    finance_dominant: `The most critical gaps in ${CTX_ORG}'s board relate to financial oversight and audit capability. The board is approving financial statements, budget proposals, and resource allocation decisions without the independent technical capability needed to interrogate these materials. This is a foundational governance concern. No other oversight function works well if the board cannot independently verify the financial position of the organisation it governs.`,
+    finance_dominant: (org) => `The most critical gaps in ${org}'s board relate to financial oversight and audit capability. The board is approving financial statements, budget proposals, and resource allocation decisions without the independent technical capability needed to interrogate these materials. This is a foundational governance concern. No other oversight function works well if the board cannot independently verify the financial position of the organisation it governs.`,
 
-    compliance_dominant: `${CTX_ORG}'s most pressing board capability gaps relate to regulatory and compliance oversight. For any regulated institution, the inability of the board to independently challenge the compliance function, assess regulatory correspondence, or understand the implications of regulatory developments represents a direct and serious governance risk. This is the area where regulators most actively expect to see board-level competence, and its absence will be a finding in any supervisory engagement.`
+    compliance_dominant: (org) => `${org}'s most pressing board capability gaps relate to regulatory and compliance oversight. For any regulated institution, the inability of the board to independently challenge the compliance function, assess regulatory correspondence, or understand the implications of regulatory developments represents a direct and serious governance risk. This is the area where regulators most actively expect to see board-level competence, and its absence will be a finding in any supervisory engagement.`
   },
 
-  // ── CRITICAL GAP TEXT BY SKILL DOMAIN ───────────────────────────────────
   gaps: {
     s1: `No board member is currently rated Competent or Expert in financial oversight and audit. This means the board cannot independently interrogate financial statements, question accounting judgements, or identify irregularities in management accounts. The audit committee, if one exists, is operating without the technical foundation required to provide effective oversight. Financial governance is one of the most fundamental board responsibilities, and its absence creates a direct risk of undetected financial error, manipulation, or misrepresentation going unchallenged at board level.`,
-
     s2: `The board has no qualified director in risk management. Risk reports, heat maps, and appetite statements are being received and approved without any board-level ability to challenge the methodology, question assumptions, or assess whether management's risk scoring reflects reality. Risks are being managed by management, for management, with no independent board check. This is precisely the condition under which risk quietly erodes an organisation. The board cannot fulfil its duty as the first line of defence against strategic and operational risk without this capability.`,
-
     s3: `No director is qualified to oversee regulatory and compliance matters. The board is therefore unable to independently assess whether the organisation is meeting its regulatory obligations, cannot challenge the compliance function on scope or adequacy, and is exposed to regulatory enforcement without any early-warning capability at board level. Under most regulatory frameworks including the CBN's Corporate Governance Guidelines and the FCA's SM&CR, this would be viewed as a material gap in the board's collective suitability.`,
-
     s4: `The board has no member with technology or cybersecurity competency. As organisations become increasingly dependent on digital infrastructure, the absence of board-level technology capability means that IT risks, data breach exposures, and system resilience decisions are made entirely within management without independent board scrutiny. This gap is particularly acute for any organisation that processes customer data, operates core systems, relies on third-party technology providers, or is undertaking digital transformation.`,
-
     s5: `No board member is competent in AI or digital transformation. As the organisation operates in or responds to a rapidly digitising environment, the board cannot meaningfully assess AI-related risks, oversee responsible AI adoption, or challenge management on the governance implications of automated decision-making. Regulators in both the UK and Nigeria are increasingly focused on board-level AI oversight, and the absence of this capability is a growing regulatory and reputational risk.`,
-
     s6: `The board has no director with legal and corporate governance expertise. This means the board cannot independently assess legal risk, challenge the adequacy of governance structures, or scrutinise compliance with company law and constitutional documents. In a regulated environment, legal and governance capability at board level is not optional. This gap creates vulnerability at the intersection of legal risk and regulatory expectation, precisely the point where governance failures tend to originate.`,
-
     s7: `No board member is qualified in strategy or mergers and acquisitions. The board is therefore unable to independently evaluate strategic plans, test the assumptions behind major investment decisions, or provide informed challenge on growth, acquisition, or restructuring proposals. Strategic decisions are being made with management as the primary analytical voice and no independent counterweight at board level. The board cannot provide the scrutiny that strategic governance requires without at least one director capable of challenging management's strategic framing.`,
-
     s8: `No director has genuine sector or industry expertise in the organisation's operating environment. This means the board cannot contextualise management's performance against sector benchmarks, identify sector-specific risks before they materialise, or draw on external market knowledge to challenge strategic direction. A board without sector expertise is heavily dependent on management framing and is more likely to approve decisions that an informed sector observer would question.`,
-
     s9: `The board has no qualified director in ESG and sustainability. As regulatory expectations and stakeholder demands around environmental, social, and governance reporting continue to grow, the absence of ESG competency at board level means the organisation cannot provide credible oversight of its ESG commitments or challenge management on disclosure quality. This gap is increasingly visible to investors, development finance institutions, and international partners, and will become more costly to maintain as ESG reporting requirements intensify.`,
-
     s10: `No board member is competent in AML and financial crime. For any regulated financial services organisation, this represents a significant gap in the board's ability to oversee the financial crime risk framework, challenge the MLRO's reports, or assess whether AML controls are adequate. FATF recommendations, CBN AML circulars, and FCA expectations all require board-level engagement with financial crime risk. This gap creates direct regulatory exposure and potentially personal liability for individual directors.`
   },
 
-  // ── SINGLE POINT OF FAILURE TEXT BY SKILL DOMAIN ────────────────────────
   spofs: {
     s1: `Financial oversight depends entirely on one director. If that person is absent from a meeting, has a conflict on a financial matter, or leaves the board, the organisation loses all independent financial scrutiny at board level. The audit committee cannot function with a single qualified member, and any financial governance decisions made in that person's absence would lack independent technical challenge. The nominations committee should begin a search for a second director with financial expertise.`,
-
     s2: `Risk management oversight rests with one director. The board has no redundancy in this area. If that director is recused on a risk matter involving a related party, or is unavailable for a meeting where risk decisions are made, the board proceeds without any qualified risk oversight. For a regulated organisation, this is a succession and resilience risk. The nominations committee should treat this as a priority and begin planning for a second qualified director in this domain.`,
-
     s3: `Regulatory and compliance oversight depends on a single director. If that person departs or is conflicted, the board has no remaining capability to scrutinise the compliance function, assess regulatory correspondence, or respond to supervisory enquiries with informed board challenge. This is particularly concerning in advance of any regulatory examination, authorisation process, or period of significant regulatory change. A documented succession plan should be in place immediately.`,
-
     s4: `Technology and cybersecurity oversight sits with one board member. In an environment where cyber incidents can materialise rapidly and require immediate board-level decision-making, single-person dependency creates a governance response risk. If that director is unavailable during a technology failure or security incident, the board cannot exercise informed oversight at the moment it matters most. A second director with technology competency should be a near-term nominations committee priority.`,
-
     s5: `AI and digital oversight rests with one director. As the organisation's digital footprint grows and AI adoption accelerates, the board's ability to govern these risks depends entirely on that person's continued involvement. This creates a capability cliff in one of the fastest-moving areas of regulatory and governance expectation. The nominations committee should develop a succession plan for this role and explore whether an Advisory Board appointment could provide interim additional coverage.`,
-
     s6: `Legal and governance expertise sits with one director. The board's ability to assess legal risk, review governance adequacy, and respond to legal challenges depends on this single person. Their departure or conflict would leave the board without the legal and governance grounding needed to navigate complex regulatory situations, director duties questions, or legal proceedings. A second director with legal or governance expertise should be identified.`,
-
     s7: `Strategic challenge capability rests with one board member. If that director is absent from a strategy discussion or has a conflict on a transaction, the board proceeds with management as the sole analytical voice on strategic matters. This undermines the independence and rigour that effective board governance requires. The organisation is particularly exposed if a major strategic decision needs to be made at short notice and the sole qualified director is unavailable.`,
-
     s8: `Sector expertise is held by one director. If that person is unavailable, the board loses its ability to contextualise performance, interpret sector trends, or provide informed challenge on market-facing decisions. In a fast-moving operating environment, single-director dependency on sector knowledge is a real governance risk. The nominations committee should identify a second director with direct sector operating experience.`,
-
     s9: `ESG oversight depends on a single director. As ESG expectations intensify and reporting requirements grow, the board's credibility in this area is fragile. One departure removes the ability to provide informed challenge on sustainability disclosures, climate risk management, or social impact reporting. This is increasingly significant for organisations that work with development finance institutions or international investors who scrutinise board-level ESG capability.`,
-
     s10: `AML and financial crime oversight rests with one board member. This creates a succession risk in one of the most actively supervised areas of financial services regulation. If that director is absent during a suspicious activity review, a regulatory visit, or an MLRO presentation to the board, the oversight function is effectively absent. A second director with AML and financial crime competency should be a nominations committee priority, given the regulatory sensitivity of this domain.`
   },
 
-  // ── REGULATORY RISK TEXT BY JURISDICTION ────────────────────────────────
   regRisk: {
     nigeria: `The CBN's Code of Corporate Governance for Banks and the CAMA 2020 framework both require boards to exercise independent, informed oversight across the organisation's material risk and governance areas. The capability gaps identified in this matrix would be viewed by the CBN as evidence of insufficient collective suitability. In a supervisory examination, these gaps would attract regulatory findings and could affect the organisation's composite risk rating. The CBN has been increasingly focused on board quality as a core component of its supervisory approach, and institutions that cannot demonstrate a credible, time-bound plan to address capability gaps face a heightened risk of supervisory intervention and potential licence conditions.`,
-
     uk: `Under the FCA's Senior Managers and Certification Regime and the PRA's supervisory expectations for regulated firms, boards are required to demonstrate collective suitability, meaning the board as a group has the knowledge, skills, and experience needed to understand and oversee the business. The gaps identified here would be material to any FCA or PRA supervisory engagement and would inform the regulator's assessment of the organisation's governance effectiveness. Regulatory authorisation applications, change-in-control reviews, and routine supervisory visits all involve scrutiny of board composition. A proactive, documented plan to address these gaps carries significantly more weight with regulators than gaps left unacknowledged.`,
-
     both: `This organisation is subject to both CBN and FCA/PRA governance expectations, each of which requires boards to demonstrate collective suitability and independent challenge capability. The gaps identified in this matrix represent a dual regulatory exposure. Both regulators have increased their scrutiny of board composition and individual director capability. Cross-border organisations face heightened attention because regulators expect the board to understand governance requirements in both jurisdictions. Addressing these gaps is therefore both a domestic governance priority and a requirement for maintaining regulatory confidence in multiple markets simultaneously.`,
-
     ghana: `Under the Bank of Ghana's Corporate Governance Directive and the Securities Industry Act, boards of regulated entities are expected to maintain adequate collective competence across the organisation's key risk and governance areas. The capability gaps identified here would be a focus of attention in any Bank of Ghana supervisory engagement and may affect the organisation's risk rating and licence conditions. Ghana's regulatory environment has been strengthening governance expectations in line with international best practice, and boards that demonstrate proactive capability management are better positioned in their supervisory relationships.`,
-
     kenya: `The Central Bank of Kenya's Prudential Guidelines and the Capital Markets Authority's governance requirements both expect boards to be composed of qualified individuals with sufficient collective expertise to govern the institution. The gaps in this matrix create a direct exposure in any CBK or CMA supervisory engagement. Kenya's regulatory environment is active and increasingly aligned with international standards, meaning board capability gaps are unlikely to be overlooked in formal examination processes or during licence renewal reviews.`,
-
     sa: `Under King IV and the requirements of the SARB and FSCA, boards are expected to demonstrate that their collective composition provides adequate oversight across all material risk and governance areas. King IV emphasises the governing body's collective responsibility for governance outcomes, making individual capability gaps a board-level concern rather than simply an HR matter. The gaps identified here would be a finding in any governance review or regulatory assessment conducted under the South African framework, and would be a material consideration for any institutional investors applying King IV governance criteria.`,
-
     multi: `Operating across multiple African jurisdictions, this organisation faces governance expectations from regulators in each market. While specific requirements vary by country, all relevant regulators share a core expectation: boards must maintain collective competence across key areas of risk, compliance, finance, and sector expertise. Gaps identified in this matrix create exposure not just domestically but in every jurisdiction where the organisation is regulated or seeks to operate. A board capability improvement plan that can be presented to multiple regulators simultaneously will be a material asset in managing these relationships.`,
-
     other: `Regardless of the specific regulatory framework that applies, the governance expectation across all mature regulatory environments is consistent: boards must collectively possess the skills and knowledge needed to provide effective oversight of the business. The gaps identified in this matrix create a real risk that management decisions in the affected domains are being approved without genuine board-level challenge. This is a governance weakness that any informed external observer, whether a regulator, auditor, investor, or independent reviewer, would identify and question.`
   },
 
-  // ── RECRUITMENT PROFILE BY SKILL DOMAIN ─────────────────────────────────
   recruit: {
     s1: `For financial oversight and audit, recruit a director with a professional financial qualification (ACA, ACCA, CIMA, or CPA) and experience serving on an audit committee or in a finance director role in a regulated environment. The ideal candidate will have experience reviewing complex financial statements, working with external auditors, and understanding the financial governance expectations of the relevant regulator. A retired CFO, a senior audit partner, or a qualified finance professional with board-level experience would be suitable. This should be a Non-Executive Director appointment to preserve audit committee independence.`,
-
     s2: `For risk management, recruit a director with senior risk experience in a regulated financial services institution, ideally someone who has served as Chief Risk Officer or equivalent. The candidate should understand enterprise risk frameworks, be able to interrogate risk appetite statements, challenge risk heat maps, and assess whether management's risk reporting gives the board an accurate and honest picture. Board-level risk experience in the same sector is strongly preferred. This may be a Non-Executive Director appointment or, depending on board structure, an executive risk director role.`,
-
     s3: `For regulatory and compliance oversight, recruit a director with direct experience of the relevant regulatory environment, ideally someone who has held a compliance leadership role within a regulated firm in the same jurisdiction. A former Chief Compliance Officer, Head of Regulatory Affairs, or regulatory specialist with CBN or FCA-facing experience would be suitable. The candidate should be able to read regulatory correspondence independently, assess compliance programme adequacy, and provide informed challenge on regulatory risk. This is typically a Non-Executive Director appointment.`,
-
     s4: `For technology and cybersecurity, recruit a director with technology leadership experience and specific cybersecurity knowledge. A former Chief Technology Officer, Chief Information Security Officer, or senior technology executive with financial services experience would be appropriate. The candidate should understand digital infrastructure risk, data protection obligations, third-party technology risk management, and the technology governance expectations of the relevant regulator. This can be an Executive, Non-Executive, or Advisory Board appointment depending on the organisation's size and structure.`,
-
     s5: `For AI and digital transformation, recruit a director with experience governing AI adoption in a regulated or data-intensive environment. The ideal candidate will understand AI risk frameworks, algorithmic accountability, data governance, and the emerging regulatory expectations around automated decision-making. This is an area where board-level expertise remains scarce, so an Advisory Board appointment from the AI governance or technology ethics space may be appropriate as an interim measure while a permanent NED search is conducted.`,
-
     s6: `For legal and corporate governance, recruit a director with a legal background and direct experience of corporate governance in a regulated environment. A senior solicitor, barrister, or in-house counsel with board governance experience would be suitable. The candidate should be familiar with company law, director duties, fiduciary obligations, regulatory requirements, and the governance documentation expected of a regulated institution. This is typically a Non-Executive Director appointment.`,
-
     s7: `For strategy and M&A, recruit a director with senior strategic leadership experience, ideally including exposure to mergers, acquisitions, or major transformation programmes in comparable organisations. The candidate should be able to independently evaluate strategic plans, test the financial assumptions behind major proposals, and provide a counterbalancing perspective to management on growth strategy. A former CEO, Managing Director, or senior strategy consultant with sector relevance would be appropriate. This is typically a Non-Executive Director appointment.`,
-
     s8: `For sector and industry expertise, recruit a director with direct operating experience in the organisation's sector. This is a contextual appointment: the board needs someone who has run or overseen a comparable institution, understands sector-specific risks from the inside, and can identify strategic and operational concerns that an external observer would miss. Industry associations, recently retired sector executives, or former regulators with deep sector exposure are all appropriate sources for this appointment.`,
-
     s9: `For ESG and sustainability, recruit a director with demonstrable ESG expertise relevant to the organisation's sector and geography. The candidate should have experience developing ESG frameworks, engaging with ESG-focused investors or development finance institutions, and overseeing sustainability reporting. Given the rapid development of ESG regulatory expectations in both the UK and Africa, sector-specific ESG knowledge is preferable to generic sustainability experience. An Advisory Board appointment may be appropriate in the short term.`,
-
     s10: `For AML and financial crime, recruit a director with senior financial crime experience, ideally someone who has served as Money Laundering Reporting Officer or in a financial crime leadership role at a regulated institution. The candidate should understand AML typologies, sanctions compliance, suspicious activity reporting, and the expectations of FATF, the relevant financial intelligence unit, and the applicable regulator. For a Nigerian-regulated institution, direct CBN AML experience is essential. This is typically a Non-Executive Director role.`
   },
 
-  // ── CAPABILITY DEVELOPMENT BY SKILL DOMAIN ──────────────────────────────
   develop: {
     s1: `For directors rated Aware in financial oversight, a structured programme combining audit committee observer roles, workshops led by external auditors, and regular briefings on financial reporting standards would raise practical competency without requiring full recruitment. Direct engagement with the external audit firm's governance team is particularly effective for building the confidence to interrogate financial statements.`,
     s2: `Risk management awareness can be developed through structured board risk workshops, facilitated by the Chief Risk Officer or an external risk consultant, covering the organisation's risk framework, appetite statement construction, and heat map methodology. Directors should be taken through actual risk reports in facilitated sessions and asked to challenge assumptions, building the habit of active risk oversight.`,
@@ -461,16 +418,12 @@ const IL = {
     s10: `AML awareness can be deepened through annual financial crime risk briefings to the board, direct engagement with the MLRO and financial crime compliance team, and participation in industry financial crime forums. Board members should also review suspicious activity report volumes and trends as a standing board agenda item.`
   },
 
-  // ── SUCCESSION PLANNING VARIANTS ────────────────────────────────────────
   succession: {
     none: `The board has no single points of failure at present, which reflects positively on its depth of governance coverage. The nominations committee should maintain this position by reviewing board composition at least annually against the skills requirements of the organisation as it grows. As the organisation introduces new products, enters new markets, or faces new regulatory demands, the skills matrix should be updated and the committee should plan ahead rather than wait for gaps to emerge through departures.`,
-
     low: `The board has one or two areas where a single director carries the full oversight responsibility for a governance domain. The nominations committee should document which director covers each of these domains and put in place a contingency arrangement for each. If either director is approaching the end of their term, has signalled any intention to step down, or is expected to have a conflict of interest in the coming period, a succession search should begin immediately. In the interim, the board should avoid scheduling material decisions in these domains when the relevant director is known to be unavailable.`,
-
     high: `The board has multiple single points of failure, creating a systemic succession risk. If more than one of the directors carrying sole-coverage responsibilities were to leave within a short period, the board would face governance gaps across several critical domains simultaneously. The nominations committee should treat this as an urgent priority. Succession plans should be prepared for each affected director, and parallel recruitment searches should be run where possible rather than waiting for departures to occur. The board should also consider whether interim Advisory Board appointments could provide coverage while permanent searches are conducted.`
   },
 
-  // ── IMMEDIATE ACTIONS POOL ───────────────────────────────────────────────
   actions: {
     a1: `Commission a formal board capability improvement plan, to be presented to the full board at the next scheduled meeting, with a proposed timeline and owner for each identified gap.`,
     a2: `Direct the nominations committee to prepare recruitment briefs for the highest-priority capability gaps within 30 days and initiate search processes accordingly.`,
@@ -490,7 +443,6 @@ const IL = {
 // ══════════════════════════════════════════════════════════════════════════════
 
 function buildInsight(ctx, members, skills, mx) {
-  // Helpers
   const gv = (m, s) => mx[m+'_'+s] || 'none';
   const SC = {none:0, aware:1, competent:2, expert:3};
   const cov = sid => members.filter(m => SC[gv(m.id,sid)] >= 2).length;
@@ -507,9 +459,7 @@ function buildInsight(ctx, members, skills, mx) {
   const totalCells = members.length * skills.length;
   if (totalRated < Math.min(3, totalCells * 0.2)) return 'The matrix appears largely incomplete. Please rate each board member across the skill domains before generating the governance analysis. The more complete the matrix, the more accurate and useful the output.';
 
-  // Replace placeholder in exec summaries
   const org = ctx.org || 'This organisation';
-  const resolve = txt => txt.replace(/\$\{CTX_ORG\}/g, org);
 
   // ── 1. EXECUTIVE SUMMARY ──────────────────────────────────────────────────
   let execKey;
@@ -535,7 +485,7 @@ function buildInsight(ctx, members, skills, mx) {
   else if (gaps.length >= 2) execKey = 'moderate';
   else execKey = 'mostly_covered';
 
-  const execText = resolve(IL.exec[execKey]);
+  const execText = IL.exec[execKey](org);
 
   // ── 2. CRITICAL GAPS SECTION ──────────────────────────────────────────────
   let gapsText = '';
@@ -554,8 +504,6 @@ function buildInsight(ctx, members, skills, mx) {
     spofText = 'No single points of failure were identified. All skill domains with qualified coverage have at least two directors rated Competent or Expert. The board has good resilience across its governance capability.';
   } else {
     spofText = spofs.map(s => {
-      const qualifiedMember = members.find(m => SC[gv(m.id,s.id)] >= 2);
-      const name = qualifiedMember ? qualifiedMember.name : 'one director';
       const base = IL.spofs[s.id] || `Only one director covers ${s.name}. Their departure or absence would remove all oversight in this domain.`;
       return `${s.name.toUpperCase()}\n${base}`;
     }).join('\n\n');
@@ -575,7 +523,6 @@ function buildInsight(ctx, members, skills, mx) {
 
   // ── 5. RECRUITMENT PRIORITIES ─────────────────────────────────────────────
   let recruitText = '';
-  // Rank: gaps first (sorted by governance criticality: s1,s2,s3,s4 first), then spofs
   const priorityOrder = ['s1','s3','s2','s10','s4','s6','s5','s7','s8','s9'];
   const toRecruit = [
     ...gaps.sort((a,b) => priorityOrder.indexOf(a.id) - priorityOrder.indexOf(b.id)),
@@ -592,10 +539,9 @@ function buildInsight(ctx, members, skills, mx) {
   }
 
   // ── 6. CAPABILITY DEVELOPMENT ─────────────────────────────────────────────
-  // Dev recommendations for SPOF domains and any Aware-only domains
   const awareOnly = skills.filter(s => {
     const maxLevel = Math.max(...members.map(m => SC[gv(m.id,s.id)]));
-    return maxLevel === 1; // highest anyone reaches is Aware
+    return maxLevel === 1;
   });
   const devDomains = [...new Set([...spofs, ...awareOnly])].slice(0, 4);
 
@@ -616,7 +562,6 @@ function buildInsight(ctx, members, skills, mx) {
   const succText = IL.succession[succKey];
 
   // ── 8. IMMEDIATE ACTIONS ──────────────────────────────────────────────────
-  // Select 5 most relevant actions based on what was found
   const actionKeys = [];
   if (gaps.length > 0) { actionKeys.push('a1'); actionKeys.push('a2'); }
   if (gaps.length > 0 || spofs.length > 0) actionKeys.push('a3');
@@ -672,9 +617,9 @@ function buildInsight(ctx, members, skills, mx) {
     `${'─'.repeat(60)}`,
     `CCC Consultancy Group Ltd  |  cccgrp.com  |  info@cccgrp.com`,
     `UK expertise. Global perspective. Local impact.`
-  ].filter(l => l !== null).join('\n');
+  ].filter(l => l !== null && l !== '');
 
-  return output;
+  return output.join('\n');
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -784,7 +729,7 @@ function rM(){
   });
   h+='<tr class="crow"><td style="font-size:10px;font-weight:700;color:#777;letter-spacing:0.04em;">Coverage (Competent+)</td>';
   S.skills.forEach(s=>{const n=cov(s.id);const st=cst(s.id);h+=`<td style="text-align:center;"><span class="chip ${CC[st]}" style="cursor:default;font-size:10px;">${n}/${S.members.length}</span></td>`;});
-  h+='<td></td></tr></tbody>';
+  h+='<td style="text-align:center;"></td></tr></tbody>';
   t.innerHTML=h;
 }
 function rmM(id){ S.members=S.members.filter(m=>m.id!==id); Object.keys(S.mx).filter(k=>k.startsWith(id+'_')).forEach(k=>delete S.mx[k]); rM();rSlide();updSumbar();autoSave(); }
@@ -807,7 +752,7 @@ function rSlide(){
   const slC={none:['#F5F5F5','#999'],aware:['#FAEEDA','#854F0B'],competent:['#EAF3DE','#3B6D11'],expert:['#E6F1FB','#185FA5']};
   let tbl='<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#F2F2F2;"><th style="padding:6px 9px;text-align:left;font-weight:700;border-bottom:1px solid #E0E0E0;color:#0A1A2F;white-space:nowrap;font-size:9px;letter-spacing:0.05em;text-transform:uppercase;">Director / C-Suite / Senior Manager</th>';
   S.skills.forEach(s=>{tbl+=`<th style="padding:5px 4px;text-align:center;font-weight:700;border-bottom:1px solid #E0E0E0;color:#0A1A2F;font-size:8px;max-width:70px;white-space:normal;line-height:1.2;">${s.name}</th>`;});
-  tbl+='</tr></thead><tbody>';
+  tbl+='</thead><tbody>';
   if(!S.members.length){tbl+='<tr><td colspan="99" style="padding:14px;color:#bbb;font-size:11px;">No members added yet.</td></tr>';}
   S.members.forEach((m,i)=>{tbl+=`<tr style="background:${i%2?'#FAFAFA':'#fff'};"><td style="padding:5px 9px;border-bottom:1px solid #F0F0F0;white-space:nowrap;"><div style="font-weight:700;font-size:10px;color:#0A1A2F;">${m.name}</div><div style="font-size:8px;color:#999;">${m.role}</div></td>`;S.skills.forEach(s=>{const v=gv(m.id,s.id);const[bg,col]=slC[v];tbl+=`<td style="padding:4px 3px;border-bottom:1px solid #F0F0F0;text-align:center;"><span style="display:inline-block;padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;background:${bg};color:${col};">${LB[v]}</span></td>`;});tbl+='</tr>';});
   const crit=S.skills.filter(s=>cst(s.id)==='g').length;const sp2=S.skills.filter(s=>cst(s.id)==='s').length;
@@ -863,11 +808,12 @@ function genInsights(){
       acts.style.display = 'flex';
       window._aiTxt = result;
     } catch(e) {
+      console.error(e);
       out.textContent = 'Unable to generate analysis. Please ensure the matrix has members and skill ratings.';
       out.style.display = 'block';
     }
     btn.innerHTML='Regenerate analysis &rarr;'; btn.disabled=false;
-  }, 600); // small delay for UX feel
+  }, 600);
 }
 
 // DOWNLOADS
