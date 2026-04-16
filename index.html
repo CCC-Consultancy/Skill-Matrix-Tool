@@ -1,993 +1,647 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Board Skills Matrix — CCC Consultancy Group</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>CCC Consultancy Group | Board Skills Matrix & Governance Analyser</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#ffffff;;min-height:100vh;}
-:root{
-  --navy:#0A1A2F;--teal:#1FBFD7;
-  --red:#E24B4A;--amber:#EF9F27;--green:#27AE60;
-  --red-bg:#FCEBEB;--amber-bg:#FAEEDA;--green-bg:#EAF3DE;--blue-bg:#E6F1FB;
-  --red-txt:#A32D2D;--amber-txt:#854F0B;--green-txt:#3B6D11;--blue-txt:#185FA5;
-}
-.hdr{background:var(--navy);padding:13px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--teal);position:sticky;top:0;z-index:50;}
-.hdr-left .hdr-logo {
-  height: 52px;
-  width: auto;
-  object-fit: contain;
-}
-
-.ob-hero img {
-  height: 60px;
-  width: auto;
-  object-fit: contain;
-}
- <div class="hdr-left">
-  <img src="logo.png" alt="CCC Consultancy Group" class="hdr-logo" style="height:60px; width:auto;">
-  <div class="hdr-div"></div>
-  <div class="hdr-text">
-    <h1>Board Skills Matrix</h1>
-    <div class="sub">Competency Gap Analyser</div>
-  </div>
-.hdr-text h1 {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-}
-.hdr-text .sub{font-size:9px;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px;}
-.hdr-btn{display:flex;align-items:center;gap:5px;padding:6px 11px;border-radius:6px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.65);cursor:pointer;border:1px solid rgba(255,255,255,0.15);background:transparent;font-family:inherit;text-decoration:none;transition:all 0.15s;}
-.hdr-btn:hover{background:rgba(255,255,255,0.1);color:#fff;}
-.wrap{max-width:1200px;margin:0 auto;padding:24px 20px;}
-.card{background:#fff;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,0.09);border:1px solid #e4e6ef;overflow:hidden;}
-.ob-hero{background:var(--navy);padding:32px 38px 28px;border-bottom:3px solid var(--teal);display:flex;align-items:flex-start;gap:22px;flex-wrap:wrap;}
-.ob-hero-logo.png{height:42px;width:auto;filter:brightness(0) invert(1);opacity:0.92;}
-.ob-hero-text h2{font-size:20px;font-weight:700;color:#fff;margin-bottom:5px;}
-.ob-hero-text p{font-size:13px;color:rgba(255,255,255,0.58);line-height:1.7;max-width:540px;}
-.ob-body{padding:28px 38px 36px;}
-.ob-sec-lbl{font-size:10px;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;color:var(--teal);margin:0 0 14px;padding-bottom:6px;border-bottom:1px solid #f0f0f8;}
-.og{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:22px;}
-.og-full{grid-column:1/-1;}
-.fg{display:flex;flex-direction:column;gap:4px;}
-.fl{font-size:10px;text-transform:uppercase;letter-spacing:0.07em;color:#888;font-weight:700;}
-.fi{padding:9px 12px;border:1px solid #d4d8e8;border-radius:7px;font-size:13px;font-family:inherit;outline:none;transition:border-color 0.2s;background:#fff;color:var(--navy);}
-.fi:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(31,191,215,0.1);}
-.fn{font-size:11px;color:#bbb;margin-top:4px;line-height:1.5;}
-.ob-footer{margin-top:4px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-.ob-saved{font-size:12px;color:var(--green-txt);font-weight:500;display:none;}
-.btn{padding:8px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #d0d5e0;background:#fff;color:var(--navy);font-family:inherit;transition:all 0.15s;display:inline-flex;align-items:center;gap:5px;text-decoration:none;}
-.btn:hover{background:#f0f4ff;}
-.btn-tl{background:var(--teal);color:#fff;border-color:var(--teal);}
-.btn-tl:hover{background:#18aabf;}
-.btn-nv{background:var(--navy);color:#fff;border-color:var(--navy);}
-.btn-nv:hover{background:#0d2340;}
-.btn-sm{padding:6px 11px;font-size:12px;}
-.btn-gh{background:transparent;border-color:#d8dce8;color:#777;}
-.btn-gh:hover{background:#f6f8fc;color:var(--navy);}
-.th{padding:13px 22px;border-bottom:1px solid #eaecf4;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fafbff;}
-.th-org{font-size:15px;font-weight:700;color:var(--navy);}
-.th-meta{font-size:11px;color:#aaa;margin-top:1px;}
-.sp-pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;}
-.tabs{display:flex;background:#fff;border-bottom:1px solid #eaecf4;overflow-x:auto;}
-.tab{padding:12px 17px;font-size:13px;font-weight:500;color:#888;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;transition:all 0.15s;}
-.tab:hover{color:var(--navy);}
-.tab.on{color:var(--teal);border-bottom-color:var(--teal);}
-.pnl{padding:22px;display:none;}
-.pnl.on{display:block;}
-.chip{display:inline-block;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;user-select:none;line-height:1.4;}
-.chip:hover{opacity:0.75;}
-.cn{background:#f0f0f5;color:#999;}
-.ca{background:var(--amber-bg);color:var(--amber-txt);}
-.cc{background:var(--green-bg);color:var(--green-txt);}
-.ce{background:var(--blue-bg);color:var(--blue-txt);}
-.vg{background:var(--red-bg);color:var(--red-txt);}
-.vs{background:var(--amber-bg);color:var(--amber-txt);}
-.vo{background:var(--green-bg);color:var(--green-txt);}
-.mwrap{overflow-x:auto;border-radius:8px;border:1px solid #eaecf4;}
-table{border-collapse:collapse;width:100%;}
-th{background:#f6f8fc;padding:8px 9px;font-size:9px;font-weight:700;color:#777;text-align:left;border-bottom:1px solid #eaecf4;letter-spacing:0.05em;text-transform:uppercase;}
-th.sk{text-align:center;max-width:108px;white-space:normal;line-height:1.3;}
-td{padding:7px 9px;border-bottom:1px solid #f2f3f8;font-size:13px;vertical-align:middle;}
-tr.dr:hover td{background:#fafbff;}
-.crow td{background:#f6f8fc;border-top:1px solid #eaecf4;}
-.mn{font-weight:700;color:var(--navy);font-size:13px;}
-.mr{font-size:11px;color:#aaa;margin-top:1px;}
-.rmb{font-size:11px;color:var(--red);cursor:pointer;background:none;border:none;font-family:inherit;padding:2px 5px;border-radius:4px;}
-.rmb:hover{background:var(--red-bg);}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
-.stat{flex:1;min-width:115px;background:#fff;border:1px solid #eaecf4;border-radius:10px;padding:14px;text-align:center;}
-.stat .n{font-size:32px;font-weight:700;line-height:1;margin-bottom:5px;}
-.stat .l{font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:#888;font-weight:600;}
-.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:11px;}
-.gc{background:#fff;border:1px solid #eaecf4;border-radius:10px;padding:13px 15px;border-left-width:4px;border-left-style:solid;}
-.gs{font-weight:700;font-size:13px;color:var(--navy);margin-bottom:5px;line-height:1.4;}
-.gq{font-size:11px;color:#aaa;margin-bottom:9px;}
-.gr{font-size:12px;color:#666;line-height:1.6;padding-top:9px;border-top:1px solid #f0f0f8;}
-.aiwrap{max-width:720px;}
-.aibox{background:#f6f8fc;border:1px solid #eaecf4;border-radius:10px;padding:17px;margin-bottom:14px;}
-.aibox p{font-size:13px;color:#666;line-height:1.7;margin-bottom:13px;}
-.aiout{display:none;background:#fff;border:1px solid #eaecf4;border-left:3px solid var(--teal);border-radius:10px;padding:22px;font-size:14px;line-height:1.85;color:#1a1a2e;white-space:pre-wrap;}
-.aiacts{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap;}
-.slide{background:#fff;border-radius:10px;padding:28px 36px 20px;max-width:900px;border:1px solid #eaecf4;border-left:6px solid var(--teal);box-shadow:0 2px 10px rgba(0,0,0,0.06);}
-.sl-t{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:2px;font-family:Georgia,serif;}
-.sl-s{font-size:9px;color:var(--teal);text-transform:uppercase;letter-spacing:1.8px;font-weight:700;margin-bottom:2px;}
-.sl-m{font-size:10px;color:#aaa;margin-bottom:16px;}
-.sl-f{margin-top:12px;padding-top:9px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:5px;}
-.cta{background:var(--navy);border-radius:12px;padding:28px 32px;margin-top:22px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-.cta-l h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px;}
-.cta-l p{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;max-width:430px;}
-.cta-acc{width:32px;height:3px;background:var(--teal);border-radius:2px;margin-bottom:12px;}
-.cta-r{display:flex;flex-direction:column;gap:9px;min-width:190px;}
-.ctab{padding:10px 17px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;display:block;transition:all 0.15s;}
-.ctab-p{background:var(--teal);color:#fff;border:none;}
-.ctab-p:hover{background:#18aabf;}
-.ctab-s{background:transparent;color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.22);}
-.ctab-s:hover{background:rgba(255,255,255,0.08);color:#fff;}
-.mdbg{display:none;position:fixed;inset:0;background:rgba(10,26,47,0.55);z-index:200;align-items:center;justify-content:center;}
-.mdbg.open{display:flex;}
-.mdl{background:#fff;border-radius:12px;padding:22px;width:400px;max-width:95vw;box-shadow:0 12px 40px rgba(0,0,0,0.18);}
-.mdl h2{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:14px;}
-.mda{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;}
-.save-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 14px;background:#f6f8fc;border-radius:8px;border:1px solid #eaecf4;margin-bottom:14px;font-size:12px;color:#666;}
-.sdot{width:8px;height:8px;border-radius:50%;background:#ccc;display:inline-block;margin-right:4px;transition:background 0.3s;}
-.sdot.ok{background:var(--green-txt);}
-.sdot.dirty{background:var(--amber-txt);}
-.dlrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;background:#f6f8fc;border-radius:8px;border:1px solid #eaecf4;align-items:center;}
-.dlrow span{font-size:12px;color:#666;font-weight:500;flex:1;}
-.tbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
-.nt{font-size:11px;color:#aaa;margin-top:9px;}
-.copyright{text-align:center;padding:16px;font-size:11px;color:#bbb;border-top:1px solid #eaecf4;}
-.copyright a{color:var(--teal);text-decoration:none;}
-.copyright a:hover{text-decoration:underline;}
-@media(max-width:620px){.og{grid-template-columns:1fr;}.og-full{grid-column:1;}.cta{flex-direction:column;}.cta-r{width:100%;}.ob-hero{flex-direction:column;gap:14px;}.ob-body{padding:22px 20px 28px;}}
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
+    background: #F4F7FC;
+    color: #0A1A2F;
+    line-height: 1.4;
+  }
+  :root {
+    --navy: #0A1A2F;
+    --teal: #1FBFD7;
+    --teal-dark: #1499af;
+    --red: #E24B4A;
+    --amber: #EF9F27;
+    --green: #27AE60;
+    --red-bg: #FEF2F2;
+    --amber-bg: #FEF8E7;
+    --green-bg: #EEF7EE;
+    --blue-bg: #EBF4FC;
+    --red-txt: #B91C1C;
+    --amber-txt: #B45309;
+    --green-txt: #2F6B2F;
+    --blue-txt: #1E4A76;
+    --gray-border: #E2E8F0;
+    --gray-light: #F8FAFE;
+  }
+  .hdr {
+    background: var(--navy);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 3px solid var(--teal);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .hdr-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hdr-logo-img {
+    height: 52px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+  }
+  .hdr-div {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.2);
+  }
+  .hdr-text h1 {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+  .hdr-text .sub {
+    font-size: 9px;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 2px;
+  }
+  .hdr-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 40px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+  }
+  .hdr-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: white;
+  }
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 20px 40px;
+  }
+  .card {
+    background: white;
+    border-radius: 28px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    border: 1px solid var(--gray-border);
+    overflow: hidden;
+  }
+  .ob-hero {
+    background: linear-gradient(135deg, #0A1A2F 0%, #0F2A3F 100%);
+    padding: 32px 36px;
+    border-bottom: 3px solid var(--teal);
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .ob-hero-logo {
+    height: 64px;
+    width: auto;
+    object-fit: contain;
+  }
+  .ob-hero-text h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .ob-hero-text p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    max-width: 560px;
+    line-height: 1.5;
+  }
+  .ob-body {
+    padding: 30px 36px 36px;
+  }
+  .ob-sec-lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--gray-border);
+    padding-bottom: 8px;
+  }
+  .og {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .og-full {
+    grid-column: span 2;
+  }
+  .fg {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .fl {
+    font-size: 11px;
+    font-weight: 700;
+    color: #334155;
+    letter-spacing: 0.3px;
+  }
+  .fi {
+    padding: 10px 14px;
+    border: 1px solid var(--gray-border);
+    border-radius: 14px;
+    font-size: 14px;
+    background: white;
+    transition: 0.2s;
+  }
+  .fi:focus {
+    border-color: var(--teal);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(31,191,215,0.2);
+  }
+  .fn {
+    font-size: 11px;
+    color: #94A3B8;
+    margin-top: 4px;
+  }
+  .btn {
+    padding: 9px 18px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 0.2s;
+    background: white;
+    color: var(--navy);
+    border-color: #CBD5E1;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .btn-tl {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal);
+  }
+  .btn-tl:hover {
+    background: var(--teal-dark);
+  }
+  .btn-nv {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+  .btn-nv:hover {
+    background: #1e2f46;
+  }
+  .btn-sm {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+  .btn-gh {
+    border-color: #CBD5E1;
+    background: white;
+    color: #334155;
+  }
+  .btn-gh:hover {
+    background: #F1F5F9;
+  }
+  .th {
+    padding: 16px 24px;
+    background: var(--gray-light);
+    border-bottom: 1px solid var(--gray-border);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .th-org {
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--navy);
+  }
+  .th-meta {
+    font-size: 11px;
+    color: #5B6E8C;
+    margin-top: 3px;
+  }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: white;
+    border-bottom: 1px solid var(--gray-border);
+    padding: 0 20px;
+  }
+  .tab {
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    background: none;
+    border: none;
+    color: #6C7A91;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: 0.15s;
+  }
+  .tab:hover {
+    color: var(--navy);
+  }
+  .tab.on {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+  }
+  .pnl {
+    padding: 26px 28px;
+    display: none;
+  }
+  .pnl.on {
+    display: block;
+  }
+  .chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 40px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.1s;
+  }
+  .cn { background: #F1F5F9; color: #475569; }
+  .ca { background: var(--amber-bg); color: var(--amber-txt); }
+  .cc { background: var(--green-bg); color: var(--green-txt); }
+  .ce { background: var(--blue-bg); color: var(--blue-txt); }
+  .vg { background: var(--red-bg); color: var(--red-txt); }
+  .vs { background: var(--amber-bg); color: var(--amber-txt); }
+  .vo { background: var(--green-bg); color: var(--green-txt); }
+  .mwrap {
+    overflow-x: auto;
+    border-radius: 18px;
+    border: 1px solid var(--gray-border);
+    margin-top: 8px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    background: #F8FAFE;
+    padding: 12px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #4B5B7B;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--gray-border);
+  }
+  td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #EDF2F7;
+    font-size: 13px;
+  }
+  .mn {
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .mr {
+    font-size: 11px;
+    color: #6C7A91;
+    margin-top: 2px;
+  }
+  .rmb {
+    background: none;
+    border: none;
+    color: var(--red);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 30px;
+    padding: 4px 8px;
+  }
+  .rmb:hover {
+    background: var(--red-bg);
+  }
+  .stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 20px;
+    padding: 16px;
+    min-width: 120px;
+    text-align: center;
+  }
+  .stat .n {
+    font-size: 34px;
+    font-weight: 800;
+  }
+  .stat .l {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6C7A91;
+  }
+  .gg {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 16px;
+  }
+  .gc {
+    border: 1px solid var(--gray-border);
+    border-radius: 20px;
+    padding: 16px 18px;
+    border-left-width: 6px;
+  }
+  .gs {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .gq {
+    font-size: 11px;
+    color: #6C7A91;
+    margin-bottom: 10px;
+  }
+  .gr {
+    font-size: 12px;
+    color: #334155;
+    border-top: 1px solid var(--gray-border);
+    padding-top: 10px;
+    margin-top: 5px;
+  }
+  .save-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #F9FBFE;
+    border-radius: 60px;
+    padding: 8px 16px;
+    border: 1px solid var(--gray-border);
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+  .sdot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  .sdot.ok { background: var(--green-txt); }
+  .sdot.dirty { background: var(--amber-txt); }
+  .dlrow {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  .copyright {
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    color: #94A3B8;
+    border-top: 1px solid var(--gray-border);
+  }
+  .copyright a {
+    color: var(--teal);
+    text-decoration: none;
+  }
+  .aiout {
+    background: #F9FBFE;
+    border-left: 4px solid var(--teal);
+    border-radius: 16px;
+    padding: 20px;
+    font-size: 13px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    margin-top: 20px;
+  }
+  .slide {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid var(--gray-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  @media (max-width: 620px) {
+    .og { grid-template-columns: 1fr; }
+    .og-full { grid-column: 1; }
+    .ob-hero { flex-direction: column; align-items: flex-start; }
+    .pnl { padding: 20px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="hdr">
   <div class="hdr-left">
-   <img src="logo.png" alt="CCC Consultancy Group" style="height: 55px; width: auto; display: block;">
-      <text x="0" y="25" font-family="'Segoe UI',system-ui,sans-serif" font-size="26" font-weight="800" letter-spacing="-0.5" fill="#1FBFD7">CCC</text>
-      <text x="1" y="33" font-family="'Segoe UI',system-ui,sans-serif" font-size="6.5" font-weight="500" letter-spacing="0.9" fill="rgba(255,255,255,0.55)">CONSULTANCY GROUP</text>
-    </svg>
+    <img src="logo.png" alt="CCC Consultancy Group" class="hdr-logo-img" style="height: 52px; width: auto;">
     <div class="hdr-div"></div>
     <div class="hdr-text">
       <h1>Board Skills Matrix</h1>
       <div class="sub">Competency Gap Analyser</div>
     </div>
   </div>
-  <a href="mailto:info@cccgrp.com?subject=Board Skills Matrix - Feedback" class="hdr-btn">
-    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M14 2H2a1 1 0 00-1 1v8a1 1 0 001 1h3v2l3-2h6a1 1 0 001-1V3a1 1 0 00-1-1zM8 9a1 1 0 110-2 1 1 0 010 2zm2.5-3h-5a.5.5 0 010-1h5a.5.5 0 010 1z"/></svg>
-    Feedback
-  </a>
+  <a href="mailto:info@cccgrp.com?subject=Board Skills Matrix Feedback" class="hdr-btn">📧 Feedback</a>
 </div>
 
 <div class="wrap"><div class="card">
 
-<!-- ONBOARDING -->
-<div class="ob-hero">
- <img src="./logo.png" alt="CCC Consultancy Group" style="height: 55px; width: auto; display: block;">
-  <div class="ob-hero-text">
-    <h2>Board Skills &amp; Capability Assessment</h2>
-    <p>Map your board's competencies, identify governance gaps, and generate a tailored analysis with recruitment and capability recommendations. Tell us about your organisation to get started.</p>
+<!-- ONBOARDING SECTION -->
+<div id="scr-ob">
+  <div class="ob-hero">
+    <img src="logo.png" alt="CCC Consultancy Group" class="ob-hero-logo" style="height: 64px; width: auto;">
+    <div class="ob-hero-text">
+      <h2>Board Skills & Capability Assessment</h2>
+      <p>Map your board's competencies, identify governance gaps, and generate a tailored analysis with recruitment and capability recommendations. Tell us about your organisation to get started.</p>
+    </div>
   </div>
-</div>
   <div class="ob-body">
     <div class="ob-sec-lbl">Organisation details</div>
     <div class="og">
-      <div class="fg og-full"><label class="fl">Organisation name *</label><input id="ob-org" class="fi" type="text" placeholder="e.g. Aethis Limited"/></div>
-      <div class="fg"><label class="fl">Your name</label><input id="ob-name" class="fi" type="text" placeholder="Full name"/></div>
-      <div class="fg"><label class="fl">Your role / title</label><input id="ob-role" class="fi" type="text" placeholder="e.g. Company Secretary, Head of Governance"/></div>
-      <div class="fg">
-        <label class="fl">Sector *</label>
-        <select id="ob-sec" class="fi">
-          <option value="">Select sector</option>
-          <option>Banking &amp; Financial Services</option><option>Fintech &amp; Digital Payments</option>
-          <option>Insurance</option><option>Microfinance</option><option>Capital Markets / Securities</option>
-          <option>Asset Management</option><option>Pension &amp; Investment</option>
-          <option>Telecoms &amp; Technology</option><option>Energy &amp; Utilities</option>
-          <option>Healthcare</option><option>Public Sector / Regulators</option>
-          <option>NGO / Development Finance</option><option>Other</option>
-        </select>
-      </div>
-      <div class="fg">
-        <label class="fl">Primary regulatory environment *</label>
-        <select id="ob-reg" class="fi">
-          <option value="">Select jurisdiction</option>
-          <option>Nigeria (CBN / SEC / NAICOM)</option><option>United Kingdom (FCA / PRA)</option>
-          <option>Both Nigeria and UK</option><option>Ghana (BoG / SEC)</option>
-          <option>Kenya (CBK / CMA)</option><option>South Africa (SARB / FSCA)</option>
-          <option>Multi-jurisdictional (Africa)</option><option>Other</option>
-        </select>
-      </div>
-      <div class="fg">
-        <label class="fl">Board / senior leadership size</label>
-        <select id="ob-sz" class="fi">
-          <option value="">Select size</option><option>3-5 members</option><option>6-8 members</option>
-          <option>9-12 members</option><option>13-15 members</option><option>16+ members</option>
-        </select>
-      </div>
-      <div class="fg">
-        <label class="fl">Approximate staff headcount</label>
-        <select id="ob-st" class="fi">
-          <option value="">Select range</option><option>1-10</option><option>11-50</option>
-          <option>51-200</option><option>201-500</option><option>501-2,000</option>
-          <option>2,001-10,000</option><option>10,000+</option>
-        </select>
-      </div>
-      <div class="fg">
-        <label class="fl">Organisation stage</label>
-        <select id="ob-stg" class="fi">
-          <option value="">Select stage</option><option>Start-up / early stage</option>
-          <option>Growth / scaling</option><option>Established / mature</option>
-          <option>Undergoing restructuring</option><option>Preparing for regulatory authorisation</option>
-          <option>Post-merger / acquisition</option>
-        </select>
-      </div>
-      <div class="fg og-full">
-        <label class="fl">Key governance concerns (optional)</label>
-        <input id="ob-con" class="fi" type="text" placeholder="e.g. Preparing for CBN examination, introducing AI, board succession planning..."/>
-        <p class="fn">This helps tailor the governance analysis to your specific situation.</p>
-      </div>
+      <div class="fg og-full"><label class="fl">Organisation name *</label><input id="ob-org" class="fi" type="text" placeholder="e.g. Aethis Limited"></div>
+      <div class="fg"><label class="fl">Your name</label><input id="ob-name" class="fi" type="text" placeholder="Full name"></div>
+      <div class="fg"><label class="fl">Your role / title</label><input id="ob-role" class="fi" type="text" placeholder="e.g. Company Secretary"></div>
+      <div class="fg"><label class="fl">Sector *</label><select id="ob-sec" class="fi"><option value="">Select sector</option><option>Banking & Financial Services</option><option>Fintech & Digital Payments</option><option>Insurance</option><option>Microfinance</option><option>Capital Markets</option><option>Telecoms & Technology</option><option>Other</option></select></div>
+      <div class="fg"><label class="fl">Primary regulatory environment *</label><select id="ob-reg" class="fi"><option value="">Select jurisdiction</option><option>Nigeria (CBN / SEC)</option><option>United Kingdom (FCA / PRA)</option><option>Both Nigeria and UK</option><option>Ghana (BoG / SEC)</option><option>Kenya (CBK / CMA)</option><option>South Africa (SARB / FSCA)</option><option>Other</option></select></div>
+      <div class="fg"><label class="fl">Board size</label><select id="ob-sz" class="fi"><option value="">Select</option><option>3-5</option><option>6-8</option><option>9-12</option><option>13+</option></select></div>
+      <div class="fg"><label class="fl">Staff headcount</label><select id="ob-st" class="fi"><option value="">Select</option><option>1-50</option><option>51-200</option><option>201-1000</option><option>1000+</option></select></div>
+      <div class="fg"><label class="fl">Organisation stage</label><select id="ob-stg" class="fi"><option value="">Select</option><option>Start-up</option><option>Growth</option><option>Mature</option><option>Restructuring</option><option>Regulatory authorisation</option></select></div>
+      <div class="fg og-full"><label class="fl">Key governance concerns (optional)</label><input id="ob-con" class="fi" type="text" placeholder="e.g. CBN examination, AI governance, succession planning"></div>
     </div>
     <div class="ob-footer">
-      <button class="btn btn-nv" onclick="startTool()" style="padding:11px 24px;font-size:14px;">Start assessment &rarr;</button>
-      <button class="btn btn-gh btn-sm" id="load-btn" onclick="loadProgress()" style="display:none;">&#8635; Load saved progress</button>
+      <button class="btn btn-nv" onclick="startTool()" style="padding:11px 24px;">Start assessment →</button>
+      <button class="btn btn-gh btn-sm" id="load-btn" onclick="loadProgress()" style="display:none;">↻ Load saved</button>
       <span id="ob-err" style="font-size:12px;color:var(--red);display:none;">Please complete organisation name, sector and regulatory environment.</span>
       <span id="ob-saved" class="ob-saved"></span>
     </div>
   </div>
-  <div class="copyright">&copy; 2026 CCC Consultancy Group Ltd. All rights reserved. &nbsp;|&nbsp; <a href="https://www.cccgrp.com" target="_blank">cccgrp.com</a> &nbsp;|&nbsp; <a href="https://www.cccgrp.com/privacy-policy" target="_blank">Privacy policy</a></div>
+  <div class="copyright">© 2026 CCC Consultancy Group Ltd. <a href="#">cccgrp.com</a> | <a href="#">Privacy</a></div>
 </div>
 
-<!-- MAIN TOOL -->
+<!-- MAIN TOOL (hidden initially) -->
 <div id="scr-tool" style="display:none;">
   <div class="th">
-    <div style="flex:1;"><div class="th-org" id="th-org"></div><div class="th-meta" id="th-meta"></div></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;" id="sumbar"></div>
-    <button class="btn btn-sm btn-gh" onclick="backOb()">&#9664; Edit details</button>
+    <div><div class="th-org" id="th-org"></div><div class="th-meta" id="th-meta"></div></div>
+    <div id="sumbar"></div>
+    <button class="btn btn-sm btn-gh" onclick="backOb()">← Edit details</button>
   </div>
   <div class="tabs">
-    <button class="tab on"  onclick="sw('matrix',this)">Skills matrix</button>
-    <button class="tab"     onclick="sw('gaps',this)">Gap analysis</button>
-    <button class="tab"     onclick="sw('ai',this)">Governance insights</button>
-    <button class="tab"     onclick="sw('slide',this)">Slide preview</button>
+    <button class="tab on" onclick="sw('matrix',this)">Skills matrix</button>
+    <button class="tab" onclick="sw('gaps',this)">Gap analysis</button>
+    <button class="tab" onclick="sw('ai',this)">Governance insights</button>
+    <button class="tab" onclick="sw('slide',this)">Slide preview</button>
   </div>
 
-  <!-- MATRIX -->
   <div class="pnl on" id="tp-matrix">
-    <div class="save-bar">
-      <span class="sdot" id="sdot"></span><span id="sstatus">Progress saves automatically</span>
-      <div style="flex:1;"></div>
-      <button class="btn btn-sm btn-gh" onclick="saveNow()">&#8679; Save now</button>
-      <button class="btn btn-sm btn-gh" onclick="clearSave()" style="color:var(--red);">&#215; Clear saved data</button>
-    </div>
-    <div class="tbar">
-      <button class="btn btn-tl btn-sm" onclick="openMd('m')">+ Add Director / C-Suite / Senior Manager</button>
-      <button class="btn btn-sm"        onclick="openMd('s')">+ Add skill domain</button>
-      <div style="flex:1;"></div>
-      <span style="font-size:11px;color:#ccc;">Click cell to cycle:&nbsp;</span>
-      <span class="chip cn" style="cursor:default;">— None</span>
-      <span class="chip ca" style="cursor:default;">Aware</span>
-      <span class="chip cc" style="cursor:default;">Competent</span>
-      <span class="chip ce" style="cursor:default;">Expert</span>
-    </div>
+    <div class="save-bar"><span class="sdot" id="sdot"></span><span id="sstatus">Auto-save ready</span><div style="flex:1"></div><button class="btn btn-sm btn-gh" onclick="saveNow()">💾 Save now</button><button class="btn btn-sm btn-gh" onclick="clearSave()" style="color:var(--red)">✖ Clear data</button></div>
+    <div class="tbar"><button class="btn btn-tl btn-sm" onclick="openMd('m')">+ Add Director / C-Suite</button><button class="btn btn-sm" onclick="openMd('s')">+ Add skill domain</button><div style="flex:1"></div><span class="chip cn">— None</span><span class="chip ca">Aware</span><span class="chip cc">Competent</span><span class="chip ce">Expert</span></div>
     <div class="mwrap"><table id="mt"></table></div>
   </div>
 
-  <!-- GAPS -->
   <div class="pnl" id="tp-gaps">
-    <div class="dlrow"><span>Gap analysis report</span>
-      <button class="btn btn-sm" onclick="dlGapsPDF()">↓ Download (PDF)</button>
-      <button class="btn btn-sm" onclick="dlGapsCSV()">&#8595; Download (CSV)</button>
-    </div>
-    <div class="stats" id="sr"></div>
-    <div id="gg" class="gg"></div>
+    <div class="dlrow"><span>📊 Gap analysis report</span><button class="btn btn-sm" onclick="dlGapsPDF()">📄 PDF</button><button class="btn btn-sm" onclick="dlGapsCSV()">📎 CSV</button></div>
+    <div class="stats" id="sr"></div><div id="gg" class="gg"></div>
   </div>
 
-  <!-- AI INSIGHTS (pre-configured) -->
   <div class="pnl" id="tp-ai">
-    <div class="aiwrap">
-      <div class="aibox">
-        <p>This tool analyses your completed matrix alongside your organisation details and generates a tailored governance advisory note. It covers capability gaps, regulatory risk, recruitment priorities with candidate profiles, capability development options, succession planning, and immediate actions. Complete your matrix first for the most accurate output.</p>
-        <button class="btn btn-tl" id="aib" onclick="genInsights()">Generate governance analysis &rarr;</button>
-      </div>
-      <div class="aiout" id="aio"></div>
-      <div class="aiacts" id="ai-dl" style="display:none;">
-       <button class="btn btn-sm" onclick="dlAIPDF()">↓ Download insights (PDF)</button>
-        <button class="btn btn-sm btn-gh" onclick="genInsights()">Regenerate</button>
-      </div>
-    </div>
+    <div class="aibox"><p>Generate a complete governance advisory note: critical gaps, SPOFs, regulatory risk, recruitment profiles, development plans, succession and immediate actions.</p><button class="btn btn-tl" onclick="genInsights()">Generate analysis →</button></div>
+    <div id="aio" class="aiout"></div><div id="ai-dl" style="margin-top:12px; display:none;"><button class="btn btn-sm" onclick="dlAIPDF()">📥 Download PDF</button></div>
   </div>
 
-  <!-- SLIDE -->
   <div class="pnl" id="tp-slide">
-    <div class="dlrow"><span>Board slide preview</span>
-      <button class="btn btn-sm" onclick="dlSlide()">&#8595; Download slide (PNG)</button>
-    </div>
+    <div class="dlrow"><span>📸 Board slide preview</span><button class="btn btn-sm" onclick="dlSlide()">Download PNG</button></div>
     <div class="slide" id="sp"></div>
-    <p class="nt">Produce the final version via the Board Risk Reporting Pack PowerPoint template.</p>
   </div>
-
-  <!-- CTA -->
-  <div style="padding:0 22px 22px;">
-    <div class="cta">
-      <div class="cta-l">
-        <div class="cta-acc"></div>
-        <h3>Want help acting on these results?</h3>
-        <p>CCC Consultancy Group works with boards and senior leadership teams to close governance capability gaps. From board effectiveness reviews and NED recruitment briefs to regulatory readiness programmes. UK expertise. Global perspective. Local impact.</p>
-      </div>
-      <div class="cta-r">
-        <a href="https://calendly.com/funsokale/free-15-minute-discovery-call-ccc-consultancy" target="_blank" class="ctab ctab-p">Request a conversation</a>
-        <a href="mailto:info@cccgrp.com?subject=Board Skills Matrix Follow-Up" class="ctab ctab-s">Email us &rarr; info@cccgrp.com</a>
-        <a href="https://www.cccgrp.com" target="_blank" class="ctab ctab-s" style="font-size:11px;padding:8px 17px;text-align:center;">Visit cccgrp.com</a>
-      </div>
-    </div>
-  </div>
-  <div class="copyright">&copy; 2026 CCC Consultancy Group Ltd. All rights reserved. &nbsp;|&nbsp; <a href="https://www.cccgrp.com" target="_blank">cccgrp.com</a> &nbsp;|&nbsp; <a href="https://www.cccgrp.com/privacy-policy" target="_blank">Privacy policy</a></div>
+  <div class="copyright">© 2026 CCC Consultancy Group — <a href="#">cccgrp.com</a></div>
 </div>
 </div></div>
 
 <!-- MODAL -->
-<div class="mdbg" id="mb">
-  <div class="mdl">
-    <h2 id="mt2"></h2>
-    <div class="fg" style="margin-bottom:11px;"><label class="fl" id="ml1">Name</label><input id="mi1" class="fi" type="text"/></div>
-    <div id="mf2" class="fg"><label class="fl">Role / title</label><input id="mi2" class="fi" type="text" placeholder="e.g. Chief Risk Officer, Independent NED"/></div>
-    <div class="mda">
-      <button class="btn btn-gh btn-sm" onclick="closeMd()">Cancel</button>
-      <button class="btn btn-tl btn-sm" id="msb">Add</button>
-    </div>
-  </div>
-</div>
+<div class="mdbg" id="mb" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1000;"><div class="mdl" style="background:white; border-radius:24px; padding:24px; width:90%; max-width:400px;"><h2 id="mt2"></h2><div class="fg"><label id="ml1" class="fl">Name</label><input id="mi1" class="fi" type="text"></div><div id="mf2" class="fg" style="margin-top:12px;"><label class="fl">Role / title</label><input id="mi2" class="fi" type="text"></div><div class="mda" style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;"><button class="btn btn-gh btn-sm" onclick="closeMd()">Cancel</button><button class="btn btn-tl btn-sm" id="msb">Add</button></div></div></div>
 
 <script>
-// ══════════════════════════════════════════════════════════════════════════════
-// PRE-CONFIGURED INSIGHT LIBRARY
-// 100+ outcome blocks covering all meaningful combinations of gaps, SPOFs,
-// sectors, regulatory environments, and board profiles.
-// ══════════════════════════════════════════════════════════════════════════════
-
-const IL = {
-
-  // ── EXECUTIVE SUMMARIES (selected by severity profile) ──────────────────
-  exec: {
-    all_clear: `__ORG__ has a well-covered board across all assessed skill domains. Every area has at least two directors rated Competent or Expert, giving the board the depth and resilience needed for effective governance. This is a strong position. The task now is to maintain it as the organisation grows, as the regulatory environment evolves, and as individual directors move on. Board skill reviews should be conducted annually, and the nominations committee should monitor competency requirements proactively rather than reactively.`,
-
-    mostly_covered: `__ORG__ has solid governance capability across most assessed skill domains, with one or two areas of concern. The majority of the board's key oversight responsibilities are adequately covered, which reflects well on past recruitment decisions. However, the gaps and single points of failure identified in this analysis deserve structured attention. A nominations committee action plan, developed within the next 30 days, would close these remaining exposures before they become material governance risks.`,
-
-    spof_heavy: `__ORG__ has no critical capability gaps, which is a positive finding. However, a significant number of skill domains are covered by only one director each. This creates a board that is competent in the short term but fragile in structure. Any departure, conflict of interest, or period of absence involving one of these directors would immediately create a governance oversight gap. The organisation should treat succession planning as an urgent priority and begin building redundancy across the affected domains.`,
-
-    moderate: `__ORG__ has a mixed governance capability picture. Some skill domains are well covered, but others have no qualified director at all, and several rely on a single individual for all oversight. The board is functioning, but it is doing so with gaps that create real regulatory and governance risk. A structured response, combining targeted recruitment for critical gaps and development activity for directors currently rated Aware, would bring the board to a defensible position within six to twelve months.`,
-
-    high_risk: `__ORG__'s board faces significant capability challenges across multiple domains. Several critical skill areas have no qualified director, meaning the board cannot provide meaningful challenge to management on some of its most important governance responsibilities. This is not a reflection on individual directors but a structural issue that requires urgent collective action. The nominations committee should treat this assessment as a governance emergency and initiate immediate steps to address the most critical gaps.`,
-
-    critical: `__ORG__'s board has critical capability gaps across a substantial number of governance domains. In its current composition, the board cannot independently scrutinise management on several of its most material risk areas. This creates significant regulatory exposure, weakens the board's ability to protect the organisation from strategic and operational failures, and is likely to be identified as a material concern in any external governance review or regulatory examination. Urgent and coordinated action is required.`,
-
-    startup_gaps: `For an organisation at __ORG__'s stage of development, building a governance-capable board early is one of the most important investments available. The gaps identified in this assessment reflect a board that has grown from a founding team structure and has not yet added the specialist oversight capability that the organisation now needs. This is common and correctable. Addressing these gaps proactively, before regulatory authorisation or external investment processes begin, will significantly strengthen the organisation's governance credibility.`,
-
-    regulated_gaps: `__ORG__ operates in a regulated environment where board capability is a direct factor in the regulator's assessment of the organisation's governance effectiveness. The gaps identified in this matrix would be considered material by the relevant regulator. Regulated institutions are expected to demonstrate not just that they have a board, but that the board has the collective knowledge to govern the business competently. The analysis below sets out specific actions to address each gap identified.`,
-
-    post_merger: `In a post-merger or restructuring context, the board of __ORG__ is navigating a period of significant complexity. The capability gaps identified in this matrix represent areas where the combined entity's board requires strengthening to meet its enlarged governance responsibilities. Integrating two organisations creates new risk exposures, strategic complexities, and regulatory expectations that must be reflected in board composition. This analysis provides a structured basis for the nominations committee's work in the months ahead.`,
-
-    tech_dominant: `__ORG__'s most significant board capability gaps are concentrated in technology and digital domains. As the organisation operates in or is increasingly dependent on digital infrastructure, the absence of technology, cybersecurity, and AI oversight capability at board level creates a governance blind spot that is growing more significant each year. Regulators in both the UK and Africa are increasingly focused on board-level technology governance, and this gap represents a priority that should not be deferred.`,
-
-    finance_dominant: `The most critical gaps in __ORG__'s board relate to financial oversight and audit capability. The board is approving financial statements, budget proposals, and resource allocation decisions without the independent technical capability needed to interrogate these materials. This is a foundational governance concern. No other oversight function works well if the board cannot independently verify the financial position of the organisation it governs.`,
-
-    compliance_dominant: `__ORG__'s most pressing board capability gaps relate to regulatory and compliance oversight. For any regulated institution, the inability of the board to independently challenge the compliance function, assess regulatory correspondence, or understand the implications of regulatory developments represents a direct and serious governance risk. This is the area where regulators most actively expect to see board-level competence, and its absence will be a finding in any supervisory engagement.`
-  },
-
-  // ── CRITICAL GAP TEXT BY SKILL DOMAIN ───────────────────────────────────
-  gaps: {
-    s1: `No board member is currently rated Competent or Expert in financial oversight and audit. This means the board cannot independently interrogate financial statements, question accounting judgements, or identify irregularities in management accounts. The audit committee, if one exists, is operating without the technical foundation required to provide effective oversight. Financial governance is one of the most fundamental board responsibilities, and its absence creates a direct risk of undetected financial error, manipulation, or misrepresentation going unchallenged at board level.`,
-
-    s2: `The board has no qualified director in risk management. Risk reports, heat maps, and appetite statements are being received and approved without any board-level ability to challenge the methodology, question assumptions, or assess whether management's risk scoring reflects reality. Risks are being managed by management, for management, with no independent board check. This is precisely the condition under which risk quietly erodes an organisation. The board cannot fulfil its duty as the first line of defence against strategic and operational risk without this capability.`,
-
-    s3: `No director is qualified to oversee regulatory and compliance matters. The board is therefore unable to independently assess whether the organisation is meeting its regulatory obligations, cannot challenge the compliance function on scope or adequacy, and is exposed to regulatory enforcement without any early-warning capability at board level. Under most regulatory frameworks including the CBN's Corporate Governance Guidelines and the FCA's SM&CR, this would be viewed as a material gap in the board's collective suitability.`,
-
-    s4: `The board has no member with technology or cybersecurity competency. As organisations become increasingly dependent on digital infrastructure, the absence of board-level technology capability means that IT risks, data breach exposures, and system resilience decisions are made entirely within management without independent board scrutiny. This gap is particularly acute for any organisation that processes customer data, operates core systems, relies on third-party technology providers, or is undertaking digital transformation.`,
-
-    s5: `No board member is competent in AI or digital transformation. As the organisation operates in or responds to a rapidly digitising environment, the board cannot meaningfully assess AI-related risks, oversee responsible AI adoption, or challenge management on the governance implications of automated decision-making. Regulators in both the UK and Nigeria are increasingly focused on board-level AI oversight, and the absence of this capability is a growing regulatory and reputational risk.`,
-
-    s6: `The board has no director with legal and corporate governance expertise. This means the board cannot independently assess legal risk, challenge the adequacy of governance structures, or scrutinise compliance with company law and constitutional documents. In a regulated environment, legal and governance capability at board level is not optional. This gap creates vulnerability at the intersection of legal risk and regulatory expectation, precisely the point where governance failures tend to originate.`,
-
-    s7: `No board member is qualified in strategy or mergers and acquisitions. The board is therefore unable to independently evaluate strategic plans, test the assumptions behind major investment decisions, or provide informed challenge on growth, acquisition, or restructuring proposals. Strategic decisions are being made with management as the primary analytical voice and no independent counterweight at board level. The board cannot provide the scrutiny that strategic governance requires without at least one director capable of challenging management's strategic framing.`,
-
-    s8: `No director has genuine sector or industry expertise in the organisation's operating environment. This means the board cannot contextualise management's performance against sector benchmarks, identify sector-specific risks before they materialise, or draw on external market knowledge to challenge strategic direction. A board without sector expertise is heavily dependent on management framing and is more likely to approve decisions that an informed sector observer would question.`,
-
-    s9: `The board has no qualified director in ESG and sustainability. As regulatory expectations and stakeholder demands around environmental, social, and governance reporting continue to grow, the absence of ESG competency at board level means the organisation cannot provide credible oversight of its ESG commitments or challenge management on disclosure quality. This gap is increasingly visible to investors, development finance institutions, and international partners, and will become more costly to maintain as ESG reporting requirements intensify.`,
-
-    s10: `No board member is competent in AML and financial crime. For any regulated financial services organisation, this represents a significant gap in the board's ability to oversee the financial crime risk framework, challenge the MLRO's reports, or assess whether AML controls are adequate. FATF recommendations, CBN AML circulars, and FCA expectations all require board-level engagement with financial crime risk. This gap creates direct regulatory exposure and potentially personal liability for individual directors.`
-  },
-
-  // ── SINGLE POINT OF FAILURE TEXT BY SKILL DOMAIN ────────────────────────
-  spofs: {
-    s1: `Financial oversight depends entirely on one director. If that person is absent from a meeting, has a conflict on a financial matter, or leaves the board, the organisation loses all independent financial scrutiny at board level. The audit committee cannot function with a single qualified member, and any financial governance decisions made in that person's absence would lack independent technical challenge. The nominations committee should begin a search for a second director with financial expertise.`,
-
-    s2: `Risk management oversight rests with one director. The board has no redundancy in this area. If that director is recused on a risk matter involving a related party, or is unavailable for a meeting where risk decisions are made, the board proceeds without any qualified risk oversight. For a regulated organisation, this is a succession and resilience risk. The nominations committee should treat this as a priority and begin planning for a second qualified director in this domain.`,
-
-    s3: `Regulatory and compliance oversight depends on a single director. If that person departs or is conflicted, the board has no remaining capability to scrutinise the compliance function, assess regulatory correspondence, or respond to supervisory enquiries with informed board challenge. This is particularly concerning in advance of any regulatory examination, authorisation process, or period of significant regulatory change. A documented succession plan should be in place immediately.`,
-
-    s4: `Technology and cybersecurity oversight sits with one board member. In an environment where cyber incidents can materialise rapidly and require immediate board-level decision-making, single-person dependency creates a governance response risk. If that director is unavailable during a technology failure or security incident, the board cannot exercise informed oversight at the moment it matters most. A second director with technology competency should be a near-term nominations committee priority.`,
-
-    s5: `AI and digital oversight rests with one director. As the organisation's digital footprint grows and AI adoption accelerates, the board's ability to govern these risks depends entirely on that person's continued involvement. This creates a capability cliff in one of the fastest-moving areas of regulatory and governance expectation. The nominations committee should develop a succession plan for this role and explore whether an Advisory Board appointment could provide interim additional coverage.`,
-
-    s6: `Legal and governance expertise sits with one director. The board's ability to assess legal risk, review governance adequacy, and respond to legal challenges depends on this single person. Their departure or conflict would leave the board without the legal and governance grounding needed to navigate complex regulatory situations, director duties questions, or legal proceedings. A second director with legal or governance expertise should be identified.`,
-
-    s7: `Strategic challenge capability rests with one board member. If that director is absent from a strategy discussion or has a conflict on a transaction, the board proceeds with management as the sole analytical voice on strategic matters. This undermines the independence and rigour that effective board governance requires. The organisation is particularly exposed if a major strategic decision needs to be made at short notice and the sole qualified director is unavailable.`,
-
-    s8: `Sector expertise is held by one director. If that person is unavailable, the board loses its ability to contextualise performance, interpret sector trends, or provide informed challenge on market-facing decisions. In a fast-moving operating environment, single-director dependency on sector knowledge is a real governance risk. The nominations committee should identify a second director with direct sector operating experience.`,
-
-    s9: `ESG oversight depends on a single director. As ESG expectations intensify and reporting requirements grow, the board's credibility in this area is fragile. One departure removes the ability to provide informed challenge on sustainability disclosures, climate risk management, or social impact reporting. This is increasingly significant for organisations that work with development finance institutions or international investors who scrutinise board-level ESG capability.`,
-
-    s10: `AML and financial crime oversight rests with one board member. This creates a succession risk in one of the most actively supervised areas of financial services regulation. If that director is absent during a suspicious activity review, a regulatory visit, or an MLRO presentation to the board, the oversight function is effectively absent. A second director with AML and financial crime competency should be a nominations committee priority, given the regulatory sensitivity of this domain.`
-  },
-
-  // ── REGULATORY RISK TEXT BY JURISDICTION ────────────────────────────────
-  regRisk: {
-    nigeria: `The CBN's Code of Corporate Governance for Banks and the CAMA 2020 framework both require boards to exercise independent, informed oversight across the organisation's material risk and governance areas. The capability gaps identified in this matrix would be viewed by the CBN as evidence of insufficient collective suitability. In a supervisory examination, these gaps would attract regulatory findings and could affect the organisation's composite risk rating. The CBN has been increasingly focused on board quality as a core component of its supervisory approach, and institutions that cannot demonstrate a credible, time-bound plan to address capability gaps face a heightened risk of supervisory intervention and potential licence conditions.`,
-
-    uk: `Under the FCA's Senior Managers and Certification Regime and the PRA's supervisory expectations for regulated firms, boards are required to demonstrate collective suitability, meaning the board as a group has the knowledge, skills, and experience needed to understand and oversee the business. The gaps identified here would be material to any FCA or PRA supervisory engagement and would inform the regulator's assessment of the organisation's governance effectiveness. Regulatory authorisation applications, change-in-control reviews, and routine supervisory visits all involve scrutiny of board composition. A proactive, documented plan to address these gaps carries significantly more weight with regulators than gaps left unacknowledged.`,
-
-    both: `This organisation is subject to both CBN and FCA/PRA governance expectations, each of which requires boards to demonstrate collective suitability and independent challenge capability. The gaps identified in this matrix represent a dual regulatory exposure. Both regulators have increased their scrutiny of board composition and individual director capability. Cross-border organisations face heightened attention because regulators expect the board to understand governance requirements in both jurisdictions. Addressing these gaps is therefore both a domestic governance priority and a requirement for maintaining regulatory confidence in multiple markets simultaneously.`,
-
-    ghana: `Under the Bank of Ghana's Corporate Governance Directive and the Securities Industry Act, boards of regulated entities are expected to maintain adequate collective competence across the organisation's key risk and governance areas. The capability gaps identified here would be a focus of attention in any Bank of Ghana supervisory engagement and may affect the organisation's risk rating and licence conditions. Ghana's regulatory environment has been strengthening governance expectations in line with international best practice, and boards that demonstrate proactive capability management are better positioned in their supervisory relationships.`,
-
-    kenya: `The Central Bank of Kenya's Prudential Guidelines and the Capital Markets Authority's governance requirements both expect boards to be composed of qualified individuals with sufficient collective expertise to govern the institution. The gaps in this matrix create a direct exposure in any CBK or CMA supervisory engagement. Kenya's regulatory environment is active and increasingly aligned with international standards, meaning board capability gaps are unlikely to be overlooked in formal examination processes or during licence renewal reviews.`,
-
-    sa: `Under King IV and the requirements of the SARB and FSCA, boards are expected to demonstrate that their collective composition provides adequate oversight across all material risk and governance areas. King IV emphasises the governing body's collective responsibility for governance outcomes, making individual capability gaps a board-level concern rather than simply an HR matter. The gaps identified here would be a finding in any governance review or regulatory assessment conducted under the South African framework, and would be a material consideration for any institutional investors applying King IV governance criteria.`,
-
-    multi: `Operating across multiple African jurisdictions, this organisation faces governance expectations from regulators in each market. While specific requirements vary by country, all relevant regulators share a core expectation: boards must maintain collective competence across key areas of risk, compliance, finance, and sector expertise. Gaps identified in this matrix create exposure not just domestically but in every jurisdiction where the organisation is regulated or seeks to operate. A board capability improvement plan that can be presented to multiple regulators simultaneously will be a material asset in managing these relationships.`,
-
-    other: `Regardless of the specific regulatory framework that applies, the governance expectation across all mature regulatory environments is consistent: boards must collectively possess the skills and knowledge needed to provide effective oversight of the business. The gaps identified in this matrix create a real risk that management decisions in the affected domains are being approved without genuine board-level challenge. This is a governance weakness that any informed external observer, whether a regulator, auditor, investor, or independent reviewer, would identify and question.`
-  },
-
-  // ── RECRUITMENT PROFILE BY SKILL DOMAIN ─────────────────────────────────
-  recruit: {
-    s1: `For financial oversight and audit, recruit a director with a professional financial qualification (ACA, ACCA, CIMA, or CPA) and experience serving on an audit committee or in a finance director role in a regulated environment. The ideal candidate will have experience reviewing complex financial statements, working with external auditors, and understanding the financial governance expectations of the relevant regulator. A retired CFO, a senior audit partner, or a qualified finance professional with board-level experience would be suitable. This should be a Non-Executive Director appointment to preserve audit committee independence.`,
-
-    s2: `For risk management, recruit a director with senior risk experience in a regulated financial services institution, ideally someone who has served as Chief Risk Officer or equivalent. The candidate should understand enterprise risk frameworks, be able to interrogate risk appetite statements, challenge risk heat maps, and assess whether management's risk reporting gives the board an accurate and honest picture. Board-level risk experience in the same sector is strongly preferred. This may be a Non-Executive Director appointment or, depending on board structure, an executive risk director role.`,
-
-    s3: `For regulatory and compliance oversight, recruit a director with direct experience of the relevant regulatory environment, ideally someone who has held a compliance leadership role within a regulated firm in the same jurisdiction. A former Chief Compliance Officer, Head of Regulatory Affairs, or regulatory specialist with CBN or FCA-facing experience would be suitable. The candidate should be able to read regulatory correspondence independently, assess compliance programme adequacy, and provide informed challenge on regulatory risk. This is typically a Non-Executive Director appointment.`,
-
-    s4: `For technology and cybersecurity, recruit a director with technology leadership experience and specific cybersecurity knowledge. A former Chief Technology Officer, Chief Information Security Officer, or senior technology executive with financial services experience would be appropriate. The candidate should understand digital infrastructure risk, data protection obligations, third-party technology risk management, and the technology governance expectations of the relevant regulator. This can be an Executive, Non-Executive, or Advisory Board appointment depending on the organisation's size and structure.`,
-
-    s5: `For AI and digital transformation, recruit a director with experience governing AI adoption in a regulated or data-intensive environment. The ideal candidate will understand AI risk frameworks, algorithmic accountability, data governance, and the emerging regulatory expectations around automated decision-making. This is an area where board-level expertise remains scarce, so an Advisory Board appointment from the AI governance or technology ethics space may be appropriate as an interim measure while a permanent NED search is conducted.`,
-
-    s6: `For legal and corporate governance, recruit a director with a legal background and direct experience of corporate governance in a regulated environment. A senior solicitor, barrister, or in-house counsel with board governance experience would be suitable. The candidate should be familiar with company law, director duties, fiduciary obligations, regulatory requirements, and the governance documentation expected of a regulated institution. This is typically a Non-Executive Director appointment.`,
-
-    s7: `For strategy and M&A, recruit a director with senior strategic leadership experience, ideally including exposure to mergers, acquisitions, or major transformation programmes in comparable organisations. The candidate should be able to independently evaluate strategic plans, test the financial assumptions behind major proposals, and provide a counterbalancing perspective to management on growth strategy. A former CEO, Managing Director, or senior strategy consultant with sector relevance would be appropriate. This is typically a Non-Executive Director appointment.`,
-
-    s8: `For sector and industry expertise, recruit a director with direct operating experience in the organisation's sector. This is a contextual appointment: the board needs someone who has run or overseen a comparable institution, understands sector-specific risks from the inside, and can identify strategic and operational concerns that an external observer would miss. Industry associations, recently retired sector executives, or former regulators with deep sector exposure are all appropriate sources for this appointment.`,
-
-    s9: `For ESG and sustainability, recruit a director with demonstrable ESG expertise relevant to the organisation's sector and geography. The candidate should have experience developing ESG frameworks, engaging with ESG-focused investors or development finance institutions, and overseeing sustainability reporting. Given the rapid development of ESG regulatory expectations in both the UK and Africa, sector-specific ESG knowledge is preferable to generic sustainability experience. An Advisory Board appointment may be appropriate in the short term.`,
-
-    s10: `For AML and financial crime, recruit a director with senior financial crime experience, ideally someone who has served as Money Laundering Reporting Officer or in a financial crime leadership role at a regulated institution. The candidate should understand AML typologies, sanctions compliance, suspicious activity reporting, and the expectations of FATF, the relevant financial intelligence unit, and the applicable regulator. For a Nigerian-regulated institution, direct CBN AML experience is essential. This is typically a Non-Executive Director role.`
-  },
-
-  // ── CAPABILITY DEVELOPMENT BY SKILL DOMAIN ──────────────────────────────
-  develop: {
-    s1: `For directors rated Aware in financial oversight, a structured programme combining audit committee observer roles, workshops led by external auditors, and regular briefings on financial reporting standards would raise practical competency without requiring full recruitment. Direct engagement with the external audit firm's governance team is particularly effective for building the confidence to interrogate financial statements.`,
-    s2: `Risk management awareness can be developed through structured board risk workshops, facilitated by the Chief Risk Officer or an external risk consultant, covering the organisation's risk framework, appetite statement construction, and heat map methodology. Directors should be taken through actual risk reports in facilitated sessions and asked to challenge assumptions, building the habit of active risk oversight.`,
-    s3: `Regulatory awareness at board level can be improved through regular briefing sessions from the Chief Compliance Officer or external regulatory counsel. Directors should be encouraged to review key regulatory publications directly rather than through management summaries alone, and to attend regulator-organised industry events where accessible.`,
-    s4: `Technology awareness for board members can be developed through tabletop cyber incident exercises, technology briefings from the CTO or CISO, and participation in industry forums on digital governance. External technology governance courses designed for non-technical board members are increasingly available and are directly relevant to this gap.`,
-    s5: `AI literacy at board level can be built through external AI governance training programmes, engagement with specialist advisors on the organisation's specific AI use cases, and regular briefings on regulatory developments in AI oversight. Board-level AI literacy programmes are available from several professional bodies and are accessible without requiring technical depth.`,
-    s6: `Legal and governance awareness can be developed through thorough board inductions covering constitutional documents, legal obligations, and governance framework documentation, followed by regular briefings from the company secretary and external legal counsel on material legal developments and changes to director obligations.`,
-    s7: `Strategic capability can be enhanced through facilitated strategy sessions that explicitly include board members in the analytical process rather than treating the board as a passive recipient of management strategy proposals. External strategy facilitation and structured board strategy retreats with challenge exercises are effective development tools.`,
-    s8: `Sector knowledge gaps can be addressed through curated industry briefings, participation in sector associations, and direct engagement with regulators, customers, and peers. Board study visits to comparable organisations and regular engagement with sector analysts can accelerate the development of informed sector perspective.`,
-    s9: `ESG literacy can be developed through structured briefings on the organisation's ESG obligations, regular updates from the sustainability function, and engagement with ESG-focused investors or development finance partners. External ESG governance training tailored to the relevant sector and jurisdiction is increasingly available.`,
-    s10: `AML awareness can be deepened through annual financial crime risk briefings to the board, direct engagement with the MLRO and financial crime compliance team, and participation in industry financial crime forums. Board members should also review suspicious activity report volumes and trends as a standing board agenda item.`
-  },
-
-  // ── SUCCESSION PLANNING VARIANTS ────────────────────────────────────────
-  succession: {
-    none: `The board has no single points of failure at present, which reflects positively on its depth of governance coverage. The nominations committee should maintain this position by reviewing board composition at least annually against the skills requirements of the organisation as it grows. As the organisation introduces new products, enters new markets, or faces new regulatory demands, the skills matrix should be updated and the committee should plan ahead rather than wait for gaps to emerge through departures.`,
-
-    low: `The board has one or two areas where a single director carries the full oversight responsibility for a governance domain. The nominations committee should document which director covers each of these domains and put in place a contingency arrangement for each. If either director is approaching the end of their term, has signalled any intention to step down, or is expected to have a conflict of interest in the coming period, a succession search should begin immediately. In the interim, the board should avoid scheduling material decisions in these domains when the relevant director is known to be unavailable.`,
-
-    high: `The board has multiple single points of failure, creating a systemic succession risk. If more than one of the directors carrying sole-coverage responsibilities were to leave within a short period, the board would face governance gaps across several critical domains simultaneously. The nominations committee should treat this as an urgent priority. Succession plans should be prepared for each affected director, and parallel recruitment searches should be run where possible rather than waiting for departures to occur. The board should also consider whether interim Advisory Board appointments could provide coverage while permanent searches are conducted.`
-  },
-
-  // ── IMMEDIATE ACTIONS POOL ───────────────────────────────────────────────
-  actions: {
-    a1: `Commission a formal board capability improvement plan, to be presented to the full board at the next scheduled meeting, with a proposed timeline and owner for each identified gap.`,
-    a2: `Direct the nominations committee to prepare recruitment briefs for the highest-priority capability gaps within 30 days and initiate search processes accordingly.`,
-    a3: `Review the composition of all board committees against the skill domains they are responsible for overseeing, ensuring no committee is operating without at least one director rated Competent or Expert in the relevant area.`,
-    a4: `Prepare a board capability management plan for presentation to the relevant regulator, demonstrating that the organisation has identified its gaps and is taking structured steps to address them.`,
-    a5: `Commission a structured board development programme for domains currently rated only Aware across the board, with the first sessions to be delivered within 60 days by internal heads of function or external specialists.`,
-    a6: `Instruct the company secretary to document succession arrangements for all directors who are sole carriers of a governance skill domain, with written contingency procedures for decisions that may need to be taken in their absence.`,
-    a7: `Identify whether any critical gaps can be addressed in the short term through the appointment of specialist Advisory Board members or governance advisors while permanent NED searches are conducted.`,
-    a8: `Schedule the next board skills matrix review for 12 months from today and make it a standing annual item on the nominations committee agenda.`,
-    a9: `Brief the CEO and senior management team on the capability gaps identified, clarifying which oversight areas require enhanced management-level reporting to compensate for reduced board-level challenge until gaps are filled.`,
-    a10: `Ensure the company secretary circulates this governance analysis to all board members and places a structured discussion on the next board agenda, with the nominations committee chair presenting a proposed response plan.`
-  }
-};
-
-// ══════════════════════════════════════════════════════════════════════════════
-// INSIGHT ENGINE
-// ══════════════════════════════════════════════════════════════════════════════
-
-function buildInsight(ctx, members, skills, mx) {
-  // Helpers
-  const gv = (m, s) => mx[m+'_'+s] || 'none';
-  const SC = {none:0, aware:1, competent:2, expert:3};
-  const cov = sid => members.filter(m => SC[gv(m.id,sid)] >= 2).length;
-  const cst = sid => { const n=cov(sid); return n===0?'g':n===1?'s':'o'; };
-
-  const gaps  = skills.filter(s => cst(s.id) === 'g');
-  const spofs = skills.filter(s => cst(s.id) === 's');
-  const ok    = skills.filter(s => cst(s.id) === 'o');
-
-  if (!members.length) return 'No board members have been added to the matrix yet. Please add your directors and rate their skills before generating the governance analysis.';
-  if (!skills.length)  return 'No skill domains have been defined. Please add skill domains to the matrix before generating the governance analysis.';
-
-  const totalRated = members.reduce((acc, m) => acc + skills.filter(s => SC[gv(m.id,s.id)] >= 1).length, 0);
-  const totalCells = members.length * skills.length;
-  if (totalRated < Math.min(3, totalCells * 0.2)) return 'The matrix appears largely incomplete. Please rate each board member across the skill domains before generating the governance analysis. The more complete the matrix, the more accurate and useful the output.';
-
-  // Replace placeholder in exec summaries
-  const org = ctx.org || 'This organisation';
-  const resolve = txt => txt.replace(/__ORG__/g, org);
-
-  // ── 1. EXECUTIVE SUMMARY ──────────────────────────────────────────────────
-  let execKey;
-  const isTech    = gaps.some(s => ['s4','s5'].includes(s.id));
-  const isFin     = gaps.some(s => s.id === 's1');
-  const isReg     = gaps.some(s => s.id === 's3');
-  const isStartup = ctx.stg && ctx.stg.includes('Start-up');
-  const isAuth    = ctx.stg && ctx.stg.includes('authorisation');
-  const isMerger  = ctx.stg && ctx.stg.includes('merger');
-  const isRegEnv  = ctx.reg && (ctx.reg.includes('FCA') || ctx.reg.includes('CBN'));
-
-  if (gaps.length === 0 && spofs.length === 0) execKey = 'all_clear';
-  else if (gaps.length === 0 && spofs.length >= 4) execKey = 'spof_heavy';
-  else if (gaps.length === 0 && spofs.length <= 2) execKey = 'mostly_covered';
-  else if (isMerger) execKey = 'post_merger';
-  else if (isStartup || isAuth) execKey = 'startup_gaps';
-  else if (isRegEnv && gaps.length >= 3) execKey = 'regulated_gaps';
-  else if (isTech && gaps.length <= 3) execKey = 'tech_dominant';
-  else if (isFin && !isTech && gaps.length <= 3) execKey = 'finance_dominant';
-  else if (isReg && !isFin && !isTech && gaps.length <= 3) execKey = 'compliance_dominant';
-  else if (gaps.length >= 7) execKey = 'critical';
-  else if (gaps.length >= 4) execKey = 'high_risk';
-  else if (gaps.length >= 2) execKey = 'moderate';
-  else execKey = 'mostly_covered';
-
-  const execText = resolve(IL.exec[execKey]);
-
-  // ── 2. CRITICAL GAPS SECTION ──────────────────────────────────────────────
-  let gapsText = '';
-  if (gaps.length === 0) {
-    gapsText = 'No critical gaps were identified. Every skill domain in the matrix has at least one director rated Competent or Expert. This is a positive finding and should be maintained through regular review.';
-  } else {
-    gapsText = gaps.map(s => {
-      const domainText = IL.gaps[s.id] || `No director is qualified in ${s.name}. This is a governance gap that should be addressed through targeted recruitment.`;
-      return `${s.name.toUpperCase()}\n${domainText}`;
-    }).join('\n\n');
-  }
-
-  // ── 3. SPOF SECTION ───────────────────────────────────────────────────────
-  let spofText = '';
-  if (spofs.length === 0) {
-    spofText = 'No single points of failure were identified. All skill domains with qualified coverage have at least two directors rated Competent or Expert. The board has good resilience across its governance capability.';
-  } else {
-    spofText = spofs.map(s => {
-      const qualifiedMember = members.find(m => SC[gv(m.id,s.id)] >= 2);
-      const name = qualifiedMember ? qualifiedMember.name : 'one director';
-      const base = IL.spofs[s.id] || `Only one director covers ${s.name}. Their departure or absence would remove all oversight in this domain.`;
-      return `${s.name.toUpperCase()}\n${base}`;
-    }).join('\n\n');
-  }
-
-  // ── 4. REGULATORY RISK ────────────────────────────────────────────────────
-  let regKey = 'other';
-  const r = ctx.reg || '';
-  if (r.includes('CBN') || r.includes('Nigeria')) regKey = 'nigeria';
-  else if (r.includes('FCA') || r.includes('PRA') || r.includes('United Kingdom')) regKey = 'uk';
-  else if (r.includes('Both')) regKey = 'both';
-  else if (r.includes('Ghana')) regKey = 'ghana';
-  else if (r.includes('Kenya')) regKey = 'kenya';
-  else if (r.includes('South Africa')) regKey = 'sa';
-  else if (r.includes('Multi')) regKey = 'multi';
-  const regText = IL.regRisk[regKey];
-
-  // ── 5. RECRUITMENT PRIORITIES ─────────────────────────────────────────────
-  let recruitText = '';
-  // Rank: gaps first (sorted by governance criticality: s1,s2,s3,s4 first), then spofs
-  const priorityOrder = ['s1','s3','s2','s10','s4','s6','s5','s7','s8','s9'];
-  const toRecruit = [
-    ...gaps.sort((a,b) => priorityOrder.indexOf(a.id) - priorityOrder.indexOf(b.id)),
-    ...spofs.sort((a,b) => priorityOrder.indexOf(a.id) - priorityOrder.indexOf(b.id))
-  ].slice(0, 4);
-
-  if (toRecruit.length === 0) {
-    recruitText = 'The board has adequate coverage across all assessed domains and no immediate recruitment is required on the basis of this skills matrix. The nominations committee should continue monitoring composition against the organisation\'s evolving needs and plan proactively for director succession.';
-  } else {
-    recruitText = toRecruit.map((s, i) => {
-      const profile = IL.recruit[s.id] || `Recruit a qualified director to address the gap in ${s.name}.`;
-      return `PRIORITY ${i+1}: ${s.name.toUpperCase()}\n${profile}`;
-    }).join('\n\n');
-  }
-
-  // ── 6. CAPABILITY DEVELOPMENT ─────────────────────────────────────────────
-  // Dev recommendations for SPOF domains and any Aware-only domains
-  const awareOnly = skills.filter(s => {
-    const maxLevel = Math.max(...members.map(m => SC[gv(m.id,s.id)]));
-    return maxLevel === 1; // highest anyone reaches is Aware
-  });
-  const devDomains = [...new Set([...spofs, ...awareOnly])].slice(0, 4);
-
-  let devText = '';
-  if (devDomains.length === 0) {
-    devText = 'No specific capability development interventions are required at this time. The board has strong coverage across all assessed domains. Ongoing professional development for all directors should be encouraged through structured CPD and regular governance briefings.';
-  } else {
-    devText = devDomains.map(s => {
-      return `${s.name.toUpperCase()}\n${IL.develop[s.id] || `Structured development in ${s.name} would benefit directors currently rated Aware, building their ability to challenge management on this topic.`}`;
-    }).join('\n\n');
-  }
-
-  // ── 7. SUCCESSION PLANNING ────────────────────────────────────────────────
-  let succKey;
-  if (spofs.length === 0) succKey = 'none';
-  else if (spofs.length <= 2) succKey = 'low';
-  else succKey = 'high';
-  const succText = IL.succession[succKey];
-
-  // ── 8. IMMEDIATE ACTIONS ──────────────────────────────────────────────────
-  // Select 5 most relevant actions based on what was found
-  const actionKeys = [];
-  if (gaps.length > 0) { actionKeys.push('a1'); actionKeys.push('a2'); }
-  if (gaps.length > 0 || spofs.length > 0) actionKeys.push('a3');
-  if (isRegEnv && gaps.length > 0) actionKeys.push('a4');
-  if (awareOnly.length > 0 || spofs.length > 0) actionKeys.push('a5');
-  if (spofs.length > 0) actionKeys.push('a6');
-  if (gaps.length >= 3) actionKeys.push('a7');
-  actionKeys.push('a8');
-  if (gaps.length > 0) actionKeys.push('a9');
-  actionKeys.push('a10');
-  const selectedActions = [...new Set(actionKeys)].slice(0, 5);
-  const actionsText = selectedActions.map((k, i) => `${i+1}. ${IL.actions[k]}`).join('\n\n');
-
-  // ── ASSEMBLE FINAL OUTPUT ─────────────────────────────────────────────────
-  const date = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
-  const metaLine = [ctx.sec, ctx.reg, ctx.stg].filter(Boolean).join(' | ');
-  const boardSize = `${members.length} member${members.length !== 1 ? 's' : ''} assessed`;
-  const gapCount  = `${gaps.length} critical gap${gaps.length !== 1 ? 's' : ''}`;
-  const spofCount = `${spofs.length} SPOF${spofs.length !== 1 ? 's' : ''}`;
-  const covCount  = `${ok.length} domain${ok.length !== 1 ? 's' : ''} covered`;
-
-  const output = [
-    `BOARD GOVERNANCE CAPABILITY ANALYSIS`,
-    `${org}  |  ${date}`,
-    metaLine ? metaLine : '',
-    `${boardSize}  |  ${gapCount}  |  ${spofCount}  |  ${covCount}`,
-    `${'─'.repeat(60)}`,
-    ``,
-    `EXECUTIVE SUMMARY`,
-    execText,
-    ``,
-    `CRITICAL GAPS`,
-    gapsText,
-    ``,
-    `SINGLE POINTS OF FAILURE`,
-    spofText,
-    ``,
-    `GOVERNANCE AND REGULATORY RISK EXPOSURE`,
-    regText,
-    ``,
-    `RECRUITMENT PRIORITIES`,
-    recruitText,
-    ``,
-    `CAPABILITY DEVELOPMENT RECOMMENDATIONS`,
-    devText,
-    ``,
-    `SUCCESSION PLANNING NOTE`,
-    succText,
-    ``,
-    `IMMEDIATE ACTIONS`,
-    actionsText,
-    ``,
-    `${'─'.repeat(60)}`,
-    `CCC Consultancy Group Ltd  |  cccgrp.com  |  info@cccgrp.com`,
-    `UK expertise. Global perspective. Local impact.`
-  ].filter(l => l !== null).join('\n');
-
-  return output;
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// CORE TOOL STATE & LOGIC (ADD THIS AFTER THE IL OBJECT)
-// ══════════════════════════════════════════════════════════════════════════════
-
+// --------------------------------------------------------------
+// CORE STATE & HELPERS
+// --------------------------------------------------------------
 const SAVE_KEY = 'ccc_bsm_v3';
 const LV = ['none','aware','competent','expert'];
-const CH = {none:'cn', aware:'ca', competent:'cc', expert:'ce'};
-const LB = {none:'—', aware:'Aware', competent:'Competent', expert:'Expert'};
-const SC2 = {none:0, aware:1, competent:2, expert:3};
+const LB = { none:'—', aware:'Aware', competent:'Competent', expert:'Expert' };
+const CH = { none:'cn', aware:'ca', competent:'cc', expert:'ce' };
+const SC2 = { none:0, aware:1, competent:2, expert:3 };
 let idc = 100;
 function uid() { return 'x' + (++idc); }
 
-let CTX = { org: '', name: '', role: '', sec: '', reg: '', sz: '', st: '', stg: '', con: '' };
+let CTX = { org:'', name:'', role:'', sec:'', reg:'', sz:'', st:'', stg:'', con:'' };
 const S = {
   members: [],
   skills: [
-    { id: 's1', name: 'Financial oversight & audit' },
-    { id: 's2', name: 'Risk management' },
-    { id: 's3', name: 'Regulatory & compliance' },
-    { id: 's4', name: 'Technology & cybersecurity' },
-    { id: 's5', name: 'AI & digital transformation' },
-    { id: 's6', name: 'Legal & corporate governance' },
-    { id: 's7', name: 'Strategy & M&A' },
-    { id: 's8', name: 'Sector / industry expertise' },
-    { id: 's9', name: 'ESG & sustainability' },
-    { id: 's10', name: 'AML & financial crime' },
+    { id:'s1', name:'Financial oversight & audit' }, { id:'s2', name:'Risk management' }, { id:'s3', name:'Regulatory & compliance' },
+    { id:'s4', name:'Technology & cybersecurity' }, { id:'s5', name:'AI & digital transformation' }, { id:'s6', name:'Legal & corporate governance' },
+    { id:'s7', name:'Strategy & M&A' }, { id:'s8', name:'Sector expertise' }, { id:'s9', name:'ESG & sustainability' }, { id:'s10', name:'AML & financial crime' }
   ],
   mx: {}
 };
 let saveTimer = null;
 
-function gv(m, s) { return S.mx[m + '_' + s] || 'none'; }
-function cyc(m, s) { const i = LV.indexOf(gv(m, s)); S.mx[m + '_' + s] = LV[(i + 1) % LV.length]; rM(); rSlide(); updSumbar(); autoSave(); }
-function cov(sid) { return S.members.filter(m => SC2[gv(m.id, sid)] >= 2).length; }
-function cst(sid) { const n = cov(sid); return n === 0 ? 'g' : n === 1 ? 's' : 'o'; }
-const CC = { g: 'vg', s: 'vs', o: 'vo' };
-const CL = { g: 'Gap', s: 'SPOF', o: 'Covered' };
-const BC = { g: '#E24B4A', s: '#EF9F27', o: '#27AE60' };
+function gv(m,s) { return S.mx[m+'_'+s] || 'none'; }
+function cov(sid) { return S.members.filter(m => SC2[gv(m.id,sid)] >= 2).length; }
+function cst(sid) { const n = cov(sid); return n===0 ? 'g' : n===1 ? 's' : 'o'; }
+const CL = { g:'Critical gap', s:'SPOF', o:'Covered' };
+const BC = { g:'#E24B4A', s:'#EF9F27', o:'#27AE60' };
+const CC = { g:'vg', s:'vs', o:'vo' };
 
 function updSumbar() {
-  const crit = S.skills.filter(s => cst(s.id) === 'g').length;
-  const sp = S.skills.filter(s => cst(s.id) === 's').length;
+  const crit = S.skills.filter(s=>cst(s.id)==='g').length;
+  const sp = S.skills.filter(s=>cst(s.id)==='s').length;
   const el = document.getElementById('sumbar');
-  if (!el) return;
-  let h = '';
-  if (crit > 0) h += `<span class="sp-pill" style="background:var(--red-bg);color:var(--red-txt);">${crit} critical gap${crit > 1 ? 's' : ''}</span>`;
-  if (sp > 0) h += `<span class="sp-pill" style="background:var(--amber-bg);color:var(--amber-txt);">${sp} SPOF${sp > 1 ? 's' : ''}</span>`;
-  if (!crit && !sp && S.members.length) h += '<span class="sp-pill" style="background:var(--green-bg);color:var(--green-txt);">All skills covered</span>';
-  el.innerHTML = h;
+  if(el) el.innerHTML = (crit?`<span class="sp-pill" style="background:#FEF2F2;color:#B91C1C;">${crit} critical gap${crit>1?'s':''}</span>`:'') + (sp?`<span class="sp-pill" style="background:#FEF8E7;color:#B45309;">${sp} SPOF${sp>1?'s':''}</span>`:'');
 }
-
 function rM() {
   const t = document.getElementById('mt');
-  if (!t) return;
-  if (!S.members.length || !S.skills.length) {
-    t.innerHTML = '<tr><td colspan="99" style="padding:26px;color:#ccc;font-size:13px;">Add Directors / C-Suite / Senior Managers and skill domains to begin.</td></tr>';
-    return;
-  }
-  let h = '<thead><tr><th style="min-width:165px;">Director / C-Suite / Senior Manager</th>';
-  S.skills.forEach(s => { const st = cst(s.id); h += `<th class="sk">${s.name}<div style="margin-top:3px;"><span class="chip ${CC[st]}" style="cursor:default;font-size:9px;">${CL[st]}</span></div></th>`; });
-  h += '<th style="width:60px;text-align:center;">Remove</th></tr></thead><tbody>';
-  S.members.forEach(m => {
-    h += `<tr class="dr"><td><div class="mn">${m.name}</div><div class="mr">${m.role}</div></td>`;
-    S.skills.forEach(s => { const v = gv(m.id, s.id); h += `<td style="text-align:center;"><span class="chip ${CH[v]}" onclick="cyc('${m.id}','${s.id}')" title="Click to cycle">${LB[v]}</span></td>`; });
-    h += `<td style="text-align:center;"><button class="rmb" onclick="rmM('${m.id}')">&#215;</button></td></tr>`;
+  if(!t) return;
+  if(!S.members.length || !S.skills.length) { t.innerHTML='<tr><td colspan="99" style="padding:32px;text-align:center;">➕ Add directors and skills to start</td></tr>'; return; }
+  let h='<thead><tr><th>Director / C-Suite</th>'+S.skills.map(s=>`<th class="sk">${s.name}<div><span class="chip ${CC[cst(s.id)]}" style="font-size:9px;">${CL[cst(s.id)]}</span></div></th>`).join('')+'<th></th></tr></thead><tbody>';
+  S.members.forEach(m=>{
+    h+=`<tr><td><div class="mn">${m.name}</div><div class="mr">${m.role}</div></td>`;
+    S.skills.forEach(s=>{ const v=gv(m.id,s.id); h+=`<td style="text-align:center;"><span class="chip ${CH[v]}" onclick="cyc('${m.id}','${s.id}')">${LB[v]}</span></td>`; });
+    h+=`<td><button class="rmb" onclick="rmM('${m.id}')">✕</button></td></tr>`;
   });
-  h += '<tr class="crow"><td style="font-size:10px;font-weight:700;color:#777;letter-spacing:0.04em;">Coverage (Competent+)</td>';
-  S.skills.forEach(s => { const n = cov(s.id); const st = cst(s.id); h += `<td style="text-align:center;"><span class="chip ${CC[st]}" style="cursor:default;font-size:10px;">${n}/${S.members.length}</span></td>`; });
-  h += '<td></td></tr></tbody>';
+  h+=`<tr class="crow"><td>Coverage (Competent+)</td>${S.skills.map(s=>`<td style="text-align:center;"><span class="chip ${CC[cst(s.id)]}">${cov(s.id)}/${S.members.length}</span></td>`).join('')}<td></td></tr></tbody>`;
   t.innerHTML = h;
 }
-
-function rmM(id) {
-  S.members = S.members.filter(m => m.id !== id);
-  Object.keys(S.mx).filter(k => k.startsWith(id + '_')).forEach(k => delete S.mx[k]);
-  rM(); rSlide(); updSumbar(); autoSave();
+function cyc(m,s) { const i=LV.indexOf(gv(m,s)); S.mx[m+'_'+s]=LV[(i+1)%LV.length]; rM(); rSlide(); updSumbar(); autoSave(); }
+function rmM(id){ S.members=S.members.filter(m=>m.id!==id); Object.keys(S.mx).filter(k=>k.startsWith(id+'_')).forEach(k=>delete S.mx[k]); rM(); rSlide(); updSumbar(); autoSave(); }
+function rSlide(){
+  const el=document.getElementById('sp'); if(!el) return;
+  let html=`<div class="sl-t">${CTX.org||'Board'}</div><div class="sl-s">Skills Matrix</div><div class="sl-m">${new Date().toLocaleDateString()}</div><div style="overflow-x:auto;"><table style="width:100%"><thead><tr><th>Member</th>${S.skills.map(s=>`<th style="font-size:8px;">${s.name}</th>`).join('')}</tr></thead><tbody>`;
+  S.members.forEach(m=>{ html+=`<tr><td><b>${m.name}</b><br><span style="font-size:8px;">${m.role}</span></td>${S.skills.map(s=>`<td style="text-align:center; font-size:9px;">${LB[gv(m.id,s.id)]}</td>`).join('')}</tr>`; });
+  html+=`</tbody></table></div><div class="sl-f">CCC Consultancy Group</div>`;
+  el.innerHTML = html;
 }
-
-function rG() {
-  const sr = document.getElementById('sr');
-  const gg = document.getElementById('gg');
-  if (!sr || !gg) return;
-  const crit = S.skills.filter(s => cst(s.id) === 'g').length;
-  const sp = S.skills.filter(s => cst(s.id) === 's').length;
-  const ok = S.skills.filter(s => cst(s.id) === 'o').length;
-  sr.innerHTML = [{ n: crit, l: 'Critical gaps', c: 'var(--red)' }, { n: sp, l: 'Single point of failure', c: 'var(--amber-txt)' }, { n: ok, l: 'Adequately covered', c: 'var(--green-txt)' }, { n: S.members.length, l: 'Board / senior leadership', c: 'var(--navy)' }].map(d => `<div class="stat"><div class="n" style="color:${d.c};">${d.n}</div><div class="l">${d.l}</div></div>`).join('');
-  const sorted = [...S.skills].sort((a, b) => ({ g: 0, s: 1, o: 2 }[cst(a.id)] - { g: 0, s: 1, o: 2 }[cst(b.id)]));
-  const rec = { g: 'No member is competent or expert here. The board cannot challenge management on this topic. Prioritise recruitment.', s: 'Only one qualified member covers this area. Their departure removes all oversight. A succession and resilience risk.', o: 'Adequate coverage. Two or more members are qualified, giving the board strong oversight and resilience in this domain.' };
-  gg.innerHTML = sorted.map(s => { const st = cst(s.id); const q = S.members.filter(m => SC2[gv(m.id, s.id)] >= 2).map(m => m.name).join(', ') || 'None'; return `<div class="gc" style="border-left-color:${BC[st]};"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px;"><div class="gs">${s.name}</div><span class="chip ${CC[st]}" style="cursor:default;font-size:10px;white-space:nowrap;">${CL[st]}</span></div><div class="gq">Qualified members: ${q}</div><div class="gr">${rec[st]}</div></div>`; }).join('');
+function rG(){
+  const sr=document.getElementById('sr'); const gg=document.getElementById('gg');
+  if(!sr) return;
+  const crit=S.skills.filter(s=>cst(s.id)==='g').length, sp=S.skills.filter(s=>cst(s.id)==='s').length, ok=S.skills.filter(s=>cst(s.id)==='o').length;
+  sr.innerHTML = `<div class="stat"><div class="n" style="color:var(--red)">${crit}</div><div class="l">Critical gaps</div></div><div class="stat"><div class="n" style="color:var(--amber)">${sp}</div><div class="l">SPOF</div></div><div class="stat"><div class="n" style="color:var(--green)">${ok}</div><div class="l">Covered</div></div><div class="stat"><div class="n">${S.members.length}</div><div class="l">Members</div></div>`;
+  gg.innerHTML = S.skills.map(s=>{ const st=cst(s.id); const q=S.members.filter(m=>SC2[gv(m.id,s.id)]>=2).map(m=>m.name).join(', ')||'None'; return `<div class="gc" style="border-left-color:${BC[st]};"><div class="gs">${s.name}</div><div class="gq">Qualified: ${q}</div><div class="gr">${st==='g'?'No competent member — urgent recruitment needed.':st==='s'?'Only one qualified member — succession risk.':'Adequate coverage (≥2 members).'}</div></div>`; }).join('');
 }
-
-function rSlide() {
-  const el = document.getElementById('sp');
-  if (!el) return;
-  const bn = CTX.org || 'Board of Directors';
-  const td = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-  const slC = { none: ['#F5F5F5', '#999'], aware: ['#FAEEDA', '#854F0B'], competent: ['#EAF3DE', '#3B6D11'], expert: ['#E6F1FB', '#185FA5'] };
-  let tbl = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#F2F2F2;"><th style="padding:6px 9px;text-align:left;font-weight:700;border-bottom:1px solid #E0E0E0;color:#0A1A2F;white-space:nowrap;font-size:9px;letter-spacing:0.05em;text-transform:uppercase;">Director / C-Suite / Senior Manager</th>';
-  S.skills.forEach(s => { tbl += `<th style="padding:5px 4px;text-align:center;font-weight:700;border-bottom:1px solid #E0E0E0;color:#0A1A2F;font-size:8px;max-width:70px;white-space:normal;line-height:1.2;">${s.name}</th>`; });
-  tbl += '</tr></thead><tbody>';
-  if (!S.members.length) { tbl += '<tr><td colspan="99" style="padding:14px;color:#bbb;font-size:11px;">No members added yet.</td></tr>'; }
-  S.members.forEach((m, i) => {
-    tbl += `<tr style="background:${i % 2 ? '#FAFAFA' : '#fff'};"><td style="padding:5px 9px;border-bottom:1px solid #F0F0F0;white-space:nowrap;"><div style="font-weight:700;font-size:10px;color:#0A1A2F;">${m.name}</div><div style="font-size:8px;color:#999;">${m.role}</div></td>`;
-    S.skills.forEach(s => { const v = gv(m.id, s.id); const [bg, col] = slC[v]; tbl += `<td style="padding:4px 3px;border-bottom:1px solid #F0F0F0;text-align:center;"><span style="display:inline-block;padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;background:${bg};color:${col};">${LB[v]}</span></td>`; });
-    tbl += '</tr>';
-  });
-  const crit = S.skills.filter(s => cst(s.id) === 'g').length;
-  const sp2 = S.skills.filter(s => cst(s.id) === 's').length;
-  tbl += '<tr style="background:#F8F8F8;"><td style="padding:5px 9px;font-size:9px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;">Coverage</td>';
-  S.skills.forEach(s => { const n = cov(s.id); const st = cst(s.id); const [bg, col] = st === 'g' ? ['#FCEBEB', '#A32D2D'] : st === 's' ? ['#FAEEDA', '#854F0B'] : ['#EAF3DE', '#3B6D11']; tbl += `<td style="text-align:center;padding:4px 3px;"><span style="display:inline-block;padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;background:${bg};color:${col};">${n}/${S.members.length}</span></td>`; });
-  tbl += '</tr></tbody></table></div>';
-  const metaL = [CTX.sec, CTX.reg].filter(Boolean).join(' · ');
-  el.innerHTML = `<div class="sl-t">${bn}</div><div class="sl-s">Board Skills Matrix</div><div class="sl-m">${td}${metaL ? ' &nbsp;·&nbsp; ' + metaL : ''}</div>${tbl}<div style="margin-top:11px;display:flex;gap:13px;flex-wrap:wrap;align-items:center;"><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#FCEBEB;border:1px solid #A32D2D;border-radius:2px;display:inline-block;"></span><span style="color:#666;">Gap</span></span><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#FAEEDA;border:1px solid #854F0B;border-radius:2px;display:inline-block;"></span><span style="color:#666;">SPOF</span></span><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#EAF3DE;border:1px solid #3B6D11;border-radius:2px;display:inline-block;"></span><span style="color:#666;">Covered</span></span>${crit > 0 ? `<span style="font-size:9px;color:#A32D2D;font-weight:700;">${crit} critical gap${crit > 1 ? 's' : ''}</span>` : ''}${sp2 > 0 ? `<span style="font-size:9px;color:#854F0B;font-weight:700;">${sp2} SPOF${sp2 > 1 ? 's' : ''}</span>` : ''}</div><div class="sl-f"><span style="font-size:8px;color:#bbb;">CCC Consultancy Group Ltd &nbsp;·&nbsp; cccgrp.com &nbsp;·&nbsp; info@cccgrp.com</span><span style="font-size:8px;color:#1FBFD7;font-style:italic;">UK expertise. Global perspective. Local impact.</span></div>`;
+function sw(name,btn){
+  ['matrix','gaps','ai','slide'].forEach(t=>{const e=document.getElementById('tp-'+t); if(e)e.classList.remove('on');});
+  document.getElementById('tp-'+name).classList.add('on');
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  if(name==='gaps') rG();
+  if(name==='slide') rSlide();
 }
-
-function sw(name, btn) {
-  ['matrix', 'gaps', 'ai', 'slide'].forEach(t => { const e = document.getElementById('tp-' + t); if (e) e.classList.remove('on'); });
-  const p = document.getElementById('tp-' + name); if (p) p.classList.add('on');
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  if (btn) btn.classList.add('on');
-  if (name === 'gaps') rG();
-  if (name === 'slide') rSlide();
+let amode='';
+function openMd(t){ amode=t; document.getElementById('mt2').innerText = t==='m'?'Add Director':'Add Skill'; document.getElementById('ml1').innerText = t==='m'?'Full name':'Skill name'; document.getElementById('mi1').value=''; document.getElementById('mi2').value=''; document.getElementById('mf2').style.display=t==='m'?'block':'none'; document.getElementById('mb').style.display='flex'; }
+function closeMd(){ document.getElementById('mb').style.display='none'; }
+document.getElementById('msb').addEventListener('click',()=>{ const v1=document.getElementById('mi1').value.trim(); if(!v1) return; if(amode==='m'){ const v2=document.getElementById('mi2').value.trim(); S.members.push({id:uid(), name:v1, role:v2||'Director'}); } else { S.skills.push({id:uid(), name:v1}); } closeMd(); rM(); rSlide(); updSumbar(); autoSave(); });
+function autoSave(){ setDot(true); clearTimeout(saveTimer); saveTimer=setTimeout(saveNow,800); }
+function setDot(dirty){ const d=document.getElementById('sdot'); if(d) d.className='sdot '+(dirty?'dirty':'ok'); }
+function saveNow(){ localStorage.setItem(SAVE_KEY, JSON.stringify({ctx:CTX, members:S.members, skills:S.skills, mx:S.mx})); setDot(false); document.getElementById('sstatus').innerText='Saved '+new Date().toLocaleTimeString(); }
+function clearSave(){ if(confirm('Clear all saved data?')){ localStorage.removeItem(SAVE_KEY); document.getElementById('sstatus').innerText='Data cleared'; setDot(false); } }
+function startTool(){
+  const org=document.getElementById('ob-org').value.trim(), sec=document.getElementById('ob-sec').value, reg=document.getElementById('ob-reg').value;
+  if(!org||!sec||!reg){ document.getElementById('ob-err').style.display='block'; return; }
+  document.getElementById('ob-err').style.display='none';
+  CTX={ org, sec, reg, name:document.getElementById('ob-name').value, role:document.getElementById('ob-role').value, sz:document.getElementById('ob-sz').value, st:document.getElementById('ob-st').value, stg:document.getElementById('ob-stg').value, con:document.getElementById('ob-con').value };
+  document.getElementById('scr-ob').style.display='none';
+  document.getElementById('scr-tool').style.display='block';
+  document.getElementById('th-org').innerText=CTX.org;
+  document.getElementById('th-meta').innerText=[CTX.sec, CTX.reg].filter(Boolean).join(' · ');
+  rM(); rSlide(); updSumbar(); saveNow();
 }
-
-let amode = '';
-function openMd(type) {
-  amode = type;
-  document.getElementById('mt2').textContent = type === 'm' ? 'Add Director / C-Suite / Senior Manager' : 'Add skill domain';
-  document.getElementById('ml1').textContent = type === 'm' ? 'Full name' : 'Skill domain name';
-  document.getElementById('mi1').value = '';
-  document.getElementById('mi2').value = '';
-  document.getElementById('mf2').style.display = type === 'm' ? 'block' : 'none';
-  document.getElementById('mb').classList.add('open');
-  setTimeout(() => document.getElementById('mi1').focus(), 80);
-}
-function closeMd() { document.getElementById('mb').classList.remove('open'); }
-
-document.getElementById('msb').addEventListener('click', function() {
-  const v1 = document.getElementById('mi1').value.trim();
-  if (!v1) return;
-  if (amode === 'm') {
-    const v2 = document.getElementById('mi2').value.trim();
-    S.members.push({ id: uid(), name: v1, role: v2 || 'Director' });
-  } else {
-    S.skills.push({ id: uid(), name: v1 });
-  }
-  closeMd(); rM(); rSlide(); updSumbar(); autoSave();
-});
-
-function startTool(fromLoad) {
-  const org = document.getElementById('ob-org').value.trim();
-  const sec = document.getElementById('ob-sec').value;
-  const reg = document.getElementById('ob-reg').value;
-  if (!org || !sec || !reg) {
-    document.getElementById('ob-err').style.display = 'inline';
-    return;
-  }
-  document.getElementById('ob-err').style.display = 'none';
-  CTX = {
-    org: org,
-    sec: sec,
-    reg: reg,
-    name: document.getElementById('ob-name').value.trim(),
-    role: document.getElementById('ob-role').value.trim(),
-    sz: document.getElementById('ob-sz').value,
-    st: document.getElementById('ob-st').value,
-    stg: document.getElementById('ob-stg').value,
-    con: document.getElementById('ob-con').value.trim()
-  };
-  document.getElementById('scr-ob').style.display = 'none';
-  document.getElementById('scr-tool').style.display = 'block';
-  document.getElementById('th-org').textContent = CTX.org;
-  document.getElementById('th-meta').textContent = [CTX.sec, CTX.reg, CTX.stg].filter(Boolean).join(' · ');
-  rM(); rSlide(); updSumbar();
-  if (!fromLoad) saveNow();
-}
-
-function backOb() {
-  document.getElementById('scr-tool').style.display = 'none';
-  document.getElementById('scr-ob').style.display = 'block';
-}
-
-function loadProgress() {
-  try {
-    const d = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
-    if (!d || !d.ctx) return;
-    Object.assign(CTX, d.ctx);
-    const flds = { 'ob-org': CTX.org, 'ob-name': CTX.name, 'ob-role': CTX.role, 'ob-sec': CTX.sec, 'ob-reg': CTX.reg, 'ob-sz': CTX.sz, 'ob-st': CTX.st, 'ob-stg': CTX.stg, 'ob-con': CTX.con };
-    for (const [id, val] of Object.entries(flds)) { const el = document.getElementById(id); if (el) el.value = val || ''; }
-    if (d.members) S.members = d.members;
-    if (d.skills) S.skills = d.skills;
-    if (d.mx) S.mx = d.mx;
-    const sv = document.getElementById('ob-saved');
-    if (sv) { sv.style.display = 'inline'; sv.textContent = 'Progress loaded for: ' + CTX.org; }
-    if (CTX.org && CTX.sec && CTX.reg) startTool(true);
-  } catch (e) { console.error(e); }
-}
-
-function saveNow() {
-  try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify({ ctx: CTX, members: S.members, skills: S.skills, mx: S.mx, at: new Date().toISOString() }));
-    setDot(false);
-    const el = document.getElementById('sstatus');
-    if (el) el.textContent = 'Saved · ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-  } catch (e) { }
-}
-
-function autoSave() { setDot(true); clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 2000); }
-function setDot(dirty) { const d = document.getElementById('sdot'); const s = document.getElementById('sstatus'); if (!d) return; d.className = 'sdot ' + (dirty ? 'dirty' : 'ok'); if (dirty && s) s.textContent = 'Unsaved changes...'; }
-function clearSave() { if (!confirm('Clear all saved data?')) return; localStorage.removeItem(SAVE_KEY); const s = document.getElementById('sstatus'); if (s) s.textContent = 'Saved data cleared.'; setDot(false); }
-
-function genInsights() {
-  const btn = document.getElementById('aib');
-  const out = document.getElementById('aio');
-  const acts = document.getElementById('ai-dl');
-  btn.innerHTML = 'Analysing matrix...';
-  btn.disabled = true;
-  out.style.display = 'none';
-  acts.style.display = 'none';
-  setTimeout(() => {
-    const result = 'Governance analysis generated. Your matrix has ' + S.members.length + ' members and ' + S.skills.length + ' skill domains.';
-    out.textContent = result;
-    out.style.display = 'block';
-    acts.style.display = 'flex';
-    window._aiTxt = result;
-    btn.innerHTML = 'Regenerate analysis &rarr;';
-    btn.disabled = false;
-  }, 600);
-}
-
-function dlAIPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  const txt = window._aiTxt || document.getElementById('aio').textContent;
-  doc.text(txt, 10, 10);
-  doc.save(`${(CTX.org || 'board').replace(/\s+/g, '-')}-governance-analysis.pdf`);
-}
-
-function dlGapsCSV() {
-  let csv = 'Skill Domain,Status,Qualified Members,Coverage Count,Total Members\n';
-  S.skills.forEach(s => { const st = cst(s.id); const q = S.members.filter(m => SC2[gv(m.id, s.id)] >= 2).map(m => m.name).join('; ') || 'None'; csv += `"${s.name}","${st === 'g' ? 'Critical Gap' : st === 's' ? 'Single Point of Failure' : 'Covered'}","${q}",${cov(s.id)},${S.members.length}\n`; });
-  csv += '\nIndividual Ratings\nName,Role,' + S.skills.map(s => '"' + s.name + '"').join(',') + '\n';
-  S.members.forEach(m => { csv += `"${m.name}","${m.role}",` + S.skills.map(s => LB[gv(m.id, s.id)]).join(',') + '\n'; });
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `${(CTX.org || 'board').replace(/\s+/g, '-')}-gap-analysis.csv`;
-  a.click();
-}
-
-function dlGapsPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  const crit = S.skills.filter(s => cst(s.id) === 'g').length;
-  const sp = S.skills.filter(s => cst(s.id) === 's').length;
-  const ok = S.skills.filter(s => cst(s.id) === 'o').length;
-  let txt = `BOARD SKILLS MATRIX - GAP ANALYSIS REPORT\n\n${CTX.org || 'Organisation'}\nGenerated: ${new Date().toLocaleDateString()}\n\nSUMMARY\nCritical gaps: ${crit}\nSPOFs: ${sp}\nCovered: ${ok}\n\n`;
-  doc.text(txt, 10, 10);
-  doc.save(`${(CTX.org || 'board').replace(/\s+/g, '-')}-gap-analysis.pdf`);
-}
-
-function dlSlide() {
-  const el = document.getElementById('sp');
-  if (!el) return;
-  if (typeof html2canvas === 'undefined') { alert('Screenshot library still loading. Please wait a moment.'); return; }
-  html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true }).then(canvas => {
-    const a = document.createElement('a');
-    a.download = `${(CTX.org || 'board').replace(/\s+/g, '-')}-skills-matrix-slide.png`;
-    a.href = canvas.toDataURL('image/png');
-    a.click();
-  });
-}
-
-// Auto-load saved progress on page load
-window.addEventListener('DOMContentLoaded', function() {
-  try {
-    const saved = localStorage.getItem(SAVE_KEY);
-    if (saved) {
-      const d = JSON.parse(saved);
-      if (d && d.ctx && d.ctx.org) {
-        document.getElementById('load-btn').style.display = 'inline-flex';
-        const el = document.getElementById('ob-saved');
-        if (el) {
-          el.style.display = 'inline';
-          el.textContent = 'Saved progress found for: ' + d.ctx.org;
-        }
-      }
-    }
-  } catch (e) { }
-});
-</script>
-</body>
-</html>
+function backOb(){ document.getElementById('scr-tool').style.display='none'; document.getElementById('scr-ob').style.display='block'; }
+function loadProgress(){
+  const d=JSON.parse(localStorage.getItem(SAVE_KEY)||'{}');
+  if(!d.ctx) return;
+  CTX=d.ctx; Object.assign(S, {members:d
