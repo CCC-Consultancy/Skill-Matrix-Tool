@@ -15,18 +15,19 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2
   --red-txt:#A32D2D;--amber-txt:#854F0B;--green-txt:#3B6D11;--blue-txt:#185FA5;
 }
 .hdr{background:var(--navy);padding:13px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--teal);position:sticky;top:0;z-index:50;}
-.hdr-logo {
-  height: 40px;
+.hdr-left .hdr-logo {
+  height: 52px;
   width: auto;
-  display: block;
+  object-fit: contain;
 }
-.hdr-left img.hdr-logo {
-  height: 40px;
+
+.ob-hero img {
+  height: 60px;
   width: auto;
   object-fit: contain;
 }
  <div class="hdr-left">
-  <img src="logo.png" alt="CCC Consultancy Group" class="hdr-logo" style="height:52px; width:auto;">
+  <img src="logo.png" alt="CCC Consultancy Group" class="hdr-logo" style="height:60px; width:auto;">
   <div class="hdr-div"></div>
   <div class="hdr-text">
     <h1>Board Skills Matrix</h1>
@@ -144,7 +145,7 @@ tr.dr:hover td{background:#fafbff;}
 
 <div class="hdr">
   <div class="hdr-left">
-    <img src="./logo.png" alt="CCC Consultancy Group" class="hdr-logo"> 
+    <img src="logo.png" alt="CCC Consultancy Group" class="hdr-logo"> 
       <text x="0" y="25" font-family="'Segoe UI',system-ui,sans-serif" font-size="26" font-weight="800" letter-spacing="-0.5" fill="#1FBFD7">CCC</text>
       <text x="1" y="33" font-family="'Segoe UI',system-ui,sans-serif" font-size="6.5" font-weight="500" letter-spacing="0.9" fill="rgba(255,255,255,0.55)">CONSULTANCY GROUP</text>
     </svg>
@@ -164,7 +165,7 @@ tr.dr:hover td{background:#fafbff;}
 
 <!-- ONBOARDING -->
 <div class="ob-hero">
-  <img src="logo.png" alt="CCC Consultancy Group" style="height: 50px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
+  <img src="logo.png" alt="CCC Consultancy Group" style="height: 60px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
   <div class="ob-hero-text">
     <h2>Board Skills &amp; Capability Assessment</h2>
     <p>Map your board's competencies, identify governance gaps, and generate a tailored analysis with recruitment and capability recommendations. Tell us about your organisation to get started.</p>
