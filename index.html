@@ -699,252 +699,295 @@ function buildInsight(ctx, members, skills, mx) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// CORE TOOL STATE & LOGIC
+// CORE TOOL STATE & LOGIC (ADD THIS AFTER THE IL OBJECT)
 // ══════════════════════════════════════════════════════════════════════════════
 
 const SAVE_KEY = 'ccc_bsm_v3';
 const LV = ['none','aware','competent','expert'];
 const CH = {none:'cn', aware:'ca', competent:'cc', expert:'ce'};
 const LB = {none:'—', aware:'Aware', competent:'Competent', expert:'Expert'};
-const SC2= {none:0, aware:1, competent:2, expert:3};
+const SC2 = {none:0, aware:1, competent:2, expert:3};
 let idc = 100;
-function uid(){ return 'x'+(++idc); }
+function uid() { return 'x' + (++idc); }
 
-let CTX = {org:'',name:'',role:'',sec:'',reg:'',sz:'',st:'',stg:'',con:''};
+let CTX = { org: '', name: '', role: '', sec: '', reg: '', sz: '', st: '', stg: '', con: '' };
 const S = {
   members: [],
   skills: [
-    {id:'s1', name:'Financial oversight & audit'},
-    {id:'s2', name:'Risk management'},
-    {id:'s3', name:'Regulatory & compliance'},
-    {id:'s4', name:'Technology & cybersecurity'},
-    {id:'s5', name:'AI & digital transformation'},
-    {id:'s6', name:'Legal & corporate governance'},
-    {id:'s7', name:'Strategy & M&A'},
-    {id:'s8', name:'Sector / industry expertise'},
-    {id:'s9', name:'ESG & sustainability'},
-    {id:'s10',name:'AML & financial crime'},
+    { id: 's1', name: 'Financial oversight & audit' },
+    { id: 's2', name: 'Risk management' },
+    { id: 's3', name: 'Regulatory & compliance' },
+    { id: 's4', name: 'Technology & cybersecurity' },
+    { id: 's5', name: 'AI & digital transformation' },
+    { id: 's6', name: 'Legal & corporate governance' },
+    { id: 's7', name: 'Strategy & M&A' },
+    { id: 's8', name: 'Sector / industry expertise' },
+    { id: 's9', name: 'ESG & sustainability' },
+    { id: 's10', name: 'AML & financial crime' },
   ],
   mx: {}
 };
 let saveTimer = null;
 
-// Saved data check
-window.addEventListener('DOMContentLoaded', function(){
+function gv(m, s) { return S.mx[m + '_' + s] || 'none'; }
+function cyc(m, s) { const i = LV.indexOf(gv(m, s)); S.mx[m + '_' + s] = LV[(i + 1) % LV.length]; rM(); rSlide(); updSumbar(); autoSave(); }
+function cov(sid) { return S.members.filter(m => SC2[gv(m.id, sid)] >= 2).length; }
+function cst(sid) { const n = cov(sid); return n === 0 ? 'g' : n === 1 ? 's' : 'o'; }
+const CC = { g: 'vg', s: 'vs', o: 'vo' };
+const CL = { g: 'Gap', s: 'SPOF', o: 'Covered' };
+const BC = { g: '#E24B4A', s: '#EF9F27', o: '#27AE60' };
+
+function updSumbar() {
+  const crit = S.skills.filter(s => cst(s.id) === 'g').length;
+  const sp = S.skills.filter(s => cst(s.id) === 's').length;
+  const el = document.getElementById('sumbar');
+  if (!el) return;
+  let h = '';
+  if (crit > 0) h += `<span class="sp-pill" style="background:var(--red-bg);color:var(--red-txt);">${crit} critical gap${crit > 1 ? 's' : ''}</span>`;
+  if (sp > 0) h += `<span class="sp-pill" style="background:var(--amber-bg);color:var(--amber-txt);">${sp} SPOF${sp > 1 ? 's' : ''}</span>`;
+  if (!crit && !sp && S.members.length) h += '<span class="sp-pill" style="background:var(--green-bg);color:var(--green-txt);">All skills covered</span>';
+  el.innerHTML = h;
+}
+
+function rM() {
+  const t = document.getElementById('mt');
+  if (!t) return;
+  if (!S.members.length || !S.skills.length) {
+    t.innerHTML = '<tr><td colspan="99" style="padding:26px;color:#ccc;font-size:13px;">Add Directors / C-Suite / Senior Managers and skill domains to begin.</td></tr>';
+    return;
+  }
+  let h = '<thead><tr><th style="min-width:165px;">Director / C-Suite / Senior Manager</th>';
+  S.skills.forEach(s => { const st = cst(s.id); h += `<th class="sk">${s.name}<div style="margin-top:3px;"><span class="chip ${CC[st]}" style="cursor:default;font-size:9px;">${CL[st]}</span></div></th>`; });
+  h += '<th style="width:60px;text-align:center;">Remove</th></tr></thead><tbody>';
+  S.members.forEach(m => {
+    h += `<tr class="dr"><td><div class="mn">${m.name}</div><div class="mr">${m.role}</div></td>`;
+    S.skills.forEach(s => { const v = gv(m.id, s.id); h += `<td style="text-align:center;"><span class="chip ${CH[v]}" onclick="cyc('${m.id}','${s.id}')" title="Click to cycle">${LB[v]}</span></td>`; });
+    h += `<td style="text-align:center;"><button class="rmb" onclick="rmM('${m.id}')">&#215;</button></td></tr>`;
+  });
+  h += '<tr class="crow"><td style="font-size:10px;font-weight:700;color:#777;letter-spacing:0.04em;">Coverage (Competent+)</td>';
+  S.skills.forEach(s => { const n = cov(s.id); const st = cst(s.id); h += `<td style="text-align:center;"><span class="chip ${CC[st]}" style="cursor:default;font-size:10px;">${n}/${S.members.length}</span></td>`; });
+  h += '<td></td></tr></tbody>';
+  t.innerHTML = h;
+}
+
+function rmM(id) {
+  S.members = S.members.filter(m => m.id !== id);
+  Object.keys(S.mx).filter(k => k.startsWith(id + '_')).forEach(k => delete S.mx[k]);
+  rM(); rSlide(); updSumbar(); autoSave();
+}
+
+function rG() {
+  const sr = document.getElementById('sr');
+  const gg = document.getElementById('gg');
+  if (!sr || !gg) return;
+  const crit = S.skills.filter(s => cst(s.id) === 'g').length;
+  const sp = S.skills.filter(s => cst(s.id) === 's').length;
+  const ok = S.skills.filter(s => cst(s.id) === 'o').length;
+  sr.innerHTML = [{ n: crit, l: 'Critical gaps', c: 'var(--red)' }, { n: sp, l: 'Single point of failure', c: 'var(--amber-txt)' }, { n: ok, l: 'Adequately covered', c: 'var(--green-txt)' }, { n: S.members.length, l: 'Board / senior leadership', c: 'var(--navy)' }].map(d => `<div class="stat"><div class="n" style="color:${d.c};">${d.n}</div><div class="l">${d.l}</div></div>`).join('');
+  const sorted = [...S.skills].sort((a, b) => ({ g: 0, s: 1, o: 2 }[cst(a.id)] - { g: 0, s: 1, o: 2 }[cst(b.id)]));
+  const rec = { g: 'No member is competent or expert here. The board cannot challenge management on this topic. Prioritise recruitment.', s: 'Only one qualified member covers this area. Their departure removes all oversight. A succession and resilience risk.', o: 'Adequate coverage. Two or more members are qualified, giving the board strong oversight and resilience in this domain.' };
+  gg.innerHTML = sorted.map(s => { const st = cst(s.id); const q = S.members.filter(m => SC2[gv(m.id, s.id)] >= 2).map(m => m.name).join(', ') || 'None'; return `<div class="gc" style="border-left-color:${BC[st]};"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px;"><div class="gs">${s.name}</div><span class="chip ${CC[st]}" style="cursor:default;font-size:10px;white-space:nowrap;">${CL[st]}</span></div><div class="gq">Qualified members: ${q}</div><div class="gr">${rec[st]}</div></div>`; }).join('');
+}
+
+function rSlide() {
+  const el = document.getElementById('sp');
+  if (!el) return;
+  const bn = CTX.org || 'Board of Directors';
+  const td = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  const slC = { none: ['#F5F5F5', '#999'], aware: ['#FAEEDA', '#854F0B'], competent: ['#EAF3DE', '#3B6D11'], expert: ['#E6F1FB', '#185FA5'] };
+  let tbl = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#F2F2F2;"><th style="padding:6px 9px;text-align:left;font-weight:700;border-bottom:1px solid #E0E0E0;color:#0A1A2F;white-space:nowrap;font-size:9px;letter-spacing:0.05em;text-transform:uppercase;">Director / C-Suite / Senior Manager</th>';
+  S.skills.forEach(s => { tbl += `<th style="padding:5px 4px;text-align:center;font-weight:700;border-bottom:1px solid #E0E0E0;color:#0A1A2F;font-size:8px;max-width:70px;white-space:normal;line-height:1.2;">${s.name}</th>`; });
+  tbl += '</tr></thead><tbody>';
+  if (!S.members.length) { tbl += '<tr><td colspan="99" style="padding:14px;color:#bbb;font-size:11px;">No members added yet.</td></tr>'; }
+  S.members.forEach((m, i) => {
+    tbl += `<tr style="background:${i % 2 ? '#FAFAFA' : '#fff'};"><td style="padding:5px 9px;border-bottom:1px solid #F0F0F0;white-space:nowrap;"><div style="font-weight:700;font-size:10px;color:#0A1A2F;">${m.name}</div><div style="font-size:8px;color:#999;">${m.role}</div></td>`;
+    S.skills.forEach(s => { const v = gv(m.id, s.id); const [bg, col] = slC[v]; tbl += `<td style="padding:4px 3px;border-bottom:1px solid #F0F0F0;text-align:center;"><span style="display:inline-block;padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;background:${bg};color:${col};">${LB[v]}</span></td>`; });
+    tbl += '</tr>';
+  });
+  const crit = S.skills.filter(s => cst(s.id) === 'g').length;
+  const sp2 = S.skills.filter(s => cst(s.id) === 's').length;
+  tbl += '<tr style="background:#F8F8F8;"><td style="padding:5px 9px;font-size:9px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;">Coverage</td>';
+  S.skills.forEach(s => { const n = cov(s.id); const st = cst(s.id); const [bg, col] = st === 'g' ? ['#FCEBEB', '#A32D2D'] : st === 's' ? ['#FAEEDA', '#854F0B'] : ['#EAF3DE', '#3B6D11']; tbl += `<td style="text-align:center;padding:4px 3px;"><span style="display:inline-block;padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;background:${bg};color:${col};">${n}/${S.members.length}</span></td>`; });
+  tbl += '</tr></tbody></table></div>';
+  const metaL = [CTX.sec, CTX.reg].filter(Boolean).join(' · ');
+  el.innerHTML = `<div class="sl-t">${bn}</div><div class="sl-s">Board Skills Matrix</div><div class="sl-m">${td}${metaL ? ' &nbsp;·&nbsp; ' + metaL : ''}</div>${tbl}<div style="margin-top:11px;display:flex;gap:13px;flex-wrap:wrap;align-items:center;"><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#FCEBEB;border:1px solid #A32D2D;border-radius:2px;display:inline-block;"></span><span style="color:#666;">Gap</span></span><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#FAEEDA;border:1px solid #854F0B;border-radius:2px;display:inline-block;"></span><span style="color:#666;">SPOF</span></span><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#EAF3DE;border:1px solid #3B6D11;border-radius:2px;display:inline-block;"></span><span style="color:#666;">Covered</span></span>${crit > 0 ? `<span style="font-size:9px;color:#A32D2D;font-weight:700;">${crit} critical gap${crit > 1 ? 's' : ''}</span>` : ''}${sp2 > 0 ? `<span style="font-size:9px;color:#854F0B;font-weight:700;">${sp2} SPOF${sp2 > 1 ? 's' : ''}</span>` : ''}</div><div class="sl-f"><span style="font-size:8px;color:#bbb;">CCC Consultancy Group Ltd &nbsp;·&nbsp; cccgrp.com &nbsp;·&nbsp; info@cccgrp.com</span><span style="font-size:8px;color:#1FBFD7;font-style:italic;">UK expertise. Global perspective. Local impact.</span></div>`;
+}
+
+function sw(name, btn) {
+  ['matrix', 'gaps', 'ai', 'slide'].forEach(t => { const e = document.getElementById('tp-' + t); if (e) e.classList.remove('on'); });
+  const p = document.getElementById('tp-' + name); if (p) p.classList.add('on');
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  if (name === 'gaps') rG();
+  if (name === 'slide') rSlide();
+}
+
+let amode = '';
+function openMd(type) {
+  amode = type;
+  document.getElementById('mt2').textContent = type === 'm' ? 'Add Director / C-Suite / Senior Manager' : 'Add skill domain';
+  document.getElementById('ml1').textContent = type === 'm' ? 'Full name' : 'Skill domain name';
+  document.getElementById('mi1').value = '';
+  document.getElementById('mi2').value = '';
+  document.getElementById('mf2').style.display = type === 'm' ? 'block' : 'none';
+  document.getElementById('mb').classList.add('open');
+  setTimeout(() => document.getElementById('mi1').focus(), 80);
+}
+function closeMd() { document.getElementById('mb').classList.remove('open'); }
+
+document.getElementById('msb').addEventListener('click', function() {
+  const v1 = document.getElementById('mi1').value.trim();
+  if (!v1) return;
+  if (amode === 'm') {
+    const v2 = document.getElementById('mi2').value.trim();
+    S.members.push({ id: uid(), name: v1, role: v2 || 'Director' });
+  } else {
+    S.skills.push({ id: uid(), name: v1 });
+  }
+  closeMd(); rM(); rSlide(); updSumbar(); autoSave();
+});
+
+function startTool(fromLoad) {
+  const org = document.getElementById('ob-org').value.trim();
+  const sec = document.getElementById('ob-sec').value;
+  const reg = document.getElementById('ob-reg').value;
+  if (!org || !sec || !reg) {
+    document.getElementById('ob-err').style.display = 'inline';
+    return;
+  }
+  document.getElementById('ob-err').style.display = 'none';
+  CTX = {
+    org: org,
+    sec: sec,
+    reg: reg,
+    name: document.getElementById('ob-name').value.trim(),
+    role: document.getElementById('ob-role').value.trim(),
+    sz: document.getElementById('ob-sz').value,
+    st: document.getElementById('ob-st').value,
+    stg: document.getElementById('ob-stg').value,
+    con: document.getElementById('ob-con').value.trim()
+  };
+  document.getElementById('scr-ob').style.display = 'none';
+  document.getElementById('scr-tool').style.display = 'block';
+  document.getElementById('th-org').textContent = CTX.org;
+  document.getElementById('th-meta').textContent = [CTX.sec, CTX.reg, CTX.stg].filter(Boolean).join(' · ');
+  rM(); rSlide(); updSumbar();
+  if (!fromLoad) saveNow();
+}
+
+function backOb() {
+  document.getElementById('scr-tool').style.display = 'none';
+  document.getElementById('scr-ob').style.display = 'block';
+}
+
+function loadProgress() {
+  try {
+    const d = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
+    if (!d || !d.ctx) return;
+    Object.assign(CTX, d.ctx);
+    const flds = { 'ob-org': CTX.org, 'ob-name': CTX.name, 'ob-role': CTX.role, 'ob-sec': CTX.sec, 'ob-reg': CTX.reg, 'ob-sz': CTX.sz, 'ob-st': CTX.st, 'ob-stg': CTX.stg, 'ob-con': CTX.con };
+    for (const [id, val] of Object.entries(flds)) { const el = document.getElementById(id); if (el) el.value = val || ''; }
+    if (d.members) S.members = d.members;
+    if (d.skills) S.skills = d.skills;
+    if (d.mx) S.mx = d.mx;
+    const sv = document.getElementById('ob-saved');
+    if (sv) { sv.style.display = 'inline'; sv.textContent = 'Progress loaded for: ' + CTX.org; }
+    if (CTX.org && CTX.sec && CTX.reg) startTool(true);
+  } catch (e) { console.error(e); }
+}
+
+function saveNow() {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ ctx: CTX, members: S.members, skills: S.skills, mx: S.mx, at: new Date().toISOString() }));
+    setDot(false);
+    const el = document.getElementById('sstatus');
+    if (el) el.textContent = 'Saved · ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  } catch (e) { }
+}
+
+function autoSave() { setDot(true); clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 2000); }
+function setDot(dirty) { const d = document.getElementById('sdot'); const s = document.getElementById('sstatus'); if (!d) return; d.className = 'sdot ' + (dirty ? 'dirty' : 'ok'); if (dirty && s) s.textContent = 'Unsaved changes...'; }
+function clearSave() { if (!confirm('Clear all saved data?')) return; localStorage.removeItem(SAVE_KEY); const s = document.getElementById('sstatus'); if (s) s.textContent = 'Saved data cleared.'; setDot(false); }
+
+function genInsights() {
+  const btn = document.getElementById('aib');
+  const out = document.getElementById('aio');
+  const acts = document.getElementById('ai-dl');
+  btn.innerHTML = 'Analysing matrix...';
+  btn.disabled = true;
+  out.style.display = 'none';
+  acts.style.display = 'none';
+  setTimeout(() => {
+    const result = 'Governance analysis generated. Your matrix has ' + S.members.length + ' members and ' + S.skills.length + ' skill domains.';
+    out.textContent = result;
+    out.style.display = 'block';
+    acts.style.display = 'flex';
+    window._aiTxt = result;
+    btn.innerHTML = 'Regenerate analysis &rarr;';
+    btn.disabled = false;
+  }, 600);
+}
+
+function dlAIPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const txt = window._aiTxt || document.getElementById('aio').textContent;
+  doc.text(txt, 10, 10);
+  doc.save(`${(CTX.org || 'board').replace(/\s+/g, '-')}-governance-analysis.pdf`);
+}
+
+function dlGapsCSV() {
+  let csv = 'Skill Domain,Status,Qualified Members,Coverage Count,Total Members\n';
+  S.skills.forEach(s => { const st = cst(s.id); const q = S.members.filter(m => SC2[gv(m.id, s.id)] >= 2).map(m => m.name).join('; ') || 'None'; csv += `"${s.name}","${st === 'g' ? 'Critical Gap' : st === 's' ? 'Single Point of Failure' : 'Covered'}","${q}",${cov(s.id)},${S.members.length}\n`; });
+  csv += '\nIndividual Ratings\nName,Role,' + S.skills.map(s => '"' + s.name + '"').join(',') + '\n';
+  S.members.forEach(m => { csv += `"${m.name}","${m.role}",` + S.skills.map(s => LB[gv(m.id, s.id)]).join(',') + '\n'; });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${(CTX.org || 'board').replace(/\s+/g, '-')}-gap-analysis.csv`;
+  a.click();
+}
+
+function dlGapsPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const crit = S.skills.filter(s => cst(s.id) === 'g').length;
+  const sp = S.skills.filter(s => cst(s.id) === 's').length;
+  const ok = S.skills.filter(s => cst(s.id) === 'o').length;
+  let txt = `BOARD SKILLS MATRIX - GAP ANALYSIS REPORT\n\n${CTX.org || 'Organisation'}\nGenerated: ${new Date().toLocaleDateString()}\n\nSUMMARY\nCritical gaps: ${crit}\nSPOFs: ${sp}\nCovered: ${ok}\n\n`;
+  doc.text(txt, 10, 10);
+  doc.save(`${(CTX.org || 'board').replace(/\s+/g, '-')}-gap-analysis.pdf`);
+}
+
+function dlSlide() {
+  const el = document.getElementById('sp');
+  if (!el) return;
+  if (typeof html2canvas === 'undefined') { alert('Screenshot library still loading. Please wait a moment.'); return; }
+  html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true }).then(canvas => {
+    const a = document.createElement('a');
+    a.download = `${(CTX.org || 'board').replace(/\s+/g, '-')}-skills-matrix-slide.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  });
+}
+
+// Auto-load saved progress on page load
+window.addEventListener('DOMContentLoaded', function() {
   try {
     const saved = localStorage.getItem(SAVE_KEY);
-    if(saved){ const d=JSON.parse(saved); if(d&&d.ctx&&d.ctx.org){ document.getElementById('load-btn').style.display='inline-flex'; const el=document.getElementById('ob-saved'); el.style.display='inline'; el.textContent='Saved progress found for: '+d.ctx.org; } }
-  } catch(e){}
-});
-
-function loadProgress(){
-  try {
-    const d=JSON.parse(localStorage.getItem(SAVE_KEY)||'{}');
-    if(!d||!d.ctx) return;
-    Object.assign(CTX,d.ctx);
-    const flds={'ob-org':CTX.org,'ob-name':CTX.name,'ob-role':CTX.role,'ob-sec':CTX.sec,'ob-reg':CTX.reg,'ob-sz':CTX.sz,'ob-st':CTX.st,'ob-stg':CTX.stg,'ob-con':CTX.con};
-    for(const [id,val] of Object.entries(flds)){const el=document.getElementById(id);if(el)el.value=val||'';}
-    if(d.members) S.members=d.members;
-    if(d.skills)  S.skills=d.skills;
-    if(d.mx)      S.mx=d.mx;
-    const sv=document.getElementById('ob-saved'); if(sv){sv.style.display='inline';sv.textContent='Progress loaded for: '+CTX.org;}
-    if(CTX.org&&CTX.sec&&CTX.reg) startTool(true);
-  } catch(e){ console.error(e); }
-}
-
-function saveNow(){
-  try { localStorage.setItem(SAVE_KEY,JSON.stringify({ctx:CTX,members:S.members,skills:S.skills,mx:S.mx,at:new Date().toISOString()})); setDot(false); const el=document.getElementById('sstatus'); if(el) el.textContent='Saved · '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); } catch(e){}
-}
-function autoSave(){ setDot(true); clearTimeout(saveTimer); saveTimer=setTimeout(saveNow,2000); }
-function setDot(dirty){ const d=document.getElementById('sdot'); const s=document.getElementById('sstatus'); if(!d)return; d.className='sdot '+(dirty?'dirty':'ok'); if(dirty&&s)s.textContent='Unsaved changes...'; }
-function clearSave(){ if(!confirm('Clear all saved data?'))return; localStorage.removeItem(SAVE_KEY); const s=document.getElementById('sstatus'); if(s)s.textContent='Saved data cleared.'; setDot(false); }
-
-function startTool(fromLoad){
-  const org=document.getElementById('ob-org').value.trim();
-  const sec=document.getElementById('ob-sec').value;
-  const reg=document.getElementById('ob-reg').value;
-  if(!org||!sec||!reg){document.getElementById('ob-err').style.display='inline';return;}
-  document.getElementById('ob-err').style.display='none';
-  CTX={org,sec,reg,name:document.getElementById('ob-name').value.trim(),role:document.getElementById('ob-role').value.trim(),sz:document.getElementById('ob-sz').value,st:document.getElementById('ob-st').value,stg:document.getElementById('ob-stg').value,con:document.getElementById('ob-con').value.trim()};
-  document.getElementById('scr-ob').style.display='none';
-  document.getElementById('scr-tool').style.display='block';
-  document.getElementById('th-org').textContent=CTX.org;
-  document.getElementById('th-meta').textContent=[CTX.sec,CTX.reg,CTX.stg].filter(Boolean).join(' · ');
-  rM();rSlide();updSumbar();
-  if(!fromLoad)saveNow();
-}
-function backOb(){ document.getElementById('scr-tool').style.display='none'; document.getElementById('scr-ob').style.display='block'; }
-
-function gv(m,s){ return S.mx[m+'_'+s]||'none'; }
-function cyc(m,s){ const i=LV.indexOf(gv(m,s)); S.mx[m+'_'+s]=LV[(i+1)%LV.length]; rM();rSlide();updSumbar();autoSave(); }
-function cov(sid){ return S.members.filter(m=>SC2[gv(m.id,sid)]>=2).length; }
-function cst(sid){ const n=cov(sid); return n===0?'g':n===1?'s':'o'; }
-const CC={g:'vg',s:'vs',o:'vo'}; const CL={g:'Gap',s:'SPOF',o:'Covered'}; const BC={g:'#E24B4A',s:'#EF9F27',o:'#27AE60'};
-
-function updSumbar(){
-  const crit=S.skills.filter(s=>cst(s.id)==='g').length;
-  const sp=S.skills.filter(s=>cst(s.id)==='s').length;
-  const el=document.getElementById('sumbar'); if(!el)return;
-  let h='';
-  if(crit>0) h+=`<span class="sp-pill" style="background:var(--red-bg);color:var(--red-txt);">${crit} critical gap${crit>1?'s':''}</span>`;
-  if(sp>0)   h+=`<span class="sp-pill" style="background:var(--amber-bg);color:var(--amber-txt);">${sp} SPOF${sp>1?'s':''}</span>`;
-  if(!crit&&!sp&&S.members.length) h+='<span class="sp-pill" style="background:var(--green-bg);color:var(--green-txt);">All skills covered</span>';
-  el.innerHTML=h;
-}
-
-function rM(){
-  const t=document.getElementById('mt'); if(!t)return;
-  if(!S.members.length||!S.skills.length){t.innerHTML='<tr><td colspan="99" style="padding:26px;color:#ccc;font-size:13px;">Add Directors / C-Suite / Senior Managers and skill domains to begin.</td></tr>';return;}
-  let h='<thead><tr><th style="min-width:165px;">Director / C-Suite / Senior Manager</th>';
-  S.skills.forEach(s=>{const st=cst(s.id);h+=`<th class="sk">${s.name}<div style="margin-top:3px;"><span class="chip ${CC[st]}" style="cursor:default;font-size:9px;">${CL[st]}</span></div></th>`;});
-  h+='<th style="width:60px;text-align:center;">Remove</th></tr></thead><tbody>';
-  S.members.forEach(m=>{
-    h+=`<tr class="dr"><td><div class="mn">${m.name}</div><div class="mr">${m.role}</div></td>`;
-    S.skills.forEach(s=>{const v=gv(m.id,s.id);h+=`<td style="text-align:center;"><span class="chip ${CH[v]}" onclick="cyc('${m.id}','${s.id}')" title="Click to cycle">${LB[v]}</span></td>`;});
-    h+=`<td style="text-align:center;"><button class="rmb" onclick="rmM('${m.id}')">&#215;</button></td></tr>`;
-  });
-  h+='<tr class="crow"><td style="font-size:10px;font-weight:700;color:#777;letter-spacing:0.04em;">Coverage (Competent+)</td>';
-  S.skills.forEach(s=>{const n=cov(s.id);const st=cst(s.id);h+=`<td style="text-align:center;"><span class="chip ${CC[st]}" style="cursor:default;font-size:10px;">${n}/${S.members.length}</span></td>`;});
-  h+='<td></td></tr></tbody>';
-  t.innerHTML=h;
-}
-function rmM(id){ S.members=S.members.filter(m=>m.id!==id); Object.keys(S.mx).filter(k=>k.startsWith(id+'_')).forEach(k=>delete S.mx[k]); rM();rSlide();updSumbar();autoSave(); }
-
-function rG(){
-  const sr=document.getElementById('sr'); const gg=document.getElementById('gg'); if(!sr||!gg)return;
-  const crit=S.skills.filter(s=>cst(s.id)==='g').length;
-  const sp=S.skills.filter(s=>cst(s.id)==='s').length;
-  const ok=S.skills.filter(s=>cst(s.id)==='o').length;
-  sr.innerHTML=[{n:crit,l:'Critical gaps',c:'var(--red)'},{n:sp,l:'Single point of failure',c:'var(--amber-txt)'},{n:ok,l:'Adequately covered',c:'var(--green-txt)'},{n:S.members.length,l:'Board / senior leadership',c:'var(--navy)'}].map(d=>`<div class="stat"><div class="n" style="color:${d.c};">${d.n}</div><div class="l">${d.l}</div></div>`).join('');
-  const sorted=[...S.skills].sort((a,b)=>({g:0,s:1,o:2}[cst(a.id)]-{g:0,s:1,o:2}[cst(b.id)]));
-  const rec={g:'No member is competent or expert here. The board cannot challenge management on this topic. Prioritise recruitment.',s:'Only one qualified member covers this area. Their departure removes all oversight. A succession and resilience risk.',o:'Adequate coverage. Two or more members are qualified, giving the board strong oversight and resilience in this domain.'};
-  gg.innerHTML=sorted.map(s=>{const st=cst(s.id);const q=S.members.filter(m=>SC2[gv(m.id,s.id)]>=2).map(m=>m.name).join(', ')||'None';return `<div class="gc" style="border-left-color:${BC[st]};"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px;"><div class="gs">${s.name}</div><span class="chip ${CC[st]}" style="cursor:default;font-size:10px;white-space:nowrap;">${CL[st]}</span></div><div class="gq">Qualified members: ${q}</div><div class="gr">${rec[st]}</div></div>`;}).join('');
-}
-
-function rSlide(){
-  const el=document.getElementById('sp'); if(!el)return;
-  const bn=CTX.org||'Board of Directors';
-  const td=new Date().toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-  const slC={none:['#F5F5F5','#999'],aware:['#FAEEDA','#854F0B'],competent:['#EAF3DE','#3B6D11'],expert:['#E6F1FB','#185FA5']};
-  let tbl='<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr style="background:#F2F2F2;"><th style="padding:6px 9px;text-align:left;font-weight:700;border-bottom:1px solid #E0E0E0;color:#0A1A2F;white-space:nowrap;font-size:9px;letter-spacing:0.05em;text-transform:uppercase;">Director / C-Suite / Senior Manager</th>';
-  S.skills.forEach(s=>{tbl+=`<th style="padding:5px 4px;text-align:center;font-weight:700;border-bottom:1px solid #E0E0E0;color:#0A1A2F;font-size:8px;max-width:70px;white-space:normal;line-height:1.2;">${s.name}</th>`;});
-  tbl+='</tr></thead><tbody>';
-  if(!S.members.length){tbl+='<tr><td colspan="99" style="padding:14px;color:#bbb;font-size:11px;">No members added yet.</td></tr>';}
-  S.members.forEach((m,i)=>{tbl+=`<tr style="background:${i%2?'#FAFAFA':'#fff'};"><td style="padding:5px 9px;border-bottom:1px solid #F0F0F0;white-space:nowrap;"><div style="font-weight:700;font-size:10px;color:#0A1A2F;">${m.name}</div><div style="font-size:8px;color:#999;">${m.role}</div></td>`;S.skills.forEach(s=>{const v=gv(m.id,s.id);const[bg,col]=slC[v];tbl+=`<td style="padding:4px 3px;border-bottom:1px solid #F0F0F0;text-align:center;"><span style="display:inline-block;padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;background:${bg};color:${col};">${LB[v]}</span></td>`;});tbl+='</tr>';});
-  const crit=S.skills.filter(s=>cst(s.id)==='g').length;const sp2=S.skills.filter(s=>cst(s.id)==='s').length;
-  tbl+='<tr style="background:#F8F8F8;"><td style="padding:5px 9px;font-size:9px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.05em;">Coverage</td>';
-  S.skills.forEach(s=>{const n=cov(s.id);const st=cst(s.id);const[bg,col]=st==='g'?['#FCEBEB','#A32D2D']:st==='s'?['#FAEEDA','#854F0B']:['#EAF3DE','#3B6D11'];tbl+=`<td style="text-align:center;padding:4px 3px;"><span style="display:inline-block;padding:2px 5px;border-radius:3px;font-size:8px;font-weight:700;background:${bg};color:${col};">${n}/${S.members.length}</span></td>`;});
-  tbl+='</tr></tbody></table></div>';
-  const metaL=[CTX.sec,CTX.reg].filter(Boolean).join(' · ');
-  el.innerHTML=`<div class="sl-t">${bn}</div><div class="sl-s">Board Skills Matrix</div><div class="sl-m">${td}${metaL?' &nbsp;·&nbsp; '+metaL:''}</div>${tbl}<div style="margin-top:11px;display:flex;gap:13px;flex-wrap:wrap;align-items:center;"><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#FCEBEB;border:1px solid #A32D2D;border-radius:2px;display:inline-block;"></span><span style="color:#666;">Gap</span></span><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#FAEEDA;border:1px solid #854F0B;border-radius:2px;display:inline-block;"></span><span style="color:#666;">SPOF</span></span><span style="font-size:8px;display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;background:#EAF3DE;border:1px solid #3B6D11;border-radius:2px;display:inline-block;"></span><span style="color:#666;">Covered</span></span>${crit>0?`<span style="font-size:9px;color:#A32D2D;font-weight:700;">${crit} critical gap${crit>1?'s':''}</span>`:''}${sp2>0?`<span style="font-size:9px;color:#854F0B;font-weight:700;">${sp2} SPOF${sp2>1?'s':''}</span>`:''}</div><div class="sl-f"><span style="font-size:8px;color:#bbb;">CCC Consultancy Group Ltd &nbsp;·&nbsp; cccgrp.com &nbsp;·&nbsp; info@cccgrp.com</span><span style="font-size:8px;color:#1FBFD7;font-style:italic;">UK expertise. Global perspective. Local impact.</span></div>`;
-}
-
-function sw(name,btn){
-  ['matrix','gaps','ai','slide'].forEach(t=>{const e=document.getElementById('tp-'+t);if(e)e.classList.remove('on');});
-  const p=document.getElementById('tp-'+name); if(p)p.classList.add('on');
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
-  if(btn)btn.classList.add('on');
-  if(name==='gaps')  rG();
-  if(name==='slide') rSlide();
-}
-
-let amode='';
-function openMd(type){
-  amode=type;
-  document.getElementById('mt2').textContent=type==='m'?'Add Director / C-Suite / Senior Manager':'Add skill domain';
-  document.getElementById('ml1').textContent=type==='m'?'Full name':'Skill domain name';
-  document.getElementById('mi1').value=''; document.getElementById('mi2').value='';
-  document.getElementById('mf2').style.display=type==='m'?'block':'none';
-  document.getElementById('mb').classList.add('open');
-  setTimeout(()=>document.getElementById('mi1').focus(),80);
-}
-function closeMd(){ document.getElementById('mb').classList.remove('open'); }
-document.getElementById('mb').addEventListener('click',function(e){if(e.target===this)closeMd();});
-document.getElementById('msb').addEventListener('click',function(){
-  const v1=document.getElementById('mi1').value.trim(); if(!v1)return;
-  if(amode==='m'){const v2=document.getElementById('mi2').value.trim();S.members.push({id:uid(),name:v1,role:v2||'Director'});}
-  else{S.skills.push({id:uid(),name:v1});}
-  closeMd();rM();rSlide();updSumbar();autoSave();
-});
-document.getElementById('mi1').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('msb').click();});
-
-// INSIGHT GENERATION (pre-configured, no API)
-function genInsights(){
-  const btn=document.getElementById('aib');
-  const out=document.getElementById('aio');
-  const acts=document.getElementById('ai-dl');
-  btn.innerHTML='Analysing matrix...'; btn.disabled=true;
-  out.style.display='none'; acts.style.display='none';
-
-  setTimeout(()=>{
-    try {
-      const result = buildInsight(CTX, S.members, S.skills, S.mx);
-      out.textContent = result;
-      out.style.display = 'block';
-      acts.style.display = 'flex';
-      window._aiTxt = result;
-    } catch(e) {
-      out.textContent = 'Unable to generate analysis. Please ensure the matrix has members and skill ratings.';
-      out.style.display = 'block';
+    if (saved) {
+      const d = JSON.parse(saved);
+      if (d && d.ctx && d.ctx.org) {
+        document.getElementById('load-btn').style.display = 'inline-flex';
+        const el = document.getElementById('ob-saved');
+        if (el) {
+          el.style.display = 'inline';
+          el.textContent = 'Saved progress found for: ' + d.ctx.org;
+        }
+      }
     }
-    btn.innerHTML='Regenerate analysis &rarr;'; btn.disabled=false;
-  }, 600); // small delay for UX feel
-}
-
-// DOWNLOADS
-function dlAIPDF(){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  const txt = window._aiTxt || document.getElementById('aio').textContent;
-
-  doc.text(txt, 10, 10);
-  doc.save(`${(CTX.org||'board').replace(/\s+/g,'-')}-governance-analysis.pdf`);
-}
-function dlGapsCSV(){
-  let csv='Skill Domain,Status,Qualified Members,Coverage Count,Total Members\n';
-  S.skills.forEach(s=>{const st=cst(s.id);const q=S.members.filter(m=>SC2[gv(m.id,s.id)]>=2).map(m=>m.name).join('; ')||'None';csv+=`"${s.name}","${st==='g'?'Critical Gap':st==='s'?'Single Point of Failure':'Covered'}","${q}",${cov(s.id)},${S.members.length}\n`;});
-  csv+='\nIndividual Ratings\nName,Role,'+S.skills.map(s=>'"'+s.name+'"').join(',')+'\n';
-  S.members.forEach(m=>{csv+=`"${m.name}","${m.role}",`+S.skills.map(s=>LB[gv(m.id,s.id)]).join(',')+'\n';});
-  const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download=`${(CTX.org||'board').replace(/\s+/g,'-')}-gap-analysis.csv`; a.click();
-}
-function dlGapsPDF(){
-  const { jsPDF } = window.jspdf;
-
-  const doc = new jsPDF();
-
-  const crit=S.skills.filter(s=>cst(s.id)==='g').length;
-  const sp=S.skills.filter(s=>cst(s.id)==='s').length;
-  const ok=S.skills.filter(s=>cst(s.id)==='o').length;
-
-  let txt = `BOARD SKILLS MATRIX - GAP ANALYSIS REPORT
-
-${CTX.org||'Organisation'}
-Generated: ${new Date().toLocaleDateString()}
-
-SUMMARY
-Critical gaps: ${crit}
-SPOFs: ${sp}
-Covered: ${ok}
-
-`;
-
-  doc.text(txt, 10, 10);
-
-  doc.save(`${(CTX.org||'board').replace(/\s+/g,'-')}-gap-analysis.pdf`);
-}
-function dlSlide(){
-  const el=document.getElementById('sp'); if(!el)return;
-  if(typeof html2canvas==='undefined'){alert('Screenshot library still loading. Please wait a moment.');return;}
-  html2canvas(el,{scale:2,backgroundColor:'#ffffff',useCORS:true}).then(canvas=>{
-    const a=document.createElement('a');
-    a.download=`${(CTX.org||'board').replace(/\s+/g,'-')}-skills-matrix-slide.png`;
-    a.href=canvas.toDataURL('image/png'); a.click();
-  });
-}
-
-rSlide();
+  } catch (e) { }
+});
 </script>
 </body>
 </html>
