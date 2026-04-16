@@ -2,26 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>CCC Consultancy Group | Board Skills Matrix & Governance Analyser</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCC Consultancy Group | Board Skills Matrix</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
   body {
-    font-family: 'Inter', system-ui, 'Segoe UI', sans-serif;
-    background: #F4F7FC;
-    color: #0A1A2F;
-    line-height: 1.4;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
   }
   :root {
     --navy: #0A1A2F;
     --teal: #1FBFD7;
-    --teal-dark: #1499af;
     --red: #E24B4A;
     --amber: #EF9F27;
     --green: #27AE60;
@@ -32,9 +30,6 @@
     --red-txt: #B91C1C;
     --amber-txt: #B45309;
     --green-txt: #2F6B2F;
-    --blue-txt: #1E4A76;
-    --gray-border: #E2E8F0;
-    --gray-light: #F8FAFE;
   }
   .hdr {
     background: var(--navy);
@@ -42,8 +37,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
     border-bottom: 3px solid var(--teal);
     position: sticky;
     top: 0;
@@ -53,107 +46,78 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    flex-wrap: wrap;
   }
   .hdr-logo-img {
-    height: 52px;
+    height: 50px;
     width: auto;
-    display: block;
-    object-fit: contain;
   }
   .hdr-div {
     width: 1px;
-    height: 32px;
+    height: 30px;
     background: rgba(255,255,255,0.2);
   }
   .hdr-text h1 {
     color: white;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
+    font-size: 16px;
+    font-weight: 600;
   }
   .hdr-text .sub {
     font-size: 9px;
     color: var(--teal);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
     margin-top: 2px;
   }
-  .hdr-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    border-radius: 40px;
-    font-size: 12px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.7);
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    cursor: pointer;
-    transition: 0.2s;
-    text-decoration: none;
-  }
-  .hdr-btn:hover {
-    background: rgba(255,255,255,0.08);
-    color: white;
-  }
   .wrap {
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 24px 20px 40px;
+    padding: 24px 20px;
   }
   .card {
     background: white;
-    border-radius: 28px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-    border: 1px solid var(--gray-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     overflow: hidden;
   }
   .ob-hero {
-    background: linear-gradient(135deg, #0A1A2F 0%, #0F2A3F 100%);
+    background: var(--navy);
     padding: 32px 36px;
-    border-bottom: 3px solid var(--teal);
     display: flex;
-    gap: 28px;
+    gap: 24px;
     flex-wrap: wrap;
     align-items: center;
+    border-bottom: 3px solid var(--teal);
   }
   .ob-hero-logo {
-    height: 64px;
+    height: 60px;
     width: auto;
-    object-fit: contain;
   }
   .ob-hero-text h2 {
-    font-size: 24px;
-    font-weight: 700;
     color: white;
+    font-size: 22px;
     margin-bottom: 8px;
   }
   .ob-hero-text p {
+    color: rgba(255,255,255,0.65);
     font-size: 14px;
-    color: rgba(255,255,255,0.7);
-    max-width: 560px;
-    line-height: 1.5;
+    max-width: 540px;
   }
   .ob-body {
-    padding: 30px 36px 36px;
+    padding: 28px 36px;
   }
   .ob-sec-lbl {
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     font-weight: 700;
     color: var(--teal);
-    margin-bottom: 18px;
-    border-bottom: 1px solid var(--gray-border);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e2e8f0;
     padding-bottom: 8px;
   }
   .og {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 28px;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
   }
   .og-full {
     grid-column: span 2;
@@ -161,84 +125,62 @@
   .fg {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
   }
   .fl {
     font-size: 11px;
     font-weight: 700;
-    color: #334155;
-    letter-spacing: 0.3px;
+    color: #4a5568;
   }
   .fi {
-    padding: 10px 14px;
-    border: 1px solid var(--gray-border);
-    border-radius: 14px;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
     font-size: 14px;
-    background: white;
-    transition: 0.2s;
   }
   .fi:focus {
-    border-color: var(--teal);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(31,191,215,0.2);
-  }
-  .fn {
-    font-size: 11px;
-    color: #94A3B8;
-    margin-top: 4px;
+    border-color: var(--teal);
   }
   .btn {
-    padding: 9px 18px;
+    padding: 8px 16px;
     border-radius: 40px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    border: 1px solid transparent;
-    transition: 0.2s;
+    border: 1px solid #cbd5e1;
     background: white;
-    color: var(--navy);
-    border-color: #CBD5E1;
+    font-family: inherit;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: inherit;
-  }
-  .btn-tl {
-    background: var(--teal);
-    color: white;
-    border-color: var(--teal);
-  }
-  .btn-tl:hover {
-    background: var(--teal-dark);
   }
   .btn-nv {
     background: var(--navy);
     color: white;
     border-color: var(--navy);
   }
-  .btn-nv:hover {
-    background: #1e2f46;
+  .btn-tl {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal);
   }
   .btn-sm {
-    padding: 6px 14px;
+    padding: 6px 12px;
     font-size: 12px;
   }
   .btn-gh {
-    border-color: #CBD5E1;
-    background: white;
-    color: #334155;
-  }
-  .btn-gh:hover {
-    background: #F1F5F9;
+    background: transparent;
+    border-color: #cbd5e1;
   }
   .th {
     padding: 16px 24px;
-    background: var(--gray-light);
-    border-bottom: 1px solid var(--gray-border);
+    background: #f8fafe;
+    border-bottom: 1px solid #e2e8f0;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     gap: 12px;
   }
   .th-org {
@@ -248,15 +190,13 @@
   }
   .th-meta {
     font-size: 11px;
-    color: #5B6E8C;
-    margin-top: 3px;
+    color: #6c7a91;
   }
   .tabs {
     display: flex;
     gap: 4px;
-    background: white;
-    border-bottom: 1px solid var(--gray-border);
     padding: 0 20px;
+    border-bottom: 1px solid #e2e8f0;
   }
   .tab {
     padding: 12px 18px;
@@ -264,20 +204,16 @@
     font-weight: 600;
     background: none;
     border: none;
-    color: #6C7A91;
+    color: #6c7a91;
     cursor: pointer;
     border-bottom: 3px solid transparent;
-    transition: 0.15s;
-  }
-  .tab:hover {
-    color: var(--navy);
   }
   .tab.on {
     color: var(--teal);
     border-bottom-color: var(--teal);
   }
   .pnl {
-    padding: 26px 28px;
+    padding: 24px;
     display: none;
   }
   .pnl.on {
@@ -285,42 +221,39 @@
   }
   .chip {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 4px 10px;
     border-radius: 40px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.1s;
   }
-  .cn { background: #F1F5F9; color: #475569; }
+  .cn { background: #f1f5f9; color: #475569; }
   .ca { background: var(--amber-bg); color: var(--amber-txt); }
   .cc { background: var(--green-bg); color: var(--green-txt); }
-  .ce { background: var(--blue-bg); color: var(--blue-txt); }
+  .ce { background: var(--blue-bg); color: #1e4a76; }
   .vg { background: var(--red-bg); color: var(--red-txt); }
   .vs { background: var(--amber-bg); color: var(--amber-txt); }
   .vo { background: var(--green-bg); color: var(--green-txt); }
   .mwrap {
     overflow-x: auto;
-    border-radius: 18px;
-    border: 1px solid var(--gray-border);
-    margin-top: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin-top: 12px;
   }
   table {
     width: 100%;
     border-collapse: collapse;
   }
   th {
-    background: #F8FAFE;
-    padding: 12px 10px;
+    background: #f8fafe;
+    padding: 10px;
     font-size: 10px;
-    font-weight: 700;
-    color: #4B5B7B;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--gray-border);
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
   }
   td {
-    padding: 10px 8px;
-    border-bottom: 1px solid #EDF2F7;
+    padding: 8px 10px;
+    border-bottom: 1px solid #f1f5f9;
     font-size: 13px;
   }
   .mn {
@@ -328,55 +261,48 @@
     color: var(--navy);
   }
   .mr {
-    font-size: 11px;
-    color: #6C7A91;
-    margin-top: 2px;
+    font-size: 10px;
+    color: #6c7a91;
   }
   .rmb {
     background: none;
     border: none;
     color: var(--red);
-    font-size: 16px;
     cursor: pointer;
-    border-radius: 30px;
-    padding: 4px 8px;
-  }
-  .rmb:hover {
-    background: var(--red-bg);
+    font-size: 16px;
   }
   .stats {
     display: flex;
     gap: 16px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
   }
   .stat {
     background: white;
-    border: 1px solid var(--gray-border);
-    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
     padding: 16px;
-    min-width: 120px;
+    min-width: 110px;
     text-align: center;
   }
   .stat .n {
-    font-size: 34px;
+    font-size: 32px;
     font-weight: 800;
   }
   .stat .l {
-    font-size: 11px;
-    font-weight: 600;
-    color: #6C7A91;
+    font-size: 10px;
+    color: #6c7a91;
   }
   .gg {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 16px;
   }
   .gc {
-    border: 1px solid var(--gray-border);
-    border-radius: 20px;
-    padding: 16px 18px;
-    border-left-width: 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 14px;
+    border-left-width: 5px;
   }
   .gs {
     font-weight: 700;
@@ -384,25 +310,23 @@
   }
   .gq {
     font-size: 11px;
-    color: #6C7A91;
-    margin-bottom: 10px;
+    color: #6c7a91;
+    margin-bottom: 8px;
   }
   .gr {
-    font-size: 12px;
-    color: #334155;
-    border-top: 1px solid var(--gray-border);
-    padding-top: 10px;
-    margin-top: 5px;
+    font-size: 11px;
+    color: #4a5568;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
   }
   .save-bar {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #F9FBFE;
-    border-radius: 60px;
+    background: #f8fafe;
     padding: 8px 16px;
-    border: 1px solid var(--gray-border);
-    margin-bottom: 18px;
+    border-radius: 40px;
+    margin-bottom: 16px;
     font-size: 12px;
   }
   .sdot {
@@ -411,50 +335,59 @@
     border-radius: 50%;
     background: #ccc;
     display: inline-block;
-    margin-right: 6px;
   }
   .sdot.ok { background: var(--green-txt); }
   .sdot.dirty { background: var(--amber-txt); }
   .dlrow {
     display: flex;
     gap: 12px;
-    flex-wrap: wrap;
     margin-bottom: 20px;
     align-items: center;
-  }
-  .copyright {
-    text-align: center;
-    padding: 20px;
-    font-size: 11px;
-    color: #94A3B8;
-    border-top: 1px solid var(--gray-border);
-  }
-  .copyright a {
-    color: var(--teal);
-    text-decoration: none;
+    flex-wrap: wrap;
   }
   .aiout {
-    background: #F9FBFE;
+    background: #f8fafe;
     border-left: 4px solid var(--teal);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 20px;
     font-size: 13px;
-    line-height: 1.65;
+    line-height: 1.6;
     white-space: pre-wrap;
     margin-top: 20px;
   }
   .slide {
     background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .copyright {
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    color: #94a3b8;
+    border-top: 1px solid #e2e8f0;
+  }
+  .mdbg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .mdl {
+    background: white;
     border-radius: 20px;
     padding: 24px;
-    border: 1px solid var(--gray-border);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    width: 90%;
+    max-width: 400px;
   }
-  @media (max-width: 620px) {
+  @media (max-width: 640px) {
     .og { grid-template-columns: 1fr; }
     .og-full { grid-column: 1; }
-    .ob-hero { flex-direction: column; align-items: flex-start; }
-    .pnl { padding: 20px; }
+    .ob-hero { flex-direction: column; text-align: center; }
   }
 </style>
 </head>
@@ -462,186 +395,327 @@
 
 <div class="hdr">
   <div class="hdr-left">
-    <img src="logo.png" alt="CCC Consultancy Group" class="hdr-logo-img" style="height: 52px; width: auto;">
+    <img src="logo.png" alt="CCC" class="hdr-logo-img" onerror="this.style.display='none'">
     <div class="hdr-div"></div>
     <div class="hdr-text">
       <h1>Board Skills Matrix</h1>
       <div class="sub">Competency Gap Analyser</div>
     </div>
   </div>
-  <a href="mailto:info@cccgrp.com?subject=Board Skills Matrix Feedback" class="hdr-btn">📧 Feedback</a>
+  <a href="mailto:info@cccgrp.com" class="btn btn-gh btn-sm" style="text-decoration:none;">✉ Feedback</a>
 </div>
 
 <div class="wrap"><div class="card">
 
-<!-- ONBOARDING SECTION -->
+<!-- ONBOARDING -->
 <div id="scr-ob">
   <div class="ob-hero">
-    <img src="logo.png" alt="CCC Consultancy Group" class="ob-hero-logo" style="height: 64px; width: auto;">
+    <img src="logo.png" alt="CCC" class="ob-hero-logo" onerror="this.style.display='none'">
     <div class="ob-hero-text">
       <h2>Board Skills & Capability Assessment</h2>
-      <p>Map your board's competencies, identify governance gaps, and generate a tailored analysis with recruitment and capability recommendations. Tell us about your organisation to get started.</p>
+      <p>Map competencies, identify governance gaps, and get tailored recommendations.</p>
     </div>
   </div>
   <div class="ob-body">
     <div class="ob-sec-lbl">Organisation details</div>
     <div class="og">
       <div class="fg og-full"><label class="fl">Organisation name *</label><input id="ob-org" class="fi" type="text" placeholder="e.g. Aethis Limited"></div>
-      <div class="fg"><label class="fl">Your name</label><input id="ob-name" class="fi" type="text" placeholder="Full name"></div>
-      <div class="fg"><label class="fl">Your role / title</label><input id="ob-role" class="fi" type="text" placeholder="e.g. Company Secretary"></div>
-      <div class="fg"><label class="fl">Sector *</label><select id="ob-sec" class="fi"><option value="">Select sector</option><option>Banking & Financial Services</option><option>Fintech & Digital Payments</option><option>Insurance</option><option>Microfinance</option><option>Capital Markets</option><option>Telecoms & Technology</option><option>Other</option></select></div>
-      <div class="fg"><label class="fl">Primary regulatory environment *</label><select id="ob-reg" class="fi"><option value="">Select jurisdiction</option><option>Nigeria (CBN / SEC)</option><option>United Kingdom (FCA / PRA)</option><option>Both Nigeria and UK</option><option>Ghana (BoG / SEC)</option><option>Kenya (CBK / CMA)</option><option>South Africa (SARB / FSCA)</option><option>Other</option></select></div>
-      <div class="fg"><label class="fl">Board size</label><select id="ob-sz" class="fi"><option value="">Select</option><option>3-5</option><option>6-8</option><option>9-12</option><option>13+</option></select></div>
-      <div class="fg"><label class="fl">Staff headcount</label><select id="ob-st" class="fi"><option value="">Select</option><option>1-50</option><option>51-200</option><option>201-1000</option><option>1000+</option></select></div>
-      <div class="fg"><label class="fl">Organisation stage</label><select id="ob-stg" class="fi"><option value="">Select</option><option>Start-up</option><option>Growth</option><option>Mature</option><option>Restructuring</option><option>Regulatory authorisation</option></select></div>
-      <div class="fg og-full"><label class="fl">Key governance concerns (optional)</label><input id="ob-con" class="fi" type="text" placeholder="e.g. CBN examination, AI governance, succession planning"></div>
+      <div class="fg"><label class="fl">Your name</label><input id="ob-name" class="fi" type="text"></div>
+      <div class="fg"><label class="fl">Your role</label><input id="ob-role" class="fi" type="text"></div>
+      <div class="fg"><label class="fl">Sector *</label><select id="ob-sec" class="fi"><option value="">Select</option><option>Banking & Financial Services</option><option>Fintech</option><option>Insurance</option><option>Technology</option><option>Other</option></select></div>
+      <div class="fg"><label class="fl">Regulatory environment *</label><select id="ob-reg" class="fi"><option value="">Select</option><option>Nigeria (CBN/SEC)</option><option>United Kingdom (FCA/PRA)</option><option>Both</option><option>Other</option></select></div>
+      <div class="fg"><label class="fl">Board size</label><select id="ob-sz" class="fi"><option value="">Select</option><option>3-5</option><option>6-8</option><option>9-12</option></select></div>
+      <div class="fg"><label class="fl">Organisation stage</label><select id="ob-stg" class="fi"><option value="">Select</option><option>Start-up</option><option>Growth</option><option>Mature</option></select></div>
+      <div class="fg og-full"><label class="fl">Governance concerns</label><input id="ob-con" class="fi" type="text" placeholder="e.g. CBN examination, succession planning"></div>
     </div>
     <div class="ob-footer">
-      <button class="btn btn-nv" onclick="startTool()" style="padding:11px 24px;">Start assessment →</button>
+      <button class="btn btn-nv" onclick="startTool()">Start assessment →</button>
       <button class="btn btn-gh btn-sm" id="load-btn" onclick="loadProgress()" style="display:none;">↻ Load saved</button>
-      <span id="ob-err" style="font-size:12px;color:var(--red);display:none;">Please complete organisation name, sector and regulatory environment.</span>
-      <span id="ob-saved" class="ob-saved"></span>
+      <span id="ob-err" style="color:var(--red); font-size:12px; display:none;">Complete organisation, sector and regulatory field</span>
     </div>
   </div>
-  <div class="copyright">© 2026 CCC Consultancy Group Ltd. <a href="#">cccgrp.com</a> | <a href="#">Privacy</a></div>
+  <div class="copyright">© 2026 CCC Consultancy Group | <a href="#">cccgrp.com</a></div>
 </div>
 
-<!-- MAIN TOOL (hidden initially) -->
+<!-- MAIN TOOL -->
 <div id="scr-tool" style="display:none;">
   <div class="th">
     <div><div class="th-org" id="th-org"></div><div class="th-meta" id="th-meta"></div></div>
     <div id="sumbar"></div>
-    <button class="btn btn-sm btn-gh" onclick="backOb()">← Edit details</button>
+    <button class="btn btn-sm btn-gh" onclick="backOb()">← Edit</button>
   </div>
   <div class="tabs">
-    <button class="tab on" onclick="sw('matrix',this)">Skills matrix</button>
-    <button class="tab" onclick="sw('gaps',this)">Gap analysis</button>
-    <button class="tab" onclick="sw('ai',this)">Governance insights</button>
-    <button class="tab" onclick="sw('slide',this)">Slide preview</button>
+    <button class="tab on" onclick="sw('matrix',this)">Matrix</button>
+    <button class="tab" onclick="sw('gaps',this)">Gap Analysis</button>
+    <button class="tab" onclick="sw('ai',this)">Insights</button>
+    <button class="tab" onclick="sw('slide',this)">Slide</button>
   </div>
 
   <div class="pnl on" id="tp-matrix">
-    <div class="save-bar"><span class="sdot" id="sdot"></span><span id="sstatus">Auto-save ready</span><div style="flex:1"></div><button class="btn btn-sm btn-gh" onclick="saveNow()">💾 Save now</button><button class="btn btn-sm btn-gh" onclick="clearSave()" style="color:var(--red)">✖ Clear data</button></div>
-    <div class="tbar"><button class="btn btn-tl btn-sm" onclick="openMd('m')">+ Add Director / C-Suite</button><button class="btn btn-sm" onclick="openMd('s')">+ Add skill domain</button><div style="flex:1"></div><span class="chip cn">— None</span><span class="chip ca">Aware</span><span class="chip cc">Competent</span><span class="chip ce">Expert</span></div>
+    <div class="save-bar">
+      <span class="sdot ok" id="sdot"></span><span id="sstatus">Auto-save</span>
+      <div style="flex:1"></div>
+      <button class="btn btn-sm btn-gh" onclick="saveNow()">💾 Save</button>
+      <button class="btn btn-sm btn-gh" onclick="clearSave()" style="color:var(--red)">Clear</button>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+      <button class="btn btn-tl btn-sm" onclick="openMd('m')">+ Add Director</button>
+      <button class="btn btn-sm" onclick="openMd('s')">+ Add Skill</button>
+      <span class="chip cn">None</span><span class="chip ca">Aware</span><span class="chip cc">Competent</span><span class="chip ce">Expert</span>
+    </div>
     <div class="mwrap"><table id="mt"></table></div>
   </div>
 
   <div class="pnl" id="tp-gaps">
-    <div class="dlrow"><span>📊 Gap analysis report</span><button class="btn btn-sm" onclick="dlGapsPDF()">📄 PDF</button><button class="btn btn-sm" onclick="dlGapsCSV()">📎 CSV</button></div>
-    <div class="stats" id="sr"></div><div id="gg" class="gg"></div>
+    <div class="dlrow"><span>📊 Report</span><button class="btn btn-sm" onclick="dlGapsPDF()">PDF</button><button class="btn btn-sm" onclick="dlGapsCSV()">CSV</button></div>
+    <div class="stats" id="sr"></div>
+    <div id="gg" class="gg"></div>
   </div>
 
   <div class="pnl" id="tp-ai">
-    <div class="aibox"><p>Generate a complete governance advisory note: critical gaps, SPOFs, regulatory risk, recruitment profiles, development plans, succession and immediate actions.</p><button class="btn btn-tl" onclick="genInsights()">Generate analysis →</button></div>
-    <div id="aio" class="aiout"></div><div id="ai-dl" style="margin-top:12px; display:none;"><button class="btn btn-sm" onclick="dlAIPDF()">📥 Download PDF</button></div>
+    <button class="btn btn-tl" onclick="genInsights()">Generate Governance Analysis →</button>
+    <div id="aio" class="aiout" style="display:none;"></div>
+    <div id="ai-dl" style="margin-top:12px; display:none;"><button class="btn btn-sm" onclick="dlAIPDF()">Download PDF</button></div>
   </div>
 
   <div class="pnl" id="tp-slide">
-    <div class="dlrow"><span>📸 Board slide preview</span><button class="btn btn-sm" onclick="dlSlide()">Download PNG</button></div>
+    <div class="dlrow"><button class="btn btn-sm" onclick="dlSlide()">📸 Download PNG</button></div>
     <div class="slide" id="sp"></div>
   </div>
-  <div class="copyright">© 2026 CCC Consultancy Group — <a href="#">cccgrp.com</a></div>
+  <div class="copyright">© 2026 CCC Consultancy Group | info@cccgrp.com</div>
 </div>
 </div></div>
 
 <!-- MODAL -->
-<div class="mdbg" id="mb" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1000;"><div class="mdl" style="background:white; border-radius:24px; padding:24px; width:90%; max-width:400px;"><h2 id="mt2"></h2><div class="fg"><label id="ml1" class="fl">Name</label><input id="mi1" class="fi" type="text"></div><div id="mf2" class="fg" style="margin-top:12px;"><label class="fl">Role / title</label><input id="mi2" class="fi" type="text"></div><div class="mda" style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;"><button class="btn btn-gh btn-sm" onclick="closeMd()">Cancel</button><button class="btn btn-tl btn-sm" id="msb">Add</button></div></div></div>
+<div class="mdbg" id="mb">
+  <div class="mdl">
+    <h3 id="mt2">Add</h3>
+    <div class="fg"><label id="ml1" class="fl">Name</label><input id="mi1" class="fi" type="text"></div>
+    <div id="mf2" class="fg" style="margin-top:12px;"><label class="fl">Role</label><input id="mi2" class="fi" type="text"></div>
+    <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
+      <button class="btn btn-sm btn-gh" onclick="closeMd()">Cancel</button>
+      <button class="btn btn-sm btn-tl" id="msb">Add</button>
+    </div>
+  </div>
+</div>
 
 <script>
-// --------------------------------------------------------------
-// CORE STATE & HELPERS
-// --------------------------------------------------------------
-const SAVE_KEY = 'ccc_bsm_v3';
+// ============================================================
+// FULL WORKING APPLICATION
+// ============================================================
+const SAVE_KEY = 'ccc_board_matrix';
 const LV = ['none','aware','competent','expert'];
 const LB = { none:'—', aware:'Aware', competent:'Competent', expert:'Expert' };
 const CH = { none:'cn', aware:'ca', competent:'cc', expert:'ce' };
-const SC2 = { none:0, aware:1, competent:2, expert:3 };
-let idc = 100;
-function uid() { return 'x' + (++idc); }
+const SC = { none:0, aware:1, competent:2, expert:3 };
 
-let CTX = { org:'', name:'', role:'', sec:'', reg:'', sz:'', st:'', stg:'', con:'' };
-const S = {
+let idCounter = 100;
+function uid() { return 'id' + (++idCounter); }
+
+let CTX = { org:'', name:'', role:'', sec:'', reg:'', sz:'', stg:'', con:'' };
+let state = {
   members: [],
   skills: [
-    { id:'s1', name:'Financial oversight & audit' }, { id:'s2', name:'Risk management' }, { id:'s3', name:'Regulatory & compliance' },
-    { id:'s4', name:'Technology & cybersecurity' }, { id:'s5', name:'AI & digital transformation' }, { id:'s6', name:'Legal & corporate governance' },
-    { id:'s7', name:'Strategy & M&A' }, { id:'s8', name:'Sector expertise' }, { id:'s9', name:'ESG & sustainability' }, { id:'s10', name:'AML & financial crime' }
+    { id:'s1', name:'Financial oversight & audit' },
+    { id:'s2', name:'Risk management' },
+    { id:'s3', name:'Regulatory & compliance' },
+    { id:'s4', name:'Technology & cybersecurity' },
+    { id:'s5', name:'AI & digital' },
+    { id:'s6', name:'Legal & governance' },
+    { id:'s7', name:'Strategy & M&A' },
+    { id:'s8', name:'Sector expertise' },
+    { id:'s9', name:'ESG & sustainability' },
+    { id:'s10', name:'AML & financial crime' }
   ],
   mx: {}
 };
 let saveTimer = null;
 
-function gv(m,s) { return S.mx[m+'_'+s] || 'none'; }
-function cov(sid) { return S.members.filter(m => SC2[gv(m.id,sid)] >= 2).length; }
-function cst(sid) { const n = cov(sid); return n===0 ? 'g' : n===1 ? 's' : 'o'; }
-const CL = { g:'Critical gap', s:'SPOF', o:'Covered' };
-const BC = { g:'#E24B4A', s:'#EF9F27', o:'#27AE60' };
-const CC = { g:'vg', s:'vs', o:'vo' };
+function gv(mid, sid) { return state.mx[mid+'_'+sid] || 'none'; }
+function cov(sid) { return state.members.filter(m => SC[gv(m.id, sid)] >= 2).length; }
+function cst(sid) { let n = cov(sid); return n===0 ? 'g' : n===1 ? 's' : 'o'; }
+const statusLabel = { g:'Gap', s:'SPOF', o:'Covered' };
+const statusColor = { g:'#E24B4A', s:'#EF9F27', o:'#27AE60' };
+const statusClass = { g:'vg', s:'vs', o:'vo' };
 
 function updSumbar() {
-  const crit = S.skills.filter(s=>cst(s.id)==='g').length;
-  const sp = S.skills.filter(s=>cst(s.id)==='s').length;
-  const el = document.getElementById('sumbar');
-  if(el) el.innerHTML = (crit?`<span class="sp-pill" style="background:#FEF2F2;color:#B91C1C;">${crit} critical gap${crit>1?'s':''}</span>`:'') + (sp?`<span class="sp-pill" style="background:#FEF8E7;color:#B45309;">${sp} SPOF${sp>1?'s':''}</span>`:'');
+  let crit = state.skills.filter(s=>cst(s.id)==='g').length;
+  let sp = state.skills.filter(s=>cst(s.id)==='s').length;
+  let html = '';
+  if(crit) html += `<span style="background:#FEF2F2;color:#B91C1C;padding:3px 10px;border-radius:20px;font-size:11px;">⚠️ ${crit} gap${crit>1?'s':''}</span>`;
+  if(sp) html += `<span style="background:#FEF8E7;color:#B45309;padding:3px 10px;border-radius:20px;font-size:11px;margin-left:6px;">🔸 ${sp} SPOF${sp>1?'s':''}</span>`;
+  document.getElementById('sumbar').innerHTML = html;
 }
-function rM() {
-  const t = document.getElementById('mt');
-  if(!t) return;
-  if(!S.members.length || !S.skills.length) { t.innerHTML='<tr><td colspan="99" style="padding:32px;text-align:center;">➕ Add directors and skills to start</td></tr>'; return; }
-  let h='<thead><tr><th>Director / C-Suite</th>'+S.skills.map(s=>`<th class="sk">${s.name}<div><span class="chip ${CC[cst(s.id)]}" style="font-size:9px;">${CL[cst(s.id)]}</span></div></th>`).join('')+'<th></th></tr></thead><tbody>';
-  S.members.forEach(m=>{
-    h+=`<tr><td><div class="mn">${m.name}</div><div class="mr">${m.role}</div></td>`;
-    S.skills.forEach(s=>{ const v=gv(m.id,s.id); h+=`<td style="text-align:center;"><span class="chip ${CH[v]}" onclick="cyc('${m.id}','${s.id}')">${LB[v]}</span></td>`; });
-    h+=`<td><button class="rmb" onclick="rmM('${m.id}')">✕</button></td></tr>`;
+
+function renderMatrix() {
+  let t = document.getElementById('mt');
+  if(!state.members.length || !state.skills.length) {
+    t.innerHTML = '<tr><td colspan="99" style="padding:40px;text-align:center;">➕ Add directors and skill domains above</td></tr>';
+    return;
+  }
+  let html = '<thead><tr><th>Director / C-Suite</th>';
+  state.skills.forEach(s => { let st = cst(s.id); html += `<th style="text-align:center;">${s.name}<div><span class="chip ${statusClass[st]}" style="font-size:9px;">${statusLabel[st]}</span></div></th>`; });
+  html += '<th></th></tr></thead><tbody>';
+  state.members.forEach(m => {
+    html += `<tr><td><div class="mn">${escapeHtml(m.name)}</div><div class="mr">${escapeHtml(m.role)}</div></td>`;
+    state.skills.forEach(s => { let val = gv(m.id, s.id); html += `<td style="text-align:center;"><span class="chip ${CH[val]}" onclick="cycleLevel('${m.id}','${s.id}')">${LB[val]}</span></td>`; });
+    html += `<td style="text-align:center;"><button class="rmb" onclick="removeMember('${m.id}')">✕</button></td></tr>`;
   });
-  h+=`<tr class="crow"><td>Coverage (Competent+)</td>${S.skills.map(s=>`<td style="text-align:center;"><span class="chip ${CC[cst(s.id)]}">${cov(s.id)}/${S.members.length}</span></td>`).join('')}<td></td></tr></tbody>`;
-  t.innerHTML = h;
+  html += '<tr style="background:#F8FAFE;"><td><strong>Coverage (Competent+)</strong></td>';
+  state.skills.forEach(s => { let n = cov(s.id); let st = cst(s.id); html += `<td style="text-align:center;"><span class="chip ${statusClass[st]}">${n}/${state.members.length}</span></td>`; });
+  html += '<td></td></tr></tbody>';
+  t.innerHTML = html;
 }
-function cyc(m,s) { const i=LV.indexOf(gv(m,s)); S.mx[m+'_'+s]=LV[(i+1)%LV.length]; rM(); rSlide(); updSumbar(); autoSave(); }
-function rmM(id){ S.members=S.members.filter(m=>m.id!==id); Object.keys(S.mx).filter(k=>k.startsWith(id+'_')).forEach(k=>delete S.mx[k]); rM(); rSlide(); updSumbar(); autoSave(); }
-function rSlide(){
-  const el=document.getElementById('sp'); if(!el) return;
-  let html=`<div class="sl-t">${CTX.org||'Board'}</div><div class="sl-s">Skills Matrix</div><div class="sl-m">${new Date().toLocaleDateString()}</div><div style="overflow-x:auto;"><table style="width:100%"><thead><tr><th>Member</th>${S.skills.map(s=>`<th style="font-size:8px;">${s.name}</th>`).join('')}</tr></thead><tbody>`;
-  S.members.forEach(m=>{ html+=`<tr><td><b>${m.name}</b><br><span style="font-size:8px;">${m.role}</span></td>${S.skills.map(s=>`<td style="text-align:center; font-size:9px;">${LB[gv(m.id,s.id)]}</td>`).join('')}</tr>`; });
-  html+=`</tbody></table></div><div class="sl-f">CCC Consultancy Group</div>`;
+
+function cycleLevel(mid, sid) {
+  let curr = gv(mid, sid);
+  let idx = LV.indexOf(curr);
+  let next = LV[(idx+1) % LV.length];
+  state.mx[mid+'_'+sid] = next;
+  renderMatrix();
+  renderSlide();
+  updSumbar();
+  autoSave();
+}
+
+function removeMember(mid) {
+  state.members = state.members.filter(m => m.id !== mid);
+  Object.keys(state.mx).filter(k => k.startsWith(mid+'_')).forEach(k => delete state.mx[k]);
+  renderMatrix();
+  renderSlide();
+  updSumbar();
+  autoSave();
+}
+
+function renderSlide() {
+  let el = document.getElementById('sp');
+  if(!el) return;
+  let html = `<div style="font-weight:800;font-size:18px;">${CTX.org || 'Board Matrix'}</div>
+    <div style="font-size:10px;color:var(--teal);margin:4px 0;">Skills Assessment</div>
+    <div style="overflow-x:auto;margin-top:16px;"><table style="width:100%;font-size:9px;border-collapse:collapse;">`;
+  html += '<thead><tr><th>Member</th>';
+  state.skills.forEach(s => html += `<th style="padding:4px;">${s.name.substring(0,12)}</th>`);
+  html += '</tr></thead><tbody>';
+  state.members.forEach(m => {
+    html += `<tr><td style="padding:4px;"><b>${escapeHtml(m.name)}</b><br><span style="font-size:8px;">${escapeHtml(m.role)}</span></td>`;
+    state.skills.forEach(s => { html += `<td style="text-align:center;padding:4px;">${LB[gv(m.id, s.id)]}</td>`; });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div><div style="margin-top:12px;font-size:8px;color:#94a3b8;">CCC Consultancy Group</div>';
   el.innerHTML = html;
 }
-function rG(){
-  const sr=document.getElementById('sr'); const gg=document.getElementById('gg');
-  if(!sr) return;
-  const crit=S.skills.filter(s=>cst(s.id)==='g').length, sp=S.skills.filter(s=>cst(s.id)==='s').length, ok=S.skills.filter(s=>cst(s.id)==='o').length;
-  sr.innerHTML = `<div class="stat"><div class="n" style="color:var(--red)">${crit}</div><div class="l">Critical gaps</div></div><div class="stat"><div class="n" style="color:var(--amber)">${sp}</div><div class="l">SPOF</div></div><div class="stat"><div class="n" style="color:var(--green)">${ok}</div><div class="l">Covered</div></div><div class="stat"><div class="n">${S.members.length}</div><div class="l">Members</div></div>`;
-  gg.innerHTML = S.skills.map(s=>{ const st=cst(s.id); const q=S.members.filter(m=>SC2[gv(m.id,s.id)]>=2).map(m=>m.name).join(', ')||'None'; return `<div class="gc" style="border-left-color:${BC[st]};"><div class="gs">${s.name}</div><div class="gq">Qualified: ${q}</div><div class="gr">${st==='g'?'No competent member — urgent recruitment needed.':st==='s'?'Only one qualified member — succession risk.':'Adequate coverage (≥2 members).'}</div></div>`; }).join('');
+
+function renderGaps() {
+  let sr = document.getElementById('sr');
+  let gg = document.getElementById('gg');
+  let crit = state.skills.filter(s=>cst(s.id)==='g').length;
+  let sp = state.skills.filter(s=>cst(s.id)==='s').length;
+  let ok = state.skills.filter(s=>cst(s.id)==='o').length;
+  sr.innerHTML = `
+    <div class="stat"><div class="n" style="color:var(--red)">${crit}</div><div class="l">Critical gaps</div></div>
+    <div class="stat"><div class="n" style="color:var(--amber)">${sp}</div><div class="l">SPOF</div></div>
+    <div class="stat"><div class="n" style="color:var(--green)">${ok}</div><div class="l">Covered</div></div>
+    <div class="stat"><div class="n">${state.members.length}</div><div class="l">Members</div></div>
+  `;
+  let gapsHtml = '';
+  state.skills.forEach(s => {
+    let st = cst(s.id);
+    let qualified = state.members.filter(m => SC[gv(m.id, s.id)] >= 2).map(m => m.name).join(', ') || 'None';
+    let advice = st==='g' ? '❌ No qualified member. Urgent recruitment needed.' : (st==='s' ? '⚠️ Only one qualified member. Succession risk.' : '✅ Two or more qualified members. Good coverage.');
+    gapsHtml += `<div class="gc" style="border-left-color:${statusColor[st]};"><div class="gs">${s.name}</div><div class="gq">Qualified: ${qualified}</div><div class="gr">${advice}</div></div>`;
+  });
+  gg.innerHTML = gapsHtml;
 }
-function sw(name,btn){
-  ['matrix','gaps','ai','slide'].forEach(t=>{const e=document.getElementById('tp-'+t); if(e)e.classList.remove('on');});
-  document.getElementById('tp-'+name).classList.add('on');
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+
+function sw(tabName, btn) {
+  ['matrix','gaps','ai','slide'].forEach(t => document.getElementById('tp-'+t).classList.remove('on'));
+  document.getElementById('tp-'+tabName).classList.add('on');
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
   if(btn) btn.classList.add('on');
-  if(name==='gaps') rG();
-  if(name==='slide') rSlide();
+  if(tabName === 'gaps') renderGaps();
+  if(tabName === 'slide') renderSlide();
 }
-let amode='';
-function openMd(t){ amode=t; document.getElementById('mt2').innerText = t==='m'?'Add Director':'Add Skill'; document.getElementById('ml1').innerText = t==='m'?'Full name':'Skill name'; document.getElementById('mi1').value=''; document.getElementById('mi2').value=''; document.getElementById('mf2').style.display=t==='m'?'block':'none'; document.getElementById('mb').style.display='flex'; }
-function closeMd(){ document.getElementById('mb').style.display='none'; }
-document.getElementById('msb').addEventListener('click',()=>{ const v1=document.getElementById('mi1').value.trim(); if(!v1) return; if(amode==='m'){ const v2=document.getElementById('mi2').value.trim(); S.members.push({id:uid(), name:v1, role:v2||'Director'}); } else { S.skills.push({id:uid(), name:v1}); } closeMd(); rM(); rSlide(); updSumbar(); autoSave(); });
-function autoSave(){ setDot(true); clearTimeout(saveTimer); saveTimer=setTimeout(saveNow,800); }
-function setDot(dirty){ const d=document.getElementById('sdot'); if(d) d.className='sdot '+(dirty?'dirty':'ok'); }
-function saveNow(){ localStorage.setItem(SAVE_KEY, JSON.stringify({ctx:CTX, members:S.members, skills:S.skills, mx:S.mx})); setDot(false); document.getElementById('sstatus').innerText='Saved '+new Date().toLocaleTimeString(); }
-function clearSave(){ if(confirm('Clear all saved data?')){ localStorage.removeItem(SAVE_KEY); document.getElementById('sstatus').innerText='Data cleared'; setDot(false); } }
-function startTool(){
-  const org=document.getElementById('ob-org').value.trim(), sec=document.getElementById('ob-sec').value, reg=document.getElementById('ob-reg').value;
-  if(!org||!sec||!reg){ document.getElementById('ob-err').style.display='block'; return; }
-  document.getElementById('ob-err').style.display='none';
-  CTX={ org, sec, reg, name:document.getElementById('ob-name').value, role:document.getElementById('ob-role').value, sz:document.getElementById('ob-sz').value, st:document.getElementById('ob-st').value, stg:document.getElementById('ob-stg').value, con:document.getElementById('ob-con').value };
-  document.getElementById('scr-ob').style.display='none';
-  document.getElementById('scr-tool').style.display='block';
-  document.getElementById('th-org').innerText=CTX.org;
-  document.getElementById('th-meta').innerText=[CTX.sec, CTX.reg].filter(Boolean).join(' · ');
-  rM(); rSlide(); updSumbar(); saveNow();
+
+let modalType = '';
+function openMd(type) {
+  modalType = type;
+  document.getElementById('mt2').innerText = type === 'm' ? 'Add Director / C-Suite' : 'Add Skill Domain';
+  document.getElementById('ml1').innerText = type === 'm' ? 'Full name' : 'Skill name';
+  document.getElementById('mf2').style.display = type === 'm' ? 'block' : 'none';
+  document.getElementById('mi1').value = '';
+  document.getElementById('mi2').value = '';
+  document.getElementById('mb').style.display = 'flex';
 }
-function backOb(){ document.getElementById('scr-tool').style.display='none'; document.getElementById('scr-ob').style.display='block'; }
-function loadProgress(){
-  const d=JSON.parse(localStorage.getItem(SAVE_KEY)||'{}');
-  if(!d.ctx) return;
-  CTX=d.ctx; Object.assign(S, {members:d
+function closeMd() { document.getElementById('mb').style.display = 'none'; }
+document.getElementById('msb').addEventListener('click', () => {
+  let name = document.getElementById('mi1').value.trim();
+  if(!name) return;
+  if(modalType === 'm') {
+    let role = document.getElementById('mi2').value.trim() || 'Director';
+    state.members.push({ id: uid(), name: name, role: role });
+  } else {
+    state.skills.push({ id: uid(), name: name });
+  }
+  closeMd();
+  renderMatrix();
+  renderSlide();
+  updSumbar();
+  autoSave();
+});
+
+function autoSave() { setDirty(true); clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 1000); }
+function setDirty(dirty) { let d = document.getElementById('sdot'); if(d) d.className = 'sdot ' + (dirty ? 'dirty' : 'ok'); }
+function saveNow() {
+  localStorage.setItem(SAVE_KEY, JSON.stringify({ ctx: CTX, members: state.members, skills: state.skills, mx: state.mx }));
+  setDirty(false);
+  document.getElementById('sstatus').innerText = 'Saved';
+}
+function clearSave() { if(confirm('Clear all saved data?')) { localStorage.removeItem(SAVE_KEY); document.getElementById('sstatus').innerText = 'Cleared'; setDirty(false); } }
+function loadProgress() {
+  let raw = localStorage.getItem(SAVE_KEY);
+  if(!raw) return;
+  let data = JSON.parse(raw);
+  if(data.ctx) CTX = data.ctx;
+  if(data.members) state.members = data.members;
+  if(data.skills) state.skills = data.skills;
+  if(data.mx) state.mx = data.mx;
+  document.getElementById('ob-org').value = CTX.org || '';
+  document.getElementById('ob-sec').value = CTX.sec || '';
+  document.getElementById('ob-reg').value = CTX.reg || '';
+  if(CTX.org && CTX.sec && CTX.reg) startTool(true);
+}
+function startTool(fromLoad) {
+  let org = document.getElementById('ob-org').value.trim();
+  let sec = document.getElementById('ob-sec').value;
+  let reg = document.getElementById('ob-reg').value;
+  if(!org || !sec || !reg) { document.getElementById('ob-err').style.display = 'block'; return; }
+  document.getElementById('ob-err').style.display = 'none';
+  CTX = { org, sec, reg, name: document.getElementById('ob-name').value, role: document.getElementById('ob-role').value, sz: document.getElementById('ob-sz').value, stg: document.getElementById('ob-stg').value, con: document.getElementById('ob-con').value };
+  document.getElementById('scr-ob').style.display = 'none';
+  document.getElementById('scr-tool').style.display = 'block';
+  document.getElementById('th-org').innerText = CTX.org;
+  document.getElementById('th-meta').innerHTML = `${CTX.sec} · ${CTX.reg}`;
+  renderMatrix();
+  renderSlide();
+  updSumbar();
+  if(!fromLoad) saveNow();
+}
+function backOb() { document.getElementById('scr-tool').style.display = 'none'; document.getElementById('scr-ob').style.display = 'block'; }
+function genInsights() {
+  let out = document.getElementById('aio');
+  let dlDiv = document.getElementById('ai-dl');
+  let gaps = state.skills.filter(s=>cst(s.id)==='g').length;
+  let spofs = state.skills.filter(s=>cst(s.id)==='s').length;
+  let text = `🔍 GOVERNANCE ANALYSIS - ${CTX.org}\n\n`;
+  text += `Board size: ${state.members.length} members\nCritical gaps: ${gaps} | SPOFs: ${spofs}\n\n`;
+  if(gaps === 0 && spofs === 0) text += `✅ The board has strong coverage across all domains. Maintain annual reviews.`;
+  else if(gaps > 0) text += `⚠️ Priority: Recruit for ${gaps} gap area(s). Nominations committee to act within 30 days.`;
+  if(spofs > 0) text += `\n🔸 Succession risk: ${spofs} domain(s) rely on a single director. Document contingency plans.`;
+  text += `\n\n📌 Recommended next steps:\n1. Present this matrix to the full board.\n2. Commission recruitment briefs for critical gaps.\n3. Review committee composition.\n4. Schedule annual skills refresh.`;
+  out.innerText = text;
+  out.style.display = 'block';
+  dlDiv.style.display = 'block';
+}
+function dlAIPDF() { const {jsPDF}=window.jspdf; let doc=new jsPDF(); doc.text(document.getElementById('aio').innerText,10,10); doc.save('governance-insights.pdf'); }
+function dlGapsCSV() { let csv='Skill,Status,Qualified Members\n'; state.skills.forEach(s=>{ let q=state.members.filter(m=>SC[gv(m.id,s.id)]>=2).map(m=>m.name).join(';'); csv+=`${s.name},${statusLabel[cst(s.id)]},${q}\n`; }); let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='gap-analysis.csv'; a.click(); }
+function dlGapsPDF() { const {jsPDF}=
