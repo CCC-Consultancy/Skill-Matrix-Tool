@@ -3,417 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CCC Consultancy Group | Board Skills Matrix</title>
+<title>Board Skills Matrix — CCC Consultancy Group</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #f0f2f5;
-    color: #1a1a2e;
-  }
-  :root {
-    --navy: #0A1A2F;
-    --teal: #1FBFD7;
-    --red: #E24B4A;
-    --amber: #EF9F27;
-    --green: #27AE60;
-    --red-bg: #FEF2F2;
-    --amber-bg: #FEF8E7;
-    --green-bg: #EEF7EE;
-    --blue-bg: #EBF4FC;
-    --red-txt: #B91C1C;
-    --amber-txt: #B45309;
-    --green-txt: #2F6B2F;
-  }
-  .hdr {
-    background: var(--navy);
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 3px solid var(--teal);
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .hdr-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .hdr-logo-img {
-    height: 50px;
-    width: auto;
-  }
-  .hdr-div {
-    width: 1px;
-    height: 30px;
-    background: rgba(255,255,255,0.2);
-  }
-  .hdr-text h1 {
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .hdr-text .sub {
-    font-size: 9px;
-    color: var(--teal);
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-  .wrap {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 24px 20px;
-  }
-  .card {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    overflow: hidden;
-  }
-  .ob-hero {
-    background: var(--navy);
-    padding: 32px 36px;
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    align-items: center;
-    border-bottom: 3px solid var(--teal);
-  }
-  .ob-hero-logo {
-    height: 60px;
-    width: auto;
-  }
-  .ob-hero-text h2 {
-    color: white;
-    font-size: 22px;
-    margin-bottom: 8px;
-  }
-  .ob-hero-text p {
-    color: rgba(255,255,255,0.65);
-    font-size: 14px;
-    max-width: 540px;
-  }
-  .ob-body {
-    padding: 28px 36px;
-  }
-  .ob-sec-lbl {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--teal);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 8px;
-  }
-  .og {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  .og-full {
-    grid-column: span 2;
-  }
-  .fg {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  .fl {
-    font-size: 11px;
-    font-weight: 700;
-    color: #4a5568;
-  }
-  .fi {
-    padding: 10px 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    font-size: 14px;
-  }
-  .fi:focus {
-    outline: none;
-    border-color: var(--teal);
-  }
-  .btn {
-    padding: 8px 16px;
-    border-radius: 40px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid #cbd5e1;
-    background: white;
-    font-family: inherit;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .btn-nv {
-    background: var(--navy);
-    color: white;
-    border-color: var(--navy);
-  }
-  .btn-tl {
-    background: var(--teal);
-    color: white;
-    border-color: var(--teal);
-  }
-  .btn-sm {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-  .btn-gh {
-    background: transparent;
-    border-color: #cbd5e1;
-  }
-  .th {
-    padding: 16px 24px;
-    background: #f8fafe;
-    border-bottom: 1px solid #e2e8f0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .th-org {
-    font-weight: 800;
-    font-size: 18px;
-    color: var(--navy);
-  }
-  .th-meta {
-    font-size: 11px;
-    color: #6c7a91;
-  }
-  .tabs {
-    display: flex;
-    gap: 4px;
-    padding: 0 20px;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  .tab {
-    padding: 12px 18px;
-    font-size: 14px;
-    font-weight: 600;
-    background: none;
-    border: none;
-    color: #6c7a91;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-  }
-  .tab.on {
-    color: var(--teal);
-    border-bottom-color: var(--teal);
-  }
-  .pnl {
-    padding: 24px;
-    display: none;
-  }
-  .pnl.on {
-    display: block;
-  }
-  .chip {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 40px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .cn { background: #f1f5f9; color: #475569; }
-  .ca { background: var(--amber-bg); color: var(--amber-txt); }
-  .cc { background: var(--green-bg); color: var(--green-txt); }
-  .ce { background: var(--blue-bg); color: #1e4a76; }
-  .vg { background: var(--red-bg); color: var(--red-txt); }
-  .vs { background: var(--amber-bg); color: var(--amber-txt); }
-  .vo { background: var(--green-bg); color: var(--green-txt); }
-  .mwrap {
-    overflow-x: auto;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    margin-top: 12px;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  th {
-    background: #f8fafe;
-    padding: 10px;
-    font-size: 10px;
-    text-align: left;
-    border-bottom: 1px solid #e2e8f0;
-  }
-  td {
-    padding: 8px 10px;
-    border-bottom: 1px solid #f1f5f9;
-    font-size: 13px;
-  }
-  .mn {
-    font-weight: 700;
-    color: var(--navy);
-  }
-  .mr {
-    font-size: 10px;
-    color: #6c7a91;
-  }
-  .rmb {
-    background: none;
-    border: none;
-    color: var(--red);
-    cursor: pointer;
-    font-size: 16px;
-  }
-  .stats {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
-  .stat {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 16px;
-    min-width: 110px;
-    text-align: center;
-  }
-  .stat .n {
-    font-size: 32px;
-    font-weight: 800;
-  }
-  .stat .l {
-    font-size: 10px;
-    color: #6c7a91;
-  }
-  .gg {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
-  .gc {
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 14px;
-    border-left-width: 5px;
-  }
-  .gs {
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .gq {
-    font-size: 11px;
-    color: #6c7a91;
-    margin-bottom: 8px;
-  }
-  .gr {
-    font-size: 11px;
-    color: #4a5568;
-    border-top: 1px solid #e2e8f0;
-    padding-top: 8px;
-  }
-  .save-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #f8fafe;
-    padding: 8px 16px;
-    border-radius: 40px;
-    margin-bottom: 16px;
-    font-size: 12px;
-  }
-  .sdot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #ccc;
-    display: inline-block;
-  }
-  .sdot.ok { background: var(--green-txt); }
-  .sdot.dirty { background: var(--amber-txt); }
-  .dlrow {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .aiout {
-    background: #f8fafe;
-    border-left: 4px solid var(--teal);
-    border-radius: 12px;
-    padding: 20px;
-    font-size: 13px;
-    line-height: 1.6;
-    white-space: pre-wrap;
-    margin-top: 20px;
-  }
-  .slide {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 24px;
-  }
-  .copyright {
-    text-align: center;
-    padding: 16px;
-    font-size: 11px;
-    color: #94a3b8;
-    border-top: 1px solid #e2e8f0;
-  }
-  .mdbg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  .mdl {
-    background: white;
-    border-radius: 20px;
-    padding: 24px;
-    width: 90%;
-    max-width: 400px;
-  }
-  @media (max-width: 640px) {
-    .og { grid-template-columns: 1fr; }
-    .og-full { grid-column: 1; }
-    .ob-hero { flex-direction: column; text-align: center; }
-  }
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;}
+:root{--navy:#0A1A2F;--teal:#1FBFD7;--red:#E24B4A;--amber:#EF9F27;--green:#27AE60;--red-bg:#FCEBEB;--amber-bg:#FAEEDA;--green-bg:#EAF3DE;--blue-bg:#E6F1FB;}
+.hdr{background:var(--navy);padding:13px 26px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--teal);}
+.hdr-left{display:flex;align-items:center;gap:14px;}
+.hdr-logo{height:50px;width:auto;}
+.hdr-div{width:1px;height:28px;background:rgba(255,255,255,0.15);}
+.hdr-text h1{color:#fff;font-size:16px;}
+.hdr-text .sub{font-size:9px;color:var(--teal);}
+.hdr-btn{padding:6px 12px;border-radius:6px;font-size:12px;color:rgba(255,255,255,0.65);border:1px solid rgba(255,255,255,0.15);background:transparent;cursor:pointer;text-decoration:none;}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 20px;}
+.card{background:#fff;border-radius:12px;overflow:hidden;}
+.ob-hero{background:var(--navy);padding:32px 38px;display:flex;gap:22px;flex-wrap:wrap;align-items:center;border-bottom:3px solid var(--teal);}
+.ob-hero-logo{height:60px;width:auto;}
+.ob-hero-text h2{color:#fff;font-size:20px;margin-bottom:5px;}
+.ob-hero-text p{color:rgba(255,255,255,0.58);font-size:13px;}
+.ob-body{padding:28px 38px;}
+.ob-sec-lbl{font-size:10px;font-weight:700;color:var(--teal);margin-bottom:14px;border-bottom:1px solid #f0f0f8;padding-bottom:6px;}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:22px;}
+.og-full{grid-column:1/-1;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fl{font-size:10px;font-weight:700;color:#888;}
+.fi{padding:9px 12px;border:1px solid #d4d8e8;border-radius:7px;font-size:13px;}
+.fi:focus{border-color:var(--teal);outline:none;}
+.btn{padding:8px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #d0d5e0;background:#fff;font-family:inherit;}
+.btn-nv{background:var(--navy);color:#fff;border-color:var(--navy);}
+.btn-tl{background:var(--teal);color:#fff;border-color:var(--teal);}
+.btn-sm{padding:6px 11px;font-size:12px;}
+.btn-gh{background:transparent;}
+.th{padding:13px 22px;background:#fafbff;border-bottom:1px solid #eaecf4;display:flex;justify-content:space-between;align-items:center;}
+.th-org{font-weight:700;color:var(--navy);}
+.th-meta{font-size:11px;color:#aaa;}
+.tabs{display:flex;border-bottom:1px solid #eaecf4;padding:0 20px;}
+.tab{padding:12px 17px;font-size:13px;font-weight:500;color:#888;background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;}
+.tab.on{color:var(--teal);border-bottom-color:var(--teal);}
+.pnl{padding:22px;display:none;}
+.pnl.on{display:block;}
+.chip{display:inline-block;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;}
+.cn{background:#f0f0f5;color:#999;}
+.ca{background:var(--amber-bg);color:#854F0B;}
+.cc{background:var(--green-bg);color:#3B6D11;}
+.ce{background:var(--blue-bg);color:#185FA5;}
+.vg{background:var(--red-bg);color:var(--red);}
+.vs{background:var(--amber-bg);color:#854F0B;}
+.vo{background:var(--green-bg);color:#3B6D11;}
+.mwrap{overflow-x:auto;border:1px solid #eaecf4;border-radius:8px;}
+table{width:100%;border-collapse:collapse;}
+th{background:#f6f8fc;padding:8px 9px;font-size:9px;text-align:left;border-bottom:1px solid #eaecf4;}
+td{padding:7px 9px;border-bottom:1px solid #f2f3f8;font-size:13px;}
+.mn{font-weight:700;color:var(--navy);}
+.mr{font-size:11px;color:#aaa;}
+.rmb{color:var(--red);cursor:pointer;background:none;border:none;}
+.stats{display:flex;gap:10px;margin-bottom:20px;}
+.stat{flex:1;background:#fff;border:1px solid #eaecf4;border-radius:10px;padding:14px;text-align:center;}
+.stat .n{font-size:32px;font-weight:700;}
+.stat .l{font-size:10px;color:#888;}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:11px;}
+.gc{border:1px solid #eaecf4;border-radius:10px;padding:13px 15px;border-left-width:4px;border-left-style:solid;}
+.gs{font-weight:700;margin-bottom:5px;}
+.gq{font-size:11px;color:#aaa;margin-bottom:9px;}
+.gr{font-size:12px;color:#666;border-top:1px solid #f0f0f8;padding-top:9px;}
+.save-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#f6f8fc;border-radius:8px;margin-bottom:14px;font-size:12px;}
+.sdot{width:8px;height:8px;border-radius:50%;background:#ccc;display:inline-block;margin-right:4px;}
+.sdot.ok{background:var(--green);}
+.sdot.dirty{background:var(--amber);}
+.aiout{background:#fff;border-left:3px solid var(--teal);border-radius:10px;padding:22px;font-size:14px;white-space:pre-wrap;margin-top:15px;}
+.slide{background:#fff;border-radius:10px;padding:28px;border:1px solid #eaecf4;border-left:6px solid var(--teal);}
+.mdbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:200;}
+.mdl{background:#fff;border-radius:12px;padding:22px;width:400px;max-width:95vw;}
+.copyright{text-align:center;padding:16px;font-size:11px;color:#bbb;border-top:1px solid #eaecf4;}
 </style>
 </head>
 <body>
 
 <div class="hdr">
   <div class="hdr-left">
-    <img src="logo.png" alt="CCC" class="hdr-logo-img" onerror="this.style.display='none'">
+    <img src="logo.png" alt="CCC Consultancy Group" class="hdr-logo" onerror="this.style.display='none'">
     <div class="hdr-div"></div>
     <div class="hdr-text">
       <h1>Board Skills Matrix</h1>
       <div class="sub">Competency Gap Analyser</div>
     </div>
   </div>
-  <a href="mailto:info@cccgrp.com" class="btn btn-gh btn-sm" style="text-decoration:none;">✉ Feedback</a>
+  <a href="mailto:info@cccgrp.com" class="hdr-btn">Feedback</a>
 </div>
 
 <div class="wrap"><div class="card">
 
-<!-- ONBOARDING -->
 <div id="scr-ob">
   <div class="ob-hero">
-    <img src="logo.png" alt="CCC" class="ob-hero-logo" onerror="this.style.display='none'">
+    <img src="logo.png" alt="CCC Consultancy Group" class="ob-hero-logo" onerror="this.style.display='none'">
     <div class="ob-hero-text">
-      <h2>Board Skills & Capability Assessment</h2>
-      <p>Map competencies, identify governance gaps, and get tailored recommendations.</p>
+      <h2>Board Skills &amp; Capability Assessment</h2>
+      <p>Map your board's competencies, identify governance gaps, and generate a tailored analysis with recruitment and capability recommendations.</p>
     </div>
   </div>
   <div class="ob-body">
@@ -422,22 +109,22 @@
       <div class="fg og-full"><label class="fl">Organisation name *</label><input id="ob-org" class="fi" type="text" placeholder="e.g. Aethis Limited"></div>
       <div class="fg"><label class="fl">Your name</label><input id="ob-name" class="fi" type="text"></div>
       <div class="fg"><label class="fl">Your role</label><input id="ob-role" class="fi" type="text"></div>
-      <div class="fg"><label class="fl">Sector *</label><select id="ob-sec" class="fi"><option value="">Select</option><option>Banking & Financial Services</option><option>Fintech</option><option>Insurance</option><option>Technology</option><option>Other</option></select></div>
-      <div class="fg"><label class="fl">Regulatory environment *</label><select id="ob-reg" class="fi"><option value="">Select</option><option>Nigeria (CBN/SEC)</option><option>United Kingdom (FCA/PRA)</option><option>Both</option><option>Other</option></select></div>
+      <div class="fg"><label class="fl">Sector *</label><select id="ob-sec" class="fi"><option value="">Select</option><option>Banking & Financial Services</option><option>Fintech</option><option>Insurance</option><option>Technology</option></select></div>
+      <div class="fg"><label class="fl">Regulatory environment *</label><select id="ob-reg" class="fi"><option value="">Select</option><option>Nigeria (CBN/SEC)</option><option>United Kingdom (FCA/PRA)</option><option>Both</option></select></div>
       <div class="fg"><label class="fl">Board size</label><select id="ob-sz" class="fi"><option value="">Select</option><option>3-5</option><option>6-8</option><option>9-12</option></select></div>
       <div class="fg"><label class="fl">Organisation stage</label><select id="ob-stg" class="fi"><option value="">Select</option><option>Start-up</option><option>Growth</option><option>Mature</option></select></div>
-      <div class="fg og-full"><label class="fl">Governance concerns</label><input id="ob-con" class="fi" type="text" placeholder="e.g. CBN examination, succession planning"></div>
+      <div class="fg og-full"><label class="fl">Governance concerns</label><input id="ob-con" class="fi" type="text" placeholder="e.g. Regulatory preparation, succession planning"></div>
     </div>
     <div class="ob-footer">
       <button class="btn btn-nv" onclick="startTool()">Start assessment →</button>
       <button class="btn btn-gh btn-sm" id="load-btn" onclick="loadProgress()" style="display:none;">↻ Load saved</button>
-      <span id="ob-err" style="color:var(--red); font-size:12px; display:none;">Complete organisation, sector and regulatory field</span>
+      <span id="ob-err" style="color:var(--red);font-size:12px;display:none;">Complete org name, sector and regulatory field</span>
+      <span id="ob-saved" style="font-size:12px;color:var(--green);display:none;"></span>
     </div>
   </div>
-  <div class="copyright">© 2026 CCC Consultancy Group | <a href="#">cccgrp.com</a></div>
+  <div class="copyright">© 2026 CCC Consultancy Group</div>
 </div>
 
-<!-- MAIN TOOL -->
 <div id="scr-tool" style="display:none;">
   <div class="th">
     <div><div class="th-org" id="th-org"></div><div class="th-meta" id="th-meta"></div></div>
@@ -445,20 +132,15 @@
     <button class="btn btn-sm btn-gh" onclick="backOb()">← Edit</button>
   </div>
   <div class="tabs">
-    <button class="tab on" onclick="sw('matrix',this)">Matrix</button>
-    <button class="tab" onclick="sw('gaps',this)">Gap Analysis</button>
+    <button class="tab on" onclick="sw('matrix',this)">Skills matrix</button>
+    <button class="tab" onclick="sw('gaps',this)">Gap analysis</button>
     <button class="tab" onclick="sw('ai',this)">Insights</button>
     <button class="tab" onclick="sw('slide',this)">Slide</button>
   </div>
 
   <div class="pnl on" id="tp-matrix">
-    <div class="save-bar">
-      <span class="sdot ok" id="sdot"></span><span id="sstatus">Auto-save</span>
-      <div style="flex:1"></div>
-      <button class="btn btn-sm btn-gh" onclick="saveNow()">💾 Save</button>
-      <button class="btn btn-sm btn-gh" onclick="clearSave()" style="color:var(--red)">Clear</button>
-    </div>
-    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+    <div class="save-bar"><span class="sdot ok" id="sdot"></span><span id="sstatus">Auto-save</span><div style="flex:1"></div><button class="btn btn-sm btn-gh" onclick="saveNow()">Save</button><button class="btn btn-sm btn-gh" onclick="clearSave()" style="color:var(--red)">Clear</button></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
       <button class="btn btn-tl btn-sm" onclick="openMd('m')">+ Add Director</button>
       <button class="btn btn-sm" onclick="openMd('s')">+ Add Skill</button>
       <span class="chip cn">None</span><span class="chip ca">Aware</span><span class="chip cc">Competent</span><span class="chip ce">Expert</span>
@@ -467,32 +149,30 @@
   </div>
 
   <div class="pnl" id="tp-gaps">
-    <div class="dlrow"><span>📊 Report</span><button class="btn btn-sm" onclick="dlGapsPDF()">PDF</button><button class="btn btn-sm" onclick="dlGapsCSV()">CSV</button></div>
     <div class="stats" id="sr"></div>
     <div id="gg" class="gg"></div>
   </div>
 
   <div class="pnl" id="tp-ai">
-    <button class="btn btn-tl" onclick="genInsights()">Generate Governance Analysis →</button>
+    <button class="btn btn-tl" onclick="genInsights()">Generate analysis →</button>
     <div id="aio" class="aiout" style="display:none;"></div>
-    <div id="ai-dl" style="margin-top:12px; display:none;"><button class="btn btn-sm" onclick="dlAIPDF()">Download PDF</button></div>
   </div>
 
   <div class="pnl" id="tp-slide">
-    <div class="dlrow"><button class="btn btn-sm" onclick="dlSlide()">📸 Download PNG</button></div>
-    <div class="slide" id="sp"></div>
+    <button class="btn btn-sm" onclick="dlSlide()">Download PNG</button>
+    <div class="slide" id="sp" style="margin-top:15px;"></div>
   </div>
-  <div class="copyright">© 2026 CCC Consultancy Group | info@cccgrp.com</div>
+  <div class="copyright">© 2026 CCC Consultancy Group | cccgrp.com</div>
 </div>
+
 </div></div>
 
-<!-- MODAL -->
 <div class="mdbg" id="mb">
   <div class="mdl">
     <h3 id="mt2">Add</h3>
     <div class="fg"><label id="ml1" class="fl">Name</label><input id="mi1" class="fi" type="text"></div>
-    <div id="mf2" class="fg" style="margin-top:12px;"><label class="fl">Role</label><input id="mi2" class="fi" type="text"></div>
-    <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
+    <div id="mf2" class="fg" style="margin-top:10px;"><label class="fl">Role</label><input id="mi2" class="fi" type="text"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px;">
       <button class="btn btn-sm btn-gh" onclick="closeMd()">Cancel</button>
       <button class="btn btn-sm btn-tl" id="msb">Add</button>
     </div>
@@ -500,81 +180,64 @@
 </div>
 
 <script>
-// ============================================================
-// FULL WORKING APPLICATION
-// ============================================================
-const SAVE_KEY = 'ccc_board_matrix';
+const SAVE_KEY = 'ccc_board_v2';
 const LV = ['none','aware','competent','expert'];
-const LB = { none:'—', aware:'Aware', competent:'Competent', expert:'Expert' };
-const CH = { none:'cn', aware:'ca', competent:'cc', expert:'ce' };
-const SC = { none:0, aware:1, competent:2, expert:3 };
+const LB = {none:'—', aware:'Aware', competent:'Competent', expert:'Expert'};
+const CH = {none:'cn', aware:'ca', competent:'cc', expert:'ce'};
+const SC = {none:0, aware:1, competent:2, expert:3};
 
-let idCounter = 100;
-function uid() { return 'id' + (++idCounter); }
+let nextId = 100;
+function uid() { return 'x'+(++nextId); }
 
-let CTX = { org:'', name:'', role:'', sec:'', reg:'', sz:'', stg:'', con:'' };
+let CTX = {org:'',sec:'',reg:'',name:'',role:'',sz:'',stg:'',con:''};
 let state = {
   members: [],
   skills: [
-    { id:'s1', name:'Financial oversight & audit' },
-    { id:'s2', name:'Risk management' },
-    { id:'s3', name:'Regulatory & compliance' },
-    { id:'s4', name:'Technology & cybersecurity' },
-    { id:'s5', name:'AI & digital' },
-    { id:'s6', name:'Legal & governance' },
-    { id:'s7', name:'Strategy & M&A' },
-    { id:'s8', name:'Sector expertise' },
-    { id:'s9', name:'ESG & sustainability' },
-    { id:'s10', name:'AML & financial crime' }
+    {id:'s1', name:'Financial oversight & audit'},
+    {id:'s2', name:'Risk management'},
+    {id:'s3', name:'Regulatory & compliance'},
+    {id:'s4', name:'Technology & cybersecurity'},
+    {id:'s5', name:'AI & digital'},
+    {id:'s6', name:'Legal & governance'},
+    {id:'s7', name:'Strategy & M&A'},
+    {id:'s8', name:'Sector expertise'},
+    {id:'s9', name:'ESG & sustainability'},
+    {id:'s10', name:'AML & financial crime'}
   ],
   mx: {}
 };
-let saveTimer = null;
 
-function gv(mid, sid) { return state.mx[mid+'_'+sid] || 'none'; }
-function cov(sid) { return state.members.filter(m => SC[gv(m.id, sid)] >= 2).length; }
+function gv(m,s) { return state.mx[m+'_'+s] || 'none'; }
+function cov(sid) { return state.members.filter(m => SC[gv(m.id,sid)] >= 2).length; }
 function cst(sid) { let n = cov(sid); return n===0 ? 'g' : n===1 ? 's' : 'o'; }
-const statusLabel = { g:'Gap', s:'SPOF', o:'Covered' };
-const statusColor = { g:'#E24B4A', s:'#EF9F27', o:'#27AE60' };
-const statusClass = { g:'vg', s:'vs', o:'vo' };
-
-function updSumbar() {
-  let crit = state.skills.filter(s=>cst(s.id)==='g').length;
-  let sp = state.skills.filter(s=>cst(s.id)==='s').length;
-  let html = '';
-  if(crit) html += `<span style="background:#FEF2F2;color:#B91C1C;padding:3px 10px;border-radius:20px;font-size:11px;">⚠️ ${crit} gap${crit>1?'s':''}</span>`;
-  if(sp) html += `<span style="background:#FEF8E7;color:#B45309;padding:3px 10px;border-radius:20px;font-size:11px;margin-left:6px;">🔸 ${sp} SPOF${sp>1?'s':''}</span>`;
-  document.getElementById('sumbar').innerHTML = html;
-}
+const statusLabel = {g:'Gap', s:'SPOF', o:'Covered'};
+const statusClass = {g:'vg', s:'vs', o:'vo'};
 
 function renderMatrix() {
   let t = document.getElementById('mt');
-  if(!state.members.length || !state.skills.length) {
-    t.innerHTML = '<tr><td colspan="99" style="padding:40px;text-align:center;">➕ Add directors and skill domains above</td></tr>';
-    return;
-  }
-  let html = '<thead><tr><th>Director / C-Suite</th>';
-  state.skills.forEach(s => { let st = cst(s.id); html += `<th style="text-align:center;">${s.name}<div><span class="chip ${statusClass[st]}" style="font-size:9px;">${statusLabel[st]}</span></div></th>`; });
+  if(!state.members.length) { t.innerHTML='<tr><td colspan="99" style="padding:30px;text-align:center;">Add directors above</td></tr>'; return; }
+  let html = '<thead><tr><th>Director</th>';
+  state.skills.forEach(s => { let st = cst(s.id); html += `<th style="text-align:center;">${s.name}<div><span class="chip ${statusClass[st]}">${statusLabel[st]}</span></div></th>`; });
   html += '<th></th></tr></thead><tbody>';
   state.members.forEach(m => {
     html += `<tr><td><div class="mn">${escapeHtml(m.name)}</div><div class="mr">${escapeHtml(m.role)}</div></td>`;
-    state.skills.forEach(s => { let val = gv(m.id, s.id); html += `<td style="text-align:center;"><span class="chip ${CH[val]}" onclick="cycleLevel('${m.id}','${s.id}')">${LB[val]}</span></td>`; });
-    html += `<td style="text-align:center;"><button class="rmb" onclick="removeMember('${m.id}')">✕</button></td></tr>`;
+    state.skills.forEach(s => { let v = gv(m.id, s.id); html += `<td style="text-align:center;"><span class="chip ${CH[v]}" onclick="cycle('${m.id}','${s.id}')">${LB[v]}</span></td>`; });
+    html += `<td><button class="rmb" onclick="removeMember('${m.id}')">✕</button></td></tr>`;
   });
-  html += '<tr style="background:#F8FAFE;"><td><strong>Coverage (Competent+)</strong></td>';
+  html += `<tr style="background:#f6f8fc;"><td><strong>Coverage</strong></td>`;
   state.skills.forEach(s => { let n = cov(s.id); let st = cst(s.id); html += `<td style="text-align:center;"><span class="chip ${statusClass[st]}">${n}/${state.members.length}</span></td>`; });
   html += '<td></td></tr></tbody>';
   t.innerHTML = html;
+  updSumbar();
 }
 
-function cycleLevel(mid, sid) {
+function cycle(mid, sid) {
   let curr = gv(mid, sid);
   let idx = LV.indexOf(curr);
-  let next = LV[(idx+1) % LV.length];
+  let next = LV[(idx+1)%LV.length];
   state.mx[mid+'_'+sid] = next;
   renderMatrix();
   renderSlide();
-  updSumbar();
   autoSave();
 }
 
@@ -583,25 +246,21 @@ function removeMember(mid) {
   Object.keys(state.mx).filter(k => k.startsWith(mid+'_')).forEach(k => delete state.mx[k]);
   renderMatrix();
   renderSlide();
-  updSumbar();
   autoSave();
 }
 
 function renderSlide() {
   let el = document.getElementById('sp');
   if(!el) return;
-  let html = `<div style="font-weight:800;font-size:18px;">${CTX.org || 'Board Matrix'}</div>
-    <div style="font-size:10px;color:var(--teal);margin:4px 0;">Skills Assessment</div>
-    <div style="overflow-x:auto;margin-top:16px;"><table style="width:100%;font-size:9px;border-collapse:collapse;">`;
-  html += '<thead><tr><th>Member</th>';
-  state.skills.forEach(s => html += `<th style="padding:4px;">${s.name.substring(0,12)}</th>`);
+  let html = `<div style="font-weight:800;font-size:18px;">${CTX.org || 'Board Matrix'}</div><div style="font-size:10px;color:var(--teal);margin:4px 0;">Skills Assessment</div><div style="overflow-x:auto;"><table style="width:100%;font-size:9px;border-collapse:collapse;"><thead><tr><th>Member</th>`;
+  state.skills.forEach(s => html += `<th style="padding:4px;">${s.name.substring(0,10)}</th>`);
   html += '</tr></thead><tbody>';
   state.members.forEach(m => {
     html += `<tr><td style="padding:4px;"><b>${escapeHtml(m.name)}</b><br><span style="font-size:8px;">${escapeHtml(m.role)}</span></td>`;
-    state.skills.forEach(s => { html += `<td style="text-align:center;padding:4px;">${LB[gv(m.id, s.id)]}</td>`; });
+    state.skills.forEach(s => html += `<td style="text-align:center;padding:4px;">${LB[gv(m.id, s.id)]}</td>`);
     html += '</tr>';
   });
-  html += '</tbody></table></div><div style="margin-top:12px;font-size:8px;color:#94a3b8;">CCC Consultancy Group</div>';
+  html += '</tbody></table></div>';
   el.innerHTML = html;
 }
 
@@ -611,37 +270,41 @@ function renderGaps() {
   let crit = state.skills.filter(s=>cst(s.id)==='g').length;
   let sp = state.skills.filter(s=>cst(s.id)==='s').length;
   let ok = state.skills.filter(s=>cst(s.id)==='o').length;
-  sr.innerHTML = `
-    <div class="stat"><div class="n" style="color:var(--red)">${crit}</div><div class="l">Critical gaps</div></div>
-    <div class="stat"><div class="n" style="color:var(--amber)">${sp}</div><div class="l">SPOF</div></div>
-    <div class="stat"><div class="n" style="color:var(--green)">${ok}</div><div class="l">Covered</div></div>
-    <div class="stat"><div class="n">${state.members.length}</div><div class="l">Members</div></div>
-  `;
+  sr.innerHTML = `<div class="stat"><div class="n" style="color:var(--red)">${crit}</div><div class="l">Critical gaps</div></div><div class="stat"><div class="n" style="color:var(--amber)">${sp}</div><div class="l">SPOF</div></div><div class="stat"><div class="n" style="color:var(--green)">${ok}</div><div class="l">Covered</div></div><div class="stat"><div class="n">${state.members.length}</div><div class="l">Members</div></div>`;
   let gapsHtml = '';
   state.skills.forEach(s => {
     let st = cst(s.id);
-    let qualified = state.members.filter(m => SC[gv(m.id, s.id)] >= 2).map(m => m.name).join(', ') || 'None';
-    let advice = st==='g' ? '❌ No qualified member. Urgent recruitment needed.' : (st==='s' ? '⚠️ Only one qualified member. Succession risk.' : '✅ Two or more qualified members. Good coverage.');
-    gapsHtml += `<div class="gc" style="border-left-color:${statusColor[st]};"><div class="gs">${s.name}</div><div class="gq">Qualified: ${qualified}</div><div class="gr">${advice}</div></div>`;
+    let q = state.members.filter(m => SC[gv(m.id, s.id)] >= 2).map(m => m.name).join(', ') || 'None';
+    let advice = st==='g' ? 'No qualified member. Urgent recruitment needed.' : (st==='s' ? 'Only one qualified member. Succession risk.' : 'Adequate coverage.');
+    gapsHtml += `<div class="gc" style="border-left-color:${st==='g'? '#E24B4A' : st==='s'? '#EF9F27' : '#27AE60'}"><div class="gs">${s.name}</div><div class="gq">Qualified: ${q}</div><div class="gr">${advice}</div></div>`;
   });
   gg.innerHTML = gapsHtml;
 }
 
-function sw(tabName, btn) {
+function updSumbar() {
+  let crit = state.skills.filter(s=>cst(s.id)==='g').length;
+  let sp = state.skills.filter(s=>cst(s.id)==='s').length;
+  let html = '';
+  if(crit) html += `<span style="background:#FCEBEB;color:#A32D2D;padding:3px 10px;border-radius:20px;font-size:11px;">${crit} gap${crit>1?'s':''}</span>`;
+  if(sp) html += `<span style="background:#FAEEDA;color:#854F0B;padding:3px 10px;border-radius:20px;font-size:11px;margin-left:6px;">${sp} SPOF${sp>1?'s':''}</span>`;
+  document.getElementById('sumbar').innerHTML = html;
+}
+
+function sw(name, btn) {
   ['matrix','gaps','ai','slide'].forEach(t => document.getElementById('tp-'+t).classList.remove('on'));
-  document.getElementById('tp-'+tabName).classList.add('on');
+  document.getElementById('tp-'+name).classList.add('on');
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
   if(btn) btn.classList.add('on');
-  if(tabName === 'gaps') renderGaps();
-  if(tabName === 'slide') renderSlide();
+  if(name === 'gaps') renderGaps();
+  if(name === 'slide') renderSlide();
 }
 
 let modalType = '';
-function openMd(type) {
-  modalType = type;
-  document.getElementById('mt2').innerText = type === 'm' ? 'Add Director / C-Suite' : 'Add Skill Domain';
-  document.getElementById('ml1').innerText = type === 'm' ? 'Full name' : 'Skill name';
-  document.getElementById('mf2').style.display = type === 'm' ? 'block' : 'none';
+function openMd(t) {
+  modalType = t;
+  document.getElementById('mt2').innerText = t==='m' ? 'Add Director' : 'Add Skill';
+  document.getElementById('ml1').innerText = t==='m' ? 'Full name' : 'Skill name';
+  document.getElementById('mf2').style.display = t==='m' ? 'block' : 'none';
   document.getElementById('mi1').value = '';
   document.getElementById('mi2').value = '';
   document.getElementById('mb').style.display = 'flex';
@@ -652,70 +315,52 @@ document.getElementById('msb').addEventListener('click', () => {
   if(!name) return;
   if(modalType === 'm') {
     let role = document.getElementById('mi2').value.trim() || 'Director';
-    state.members.push({ id: uid(), name: name, role: role });
+    state.members.push({id:uid(), name:name, role:role});
   } else {
-    state.skills.push({ id: uid(), name: name });
+    state.skills.push({id:uid(), name:name});
   }
   closeMd();
   renderMatrix();
   renderSlide();
-  updSumbar();
   autoSave();
 });
 
-function autoSave() { setDirty(true); clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 1000); }
-function setDirty(dirty) { let d = document.getElementById('sdot'); if(d) d.className = 'sdot ' + (dirty ? 'dirty' : 'ok'); }
-function saveNow() {
-  localStorage.setItem(SAVE_KEY, JSON.stringify({ ctx: CTX, members: state.members, skills: state.skills, mx: state.mx }));
-  setDirty(false);
-  document.getElementById('sstatus').innerText = 'Saved';
-}
+function autoSave() { setDirty(true); if(window.saveTimer) clearTimeout(window.saveTimer); window.saveTimer = setTimeout(saveNow, 1000); }
+function setDirty(d) { let el = document.getElementById('sdot'); if(el) el.className = 'sdot ' + (d ? 'dirty' : 'ok'); }
+function saveNow() { localStorage.setItem(SAVE_KEY, JSON.stringify({ctx:CTX, members:state.members, skills:state.skills, mx:state.mx})); setDirty(false); document.getElementById('sstatus').innerText = 'Saved'; }
 function clearSave() { if(confirm('Clear all saved data?')) { localStorage.removeItem(SAVE_KEY); document.getElementById('sstatus').innerText = 'Cleared'; setDirty(false); } }
-function loadProgress() {
-  let raw = localStorage.getItem(SAVE_KEY);
-  if(!raw) return;
-  let data = JSON.parse(raw);
-  if(data.ctx) CTX = data.ctx;
-  if(data.members) state.members = data.members;
-  if(data.skills) state.skills = data.skills;
-  if(data.mx) state.mx = data.mx;
-  document.getElementById('ob-org').value = CTX.org || '';
-  document.getElementById('ob-sec').value = CTX.sec || '';
-  document.getElementById('ob-reg').value = CTX.reg || '';
-  if(CTX.org && CTX.sec && CTX.reg) startTool(true);
-}
+function loadProgress() { let d = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}'); if(d.ctx) CTX = d.ctx; if(d.members) state.members = d.members; if(d.skills) state.skills = d.skills; if(d.mx) state.mx = d.mx; document.getElementById('ob-org').value = CTX.org || ''; document.getElementById('ob-sec').value = CTX.sec || ''; document.getElementById('ob-reg').value = CTX.reg || ''; if(CTX.org && CTX.sec && CTX.reg) startTool(true); }
 function startTool(fromLoad) {
   let org = document.getElementById('ob-org').value.trim();
   let sec = document.getElementById('ob-sec').value;
   let reg = document.getElementById('ob-reg').value;
   if(!org || !sec || !reg) { document.getElementById('ob-err').style.display = 'block'; return; }
   document.getElementById('ob-err').style.display = 'none';
-  CTX = { org, sec, reg, name: document.getElementById('ob-name').value, role: document.getElementById('ob-role').value, sz: document.getElementById('ob-sz').value, stg: document.getElementById('ob-stg').value, con: document.getElementById('ob-con').value };
+  CTX = {org, sec, reg, name:document.getElementById('ob-name').value, role:document.getElementById('ob-role').value, sz:document.getElementById('ob-sz').value, stg:document.getElementById('ob-stg').value, con:document.getElementById('ob-con').value};
   document.getElementById('scr-ob').style.display = 'none';
   document.getElementById('scr-tool').style.display = 'block';
   document.getElementById('th-org').innerText = CTX.org;
   document.getElementById('th-meta').innerHTML = `${CTX.sec} · ${CTX.reg}`;
   renderMatrix();
   renderSlide();
-  updSumbar();
   if(!fromLoad) saveNow();
 }
 function backOb() { document.getElementById('scr-tool').style.display = 'none'; document.getElementById('scr-ob').style.display = 'block'; }
 function genInsights() {
   let out = document.getElementById('aio');
-  let dlDiv = document.getElementById('ai-dl');
   let gaps = state.skills.filter(s=>cst(s.id)==='g').length;
   let spofs = state.skills.filter(s=>cst(s.id)==='s').length;
-  let text = `🔍 GOVERNANCE ANALYSIS - ${CTX.org}\n\n`;
-  text += `Board size: ${state.members.length} members\nCritical gaps: ${gaps} | SPOFs: ${spofs}\n\n`;
-  if(gaps === 0 && spofs === 0) text += `✅ The board has strong coverage across all domains. Maintain annual reviews.`;
-  else if(gaps > 0) text += `⚠️ Priority: Recruit for ${gaps} gap area(s). Nominations committee to act within 30 days.`;
-  if(spofs > 0) text += `\n🔸 Succession risk: ${spofs} domain(s) rely on a single director. Document contingency plans.`;
-  text += `\n\n📌 Recommended next steps:\n1. Present this matrix to the full board.\n2. Commission recruitment briefs for critical gaps.\n3. Review committee composition.\n4. Schedule annual skills refresh.`;
-  out.innerText = text;
+  let txt = `GOVERNANCE ANALYSIS - ${CTX.org}\n\nBoard: ${state.members.length} members\nCritical gaps: ${gaps}\nSPOFs: ${spofs}\n\n`;
+  if(gaps===0 && spofs===0) txt += `✅ The board has strong coverage. Maintain annual reviews.`;
+  else if(gaps>0) txt += `⚠️ Priority: Recruit for ${gaps} gap area(s). Nominations committee to act within 30 days.`;
+  if(spofs>0) txt += `\n🔸 Succession risk: ${spofs} domain(s) rely on a single director. Document contingency plans.`;
+  txt += `\n\nRecommended: Present matrix to board, commission recruitment briefs, review committee composition.`;
+  out.innerText = txt;
   out.style.display = 'block';
-  dlDiv.style.display = 'block';
 }
-function dlAIPDF() { const {jsPDF}=window.jspdf; let doc=new jsPDF(); doc.text(document.getElementById('aio').innerText,10,10); doc.save('governance-insights.pdf'); }
-function dlGapsCSV() { let csv='Skill,Status,Qualified Members\n'; state.skills.forEach(s=>{ let q=state.members.filter(m=>SC[gv(m.id,s.id)]>=2).map(m=>m.name).join(';'); csv+=`${s.name},${statusLabel[cst(s.id)]},${q}\n`; }); let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='gap-analysis.csv'; a.click(); }
-function dlGapsPDF() { const {jsPDF}=
+function dlSlide() { let el = document.getElementById('sp'); if(!el) return; html2canvas(el, {scale:2}).then(canvas=>{ let a=document.createElement('a'); a.download='board-slide.png'; a.href=canvas.toDataURL(); a.click(); }); }
+function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+window.addEventListener('DOMContentLoaded', () => { let saved = localStorage.getItem(SAVE_KEY); if(saved) { let d=JSON.parse(saved); if(d.ctx && d.ctx.org) { document.getElementById('load-btn').style.display='inline-flex'; document.getElementById('ob-saved').style.display='inline'; document.getElementById('ob-saved').innerText='Saved: '+d.ctx.org; } } });
+</script>
+</body>
+</html>
