@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Board Skills Matrix — CCC Consultancy Group</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh;}
@@ -130,7 +130,7 @@ tr.dr:hover td{background:#fafbff;}
 
 <div class="hdr">
   <div class="hdr-left">
-    <svg width="90" height="34" viewBox="0 0 90 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="CCC Consultancy Group">
+    <img src="./logo.png" alt="CCC Consultancy Group" class="hdr-logo"> 
       <text x="0" y="25" font-family="'Segoe UI',system-ui,sans-serif" font-size="26" font-weight="800" letter-spacing="-0.5" fill="#1FBFD7">CCC</text>
       <text x="1" y="33" font-family="'Segoe UI',system-ui,sans-serif" font-size="6.5" font-weight="500" letter-spacing="0.9" fill="rgba(255,255,255,0.55)">CONSULTANCY GROUP</text>
     </svg>
@@ -266,7 +266,7 @@ tr.dr:hover td{background:#fafbff;}
   <!-- GAPS -->
   <div class="pnl" id="tp-gaps">
     <div class="dlrow"><span>Gap analysis report</span>
-      <button class="btn btn-sm" onclick="dlGapsTxt()">&#8595; Download (text)</button>
+      <button class="btn btn-sm" onclick="dlGapsPDF()">↓ Download (PDF)</button>
       <button class="btn btn-sm" onclick="dlGapsCSV()">&#8595; Download (CSV)</button>
     </div>
     <div class="stats" id="sr"></div>
@@ -282,7 +282,7 @@ tr.dr:hover td{background:#fafbff;}
       </div>
       <div class="aiout" id="aio"></div>
       <div class="aiacts" id="ai-dl" style="display:none;">
-        <button class="btn btn-sm" onclick="dlAI()">&#8595; Download insights (PDF)</button>
+       <button class="btn btn-sm" onclick="dlAIPDF()">↓ Download insights (PDF)</button>
         <button class="btn btn-sm btn-gh" onclick="genInsights()">Regenerate</button>
       </div>
     </div>
@@ -877,11 +877,14 @@ function genInsights(){
 }
 
 // DOWNLOADS
-function dlAI(){
-  const txt=window._aiTxt||document.getElementById('aio').textContent; if(!txt)return;
-  const blob=new Blob([txt],{type:'text/plain'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download=`${(CTX.org||'board').replace(/\s+/g,'-')}-governance-analysis.txt`; a.click();
+function dlAIPDF(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const txt = window._aiTxt || document.getElementById('aio').textContent;
+
+  doc.text(txt, 10, 10);
+  doc.save(`${(CTX.org||'board').replace(/\s+/g,'-')}-governance-analysis.pdf`);
 }
 function dlGapsCSV(){
   let csv='Skill Domain,Status,Qualified Members,Coverage Count,Total Members\n';
@@ -891,15 +894,30 @@ function dlGapsCSV(){
   const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download=`${(CTX.org||'board').replace(/\s+/g,'-')}-gap-analysis.csv`; a.click();
 }
-function dlGapsTxt(){
-  const crit=S.skills.filter(s=>cst(s.id)==='g').length;const sp=S.skills.filter(s=>cst(s.id)==='s').length;const ok=S.skills.filter(s=>cst(s.id)==='o').length;
-  const sorted=[...S.skills].sort((a,b)=>({g:0,s:1,o:2}[cst(a.id)]-{g:0,s:1,o:2}[cst(b.id)]));
-  let txt=`BOARD SKILLS MATRIX - GAP ANALYSIS REPORT\n${CTX.org||'Organisation'} | ${CTX.sec||''} | ${CTX.reg||''}\nGenerated: ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}\nCCC Consultancy Group Ltd  |  cccgrp.com  |  info@cccgrp.com\n${'─'.repeat(60)}\n\nSUMMARY\nCritical gaps: ${crit}  |  SPOFs: ${sp}  |  Covered: ${ok}  |  Board size: ${S.members.length}\n\n${'─'.repeat(60)}\n\nSKILL DOMAIN ASSESSMENT\n\n`;
-  sorted.forEach(s=>{const st=cst(s.id);const q=S.members.filter(m=>SC2[gv(m.id,s.id)]>=2).map(m=>m.name).join(', ')||'None';txt+=`${s.name}\nStatus: ${st==='g'?'CRITICAL GAP':st==='s'?'SINGLE POINT OF FAILURE':'COVERED'}\nQualified members: ${q}\n\n`;});
-  txt+=`${'─'.repeat(60)}\nINDIVIDUAL RATINGS\n\n`;
-  S.members.forEach(m=>{txt+=`${m.name} (${m.role})\n`;S.skills.forEach(s=>{txt+=`  ${s.name}: ${LB[gv(m.id,s.id)]}\n`;});txt+='\n';});
-  const blob=new Blob([txt],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download=`${(CTX.org||'board').replace(/\s+/g,'-')}-gap-analysis.txt`; a.click();
+function dlGapsPDF(){
+  const { jsPDF } = window.jspdf;
+
+  const doc = new jsPDF();
+
+  const crit=S.skills.filter(s=>cst(s.id)==='g').length;
+  const sp=S.skills.filter(s=>cst(s.id)==='s').length;
+  const ok=S.skills.filter(s=>cst(s.id)==='o').length;
+
+  let txt = `BOARD SKILLS MATRIX - GAP ANALYSIS REPORT
+
+${CTX.org||'Organisation'}
+Generated: ${new Date().toLocaleDateString()}
+
+SUMMARY
+Critical gaps: ${crit}
+SPOFs: ${sp}
+Covered: ${ok}
+
+`;
+
+  doc.text(txt, 10, 10);
+
+  doc.save(`${(CTX.org||'board').replace(/\s+/g,'-')}-gap-analysis.pdf`);
 }
 function dlSlide(){
   const el=document.getElementById('sp'); if(!el)return;
