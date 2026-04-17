@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Board Skills Matrix — CCC Consultancy Group</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh;}
@@ -124,16 +125,22 @@ tr.dr:hover td{background:#fafbff;}
 .copyright a{color:var(--teal);text-decoration:none;}
 .copyright a:hover{text-decoration:underline;}
 @media(max-width:620px){.og{grid-template-columns:1fr;}.og-full{grid-column:1;}.cta{flex-direction:column;}.cta-r{width:100%;}.ob-hero{flex-direction:column;gap:14px;}.ob-body{padding:22px 20px 28px;}}
+.logo-mark{display:flex;flex-direction:column;line-height:1;text-decoration:none;}
+.logo-ccc{font-size:22px;font-weight:900;color:#1FBFD7;letter-spacing:-0.5px;font-family:'Segoe UI',Arial,sans-serif;}
+.logo-sub{font-size:6.5px;font-weight:600;color:rgba(255,255,255,0.5);letter-spacing:1.6px;font-family:'Segoe UI',Arial,sans-serif;margin-top:2px;text-transform:uppercase;}
+.hero-logo-mark{display:flex;flex-direction:column;line-height:1;flex-shrink:0;}
+.hero-logo-ccc{font-size:30px;font-weight:900;color:#1FBFD7;letter-spacing:-0.5px;font-family:'Segoe UI',Arial,sans-serif;}
+.hero-logo-sub{font-size:8px;font-weight:600;color:rgba(255,255,255,0.45);letter-spacing:1.5px;font-family:'Segoe UI',Arial,sans-serif;margin-top:3px;text-transform:uppercase;}
 </style>
 </head>
 <body>
 
 <div class="hdr">
   <div class="hdr-left">
-   <img src="logo.png" alt="CCC Consultancy Group" class="hdr-logo">
-      <text x="0" y="25" font-family="'Segoe UI',system-ui,sans-serif" font-size="26" font-weight="800" letter-spacing="-0.5" fill="#1FBFD7">CCC</text>
-      <text x="1" y="33" font-family="'Segoe UI',system-ui,sans-serif" font-size="6.5" font-weight="500" letter-spacing="0.9" fill="rgba(255,255,255,0.55)">CONSULTANCY GROUP</text>
-    </svg>
+    <div class="logo-mark">
+      <div class="logo-ccc">CCC</div>
+      <div class="logo-sub">Consultancy Group</div>
+    </div>
     <div class="hdr-div"></div>
     <div class="hdr-text">
       <h1>Board Skills Matrix</h1>
@@ -151,10 +158,10 @@ tr.dr:hover td{background:#fafbff;}
 <!-- ONBOARDING -->
 <div id="scr-ob">
   <div class="ob-hero">
-    <svg width="120" height="44" viewBox="0 0 120 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="CCC Consultancy Group">
-      <text x="0" y="32" font-family="'Segoe UI',system-ui,sans-serif" font-size="34" font-weight="800" letter-spacing="-1" fill="#1FBFD7">CCC</text>
-      <text x="2" y="43" font-family="'Segoe UI',system-ui,sans-serif" font-size="8.5" font-weight="500" letter-spacing="1.2" fill="rgba(255,255,255,0.65)">CONSULTANCY GROUP</text>
-    </svg>
+    <div class="hero-logo-mark">
+      <div class="hero-logo-ccc">CCC</div>
+      <div class="hero-logo-sub">Consultancy Group Ltd</div>
+    </div>
     <div class="ob-hero-text">
       <h2>Board Skills &amp; Capability Assessment</h2>
       <p>Map your board's competencies, identify governance gaps, and generate a tailored analysis with recruitment and capability recommendations. Tell us about your organisation to get started.</p>
@@ -266,7 +273,7 @@ tr.dr:hover td{background:#fafbff;}
   <!-- GAPS -->
   <div class="pnl" id="tp-gaps">
     <div class="dlrow"><span>Gap analysis report</span>
-     <<button class="btn btn-sm" onclick="dlGapsPDF()">↓ Download (PDF)</button>
+      <button class="btn btn-sm" onclick="dlGapsPDF()">&#8595; Download (PDF)</button>
       <button class="btn btn-sm" onclick="dlGapsCSV()">&#8595; Download (CSV)</button>
     </div>
     <div class="stats" id="sr"></div>
@@ -282,7 +289,7 @@ tr.dr:hover td{background:#fafbff;}
       </div>
       <div class="aiout" id="aio"></div>
       <div class="aiacts" id="ai-dl" style="display:none;">
-        <button class="btn btn-sm" onclick="dlAIPDF()">↓ Download insights (PDF)</button>
+        <button class="btn btn-sm" onclick="dlAIPDF()">&#8595; Download insights (PDF)</button>
         <button class="btn btn-sm btn-gh" onclick="genInsights()">Regenerate</button>
       </div>
     </div>
@@ -876,16 +883,319 @@ function genInsights(){
   }, 600); // small delay for UX feel
 }
 
-// DOWNLOADS
+// ── PDF HELPERS ───────────────────────────────────────────────────────────────
+function pdfReady(){
+  if(typeof window.jspdf==='undefined'||typeof window.jspdf.jsPDF==='undefined'){
+    alert('PDF library is still loading. Please wait a moment and try again.');return false;
+  }
+  return true;
+}
+
+// Add a navy header bar to a jsPDF doc page
+function pdfHeader(doc, title, subtitle){
+  const pw=doc.internal.pageSize.getWidth();
+  // Navy bar
+  doc.setFillColor(10,26,47);
+  doc.rect(0,0,pw,22,'F');
+  // Teal accent line
+  doc.setFillColor(31,191,215);
+  doc.rect(0,22,pw,1.5,'F');
+  // CCC wordmark
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(13);
+  doc.setTextColor(31,191,215);
+  doc.text('CCC',8,14);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(6);
+  doc.setTextColor(180,200,220);
+  doc.text('CONSULTANCY GROUP',8,19);
+  // Title right side
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(10);
+  doc.setTextColor(255,255,255);
+  doc.text(title,pw-8,11,{align:'right'});
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7);
+  doc.setTextColor(160,185,210);
+  doc.text(subtitle,pw-8,17,{align:'right'});
+}
+
+function pdfFooter(doc){
+  const pw=doc.internal.pageSize.getWidth();
+  const ph=doc.internal.pageSize.getHeight();
+  doc.setFillColor(31,191,215);
+  doc.rect(0,ph-8,pw,0.8,'F');
+  doc.setFont('helvetica','italic');
+  doc.setFontSize(6.5);
+  doc.setTextColor(120,130,145);
+  doc.text('cccgrp.com  |  info@cccgrp.com  |  UK expertise. Global perspective. Local impact.',8,ph-3);
+  doc.setFont('helvetica','normal');
+  doc.text(`Page ${doc.internal.getCurrentPageInfo().pageNumber}`,pw-8,ph-3,{align:'right'});
+}
+
+function pdfAddTextBlock(doc, label, text, y, pw, margin){
+  const usable=pw-(margin*2);
+  // Section label
+  doc.setFillColor(31,191,215);
+  doc.rect(margin,y,3,5,'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(10,26,47);
+  doc.text(label,margin+5,y+4);
+  y+=9;
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(8.5);
+  doc.setTextColor(50,55,65);
+  const lines=doc.splitTextToSize(text,usable);
+  const ph=doc.internal.pageSize.getHeight();
+  lines.forEach(line=>{
+    if(y>ph-14){doc.addPage();pdfHeader(doc,'Board Skills Matrix','CCC Consultancy Group');pdfFooter(doc);y=32;}
+    doc.text(line,margin,y);
+    y+=4.5;
+  });
+  return y+4;
+}
+
+// ── DOWNLOAD: AI INSIGHTS PDF ─────────────────────────────────────────────────
 function dlAIPDF(){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  if(!pdfReady())return;
+  const rawTxt=window._aiTxt||document.getElementById('aio').textContent;
+  if(!rawTxt||rawTxt.trim().length<10){alert('Please generate the governance analysis first.');return;}
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'mm',format:'a4'});
+  const pw=doc.internal.pageSize.getWidth();
+  const margin=14;
+  const usable=pw-(margin*2);
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
-  const txt = window._aiTxt || document.getElementById('aio').textContent;
+  pdfHeader(doc,'Governance Analysis','Board Skills Matrix');
+  pdfFooter(doc);
 
-  doc.text(txt, 10, 10);
+  let y=30;
+  // Org + date line
+  doc.setFillColor(242,245,250);
+  doc.rect(margin,y,usable,10,'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(11);
+  doc.setTextColor(10,26,47);
+  doc.text(CTX.org||'Organisation',margin+4,y+4.5);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(100,110,125);
+  const metaParts=[CTX.sec,CTX.reg].filter(Boolean).join('  |  ');
+  doc.text(metaParts,margin+4,y+8.5);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7.5);
+  doc.text(date,pw-margin,y+4.5,{align:'right'});
+  y+=16;
+
+  // Parse and render sections from the raw text
+  const sectionHeadings=['EXECUTIVE SUMMARY','CRITICAL GAPS','SINGLE POINTS OF FAILURE',
+    'GOVERNANCE AND REGULATORY RISK EXPOSURE','RECRUITMENT PRIORITIES',
+    'CAPABILITY DEVELOPMENT RECOMMENDATIONS','SUCCESSION PLANNING NOTE','IMMEDIATE ACTIONS'];
+
+  // Split raw text by section headings
+  let remaining=rawTxt;
+  // Strip the header block (everything before EXECUTIVE SUMMARY)
+  const firstHeading=remaining.indexOf('EXECUTIVE SUMMARY');
+  if(firstHeading>0) remaining=remaining.substring(firstHeading);
+
+  sectionHeadings.forEach((heading,idx)=>{
+    const start=remaining.indexOf(heading);
+    if(start===-1)return;
+    const nextStarts=sectionHeadings.slice(idx+1).map(h=>remaining.indexOf(h,start+heading.length)).filter(n=>n>-1);
+    const end=nextStarts.length>0?Math.min(...nextStarts):remaining.length;
+    let body=remaining.substring(start+heading.length,end).trim();
+    // Clean up separator lines
+    body=body.replace(/^[\u2500\-─]+$/gm,'').replace(/\n{3,}/g,'\n\n').trim();
+    if(!body)return;
+    const ph=doc.internal.pageSize.getHeight();
+    if(y>ph-30){doc.addPage();pdfHeader(doc,'Governance Analysis','Board Skills Matrix');pdfFooter(doc);y=32;}
+    y=pdfAddTextBlock(doc,heading,body,y,pw,margin);
+  });
+
   doc.save(`${(CTX.org||'board').replace(/\s+/g,'-')}-governance-analysis.pdf`);
 }
+
+// ── DOWNLOAD: GAP ANALYSIS PDF ────────────────────────────────────────────────
+function dlGapsPDF(){
+  if(!pdfReady())return;
+  if(!S.members.length||!S.skills.length){alert('Please add board members and complete the matrix first.');return;}
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'mm',format:'a4'});
+  const pw=doc.internal.pageSize.getWidth();
+  const ph=doc.internal.pageSize.getHeight();
+  const margin=14;
+  const usable=pw-(margin*2);
+  const date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  const crit=S.skills.filter(s=>cst(s.id)==='g').length;
+  const sp=S.skills.filter(s=>cst(s.id)==='s').length;
+  const ok2=S.skills.filter(s=>cst(s.id)==='o').length;
+
+  pdfHeader(doc,'Gap Analysis Report','Board Skills Matrix');
+  pdfFooter(doc);
+
+  let y=30;
+
+  // Org meta bar
+  doc.setFillColor(242,245,250);
+  doc.rect(margin,y,usable,10,'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(11);
+  doc.setTextColor(10,26,47);
+  doc.text(CTX.org||'Organisation',margin+4,y+4.5);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(100,110,125);
+  doc.text([CTX.sec,CTX.reg].filter(Boolean).join('  |  '),margin+4,y+8.5);
+  doc.text(date,pw-margin,y+4.5,{align:'right'});
+  y+=15;
+
+  // Summary stats row
+  const statW=(usable-6)/4;
+  const stats=[
+    {n:crit, l:'Critical Gaps',     r:[220,70,70],  bg:[252,235,235]},
+    {n:sp,   l:'Single Point of F.', r:[200,130,10], bg:[250,238,218]},
+    {n:ok2,  l:'Adequately Covered', r:[39,130,60],  bg:[234,243,222]},
+    {n:S.members.length,l:'Board Members', r:[10,26,47], bg:[230,236,244]},
+  ];
+  stats.forEach((s2,i)=>{
+    const x=margin+(i*(statW+2));
+    doc.setFillColor(...s2.bg);
+    doc.roundedRect(x,y,statW,14,1.5,1.5,'F');
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(16);
+    doc.setTextColor(...s2.r);
+    doc.text(String(s2.n),x+statW/2,y+8,{align:'center'});
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(80,90,100);
+    doc.text(s2.l,x+statW/2,y+12.5,{align:'center'});
+  });
+  y+=20;
+
+  // Section heading
+  doc.setFillColor(31,191,215);
+  doc.rect(margin,y,usable,0.6,'F');
+  y+=5;
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(10,26,47);
+  doc.text('SKILL DOMAIN ASSESSMENT',margin,y);
+  y+=7;
+
+  // Domain cards sorted by severity
+  const sorted=[...S.skills].sort((a,b)=>({g:0,s:1,o:2}[cst(a.id)]-{g:0,s:1,o:2}[cst(b.id)]));
+  const statusCols={g:[[163,45,45],[252,235,235],'CRITICAL GAP'],s:[[133,79,11],[250,238,218],'SPOF'],o:[[59,109,17],[234,243,222],'COVERED']};
+  const recTxt={
+    g:'No board member is rated Competent or Expert here. The board cannot challenge management on this topic. Prioritise recruitment urgently.',
+    s:'Only one qualified member covers this area. Their departure or recusal removes all oversight capability. A succession risk requiring immediate planning.',
+    o:'Adequate coverage. Two or more members are qualified, giving the board strong oversight capability and resilience in this domain.'
+  };
+  const cardH=22;
+  sorted.forEach(s2=>{
+    if(y+cardH>ph-14){doc.addPage();pdfHeader(doc,'Gap Analysis Report','Board Skills Matrix');pdfFooter(doc);y=32;}
+    const st=cst(s2.id);
+    const [fgR,bgR,label]=statusCols[st];
+    const q=S.members.filter(m=>SC2[gv(m.id,s2.id)]>=2).map(m=>m.name).join(', ')||'None';
+    // Card background
+    doc.setFillColor(...bgR);
+    doc.roundedRect(margin,y,usable,cardH,1.5,1.5,'F');
+    // Left accent bar
+    doc.setFillColor(...fgR);
+    doc.roundedRect(margin,y,3,cardH,1,1,'F');
+    // Status badge
+    doc.setFillColor(...fgR);
+    doc.roundedRect(pw-margin-20,y+3,19,5,1,1,'F');
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(6.5);
+    doc.setTextColor(255,255,255);
+    doc.text(label,pw-margin-10.5,y+6.8,{align:'center'});
+    // Domain name
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(9);
+    doc.setTextColor(10,26,47);
+    doc.text(s2.name,margin+5,y+7);
+    // Qualified members
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(7);
+    doc.setTextColor(100,110,125);
+    const qualLine=`Qualified (Competent+): ${q}`;
+    doc.text(qualLine,margin+5,y+12,{maxWidth:usable-28});
+    // Assessment
+    doc.setFontSize(7);
+    doc.setTextColor(60,65,75);
+    const recLines=doc.splitTextToSize(recTxt[st],usable-10);
+    doc.text(recLines[0]+(recLines.length>1?'...':''),margin+5,y+17);
+    y+=cardH+3;
+  });
+
+  // Individual ratings table
+  if(y+20>ph-14){doc.addPage();pdfHeader(doc,'Gap Analysis Report','Board Skills Matrix');pdfFooter(doc);y=32;}
+  y+=3;
+  doc.setFillColor(31,191,215);
+  doc.rect(margin,y,usable,0.6,'F');
+  y+=5;
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(10,26,47);
+  doc.text('INDIVIDUAL RATINGS',margin,y);
+  y+=7;
+
+  const nameColW=Math.min(50,usable*0.28);
+  const roleColW=Math.min(48,usable*0.26);
+  const remaining2=usable-nameColW-roleColW;
+  const skillColW=remaining2/Math.min(S.skills.length,8);
+
+  // Table header
+  doc.setFillColor(10,26,47);
+  doc.rect(margin,y,usable,7,'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(7);
+  doc.setTextColor(255,255,255);
+  doc.text('Name',margin+2,y+4.8);
+  doc.text('Role',margin+nameColW+2,y+4.8);
+  S.skills.slice(0,8).forEach((s2,i)=>{
+    const x=margin+nameColW+roleColW+(i*skillColW);
+    const short=s2.name.length>12?s2.name.substring(0,10)+'..':s2.name;
+    doc.text(short,x+skillColW/2,y+4.8,{align:'center',maxWidth:skillColW-1});
+  });
+  y+=7;
+
+  const levelColors={
+    none:[200,200,205], aware:[200,130,10], competent:[59,109,17], expert:[24,95,165]
+  };
+  S.members.forEach((m,ri)=>{
+    if(y+8>ph-14){doc.addPage();pdfHeader(doc,'Gap Analysis Report','Board Skills Matrix');pdfFooter(doc);y=32;}
+    doc.setFillColor(ri%2===0?255:248,ri%2===0?255:249,ri%2===0?255:252);
+    doc.rect(margin,y,usable,7,'F');
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7);
+    doc.setTextColor(10,26,47);
+    const nameShort=m.name.length>22?m.name.substring(0,20)+'..':m.name;
+    doc.text(nameShort,margin+2,y+4.8);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(100,110,125);
+    const roleShort=m.role.length>20?m.role.substring(0,18)+'..':m.role;
+    doc.text(roleShort,margin+nameColW+2,y+4.8);
+    S.skills.slice(0,8).forEach((s2,i)=>{
+      const v=gv(m.id,s2.id);
+      const x=margin+nameColW+roleColW+(i*skillColW);
+      const [r2,g2,b2]=levelColors[v];
+      doc.setFillColor(r2,g2,b2);
+      doc.roundedRect(x+1,y+1.5,skillColW-2,4,0.8,0.8,'F');
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(5.5);
+      doc.setTextColor(255,255,255);
+      doc.text(LB[v],x+skillColW/2,y+4.5,{align:'center'});
+    });
+    y+=7;
+  });
+
+  doc.save(`${(CTX.org||'board').replace(/\s+/g,'-')}-gap-analysis.pdf`);
+}
+
+// ── DOWNLOAD: CSV (unchanged) ─────────────────────────────────────────────────
 function dlGapsCSV(){
   let csv='Skill Domain,Status,Qualified Members,Coverage Count,Total Members\n';
   S.skills.forEach(s=>{const st=cst(s.id);const q=S.members.filter(m=>SC2[gv(m.id,s.id)]>=2).map(m=>m.name).join('; ')||'None';csv+=`"${s.name}","${st==='g'?'Critical Gap':st==='s'?'Single Point of Failure':'Covered'}","${q}",${cov(s.id)},${S.members.length}\n`;});
@@ -894,31 +1204,7 @@ function dlGapsCSV(){
   const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download=`${(CTX.org||'board').replace(/\s+/g,'-')}-gap-analysis.csv`; a.click();
 }
-function dlGapsPDF(){
-  const { jsPDF } = window.jspdf;
-
-  const doc = new jsPDF();
-
-  const crit=S.skills.filter(s=>cst(s.id)==='g').length;
-  const sp=S.skills.filter(s=>cst(s.id)==='s').length;
-  const ok=S.skills.filter(s=>cst(s.id)==='o').length;
-
-  let txt = `BOARD SKILLS MATRIX - GAP ANALYSIS REPORT
-
-${CTX.org||'Organisation'}
-Generated: ${new Date().toLocaleDateString()}
-
-SUMMARY
-Critical gaps: ${crit}
-SPOFs: ${sp}
-Covered: ${ok}
-
-`;
-
-  doc.text(txt, 10, 10);
-
-  doc.save(`${(CTX.org||'board').replace(/\s+/g,'-')}-gap-analysis.pdf`);
-}
+// ── DOWNLOAD: SLIDE PNG ───────────────────────────────────────────────────────
 function dlSlide(){
   const el=document.getElementById('sp'); if(!el)return;
   if(typeof html2canvas==='undefined'){alert('Screenshot library still loading. Please wait a moment.');return;}
